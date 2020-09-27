@@ -29,7 +29,6 @@ public class A1Solution{
         try {
             Object obj = parser.parse(new FileReader(configurationFileLocation));
             JSONObject configurationJSON = (JSONObject) obj;
-
             // Extract the Rooms value from the file to get the file location for rooms
             
 
