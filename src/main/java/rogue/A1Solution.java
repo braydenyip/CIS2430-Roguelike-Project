@@ -31,13 +31,13 @@ public class A1Solution{
 
             Object obj = parser.parse(new FileReader(configurationFileLocation));
             JSONObject configurationJSON = (JSONObject) obj;
-            String roomsFileName = (String)configurationJSON.get("Rooms");
-            String symbolsFileName = (String)configurationJSON.get("Symbols");
+
+
             // Extract the Rooms value from the file to get the file location for rooms
-
-
+            String roomsFileName = (String)configurationJSON.get("Rooms");
+            
             // Extract the Symbols value from the file to get the file location for symbols-map
-
+            String symbolsFileName = (String)configurationJSON.get("Symbols");
 
         } catch(FileNotFoundException e) {
             e.printStackTrace();

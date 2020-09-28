@@ -1,5 +1,5 @@
 package rogue;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.Map;
 import java.awt.Point;
 
@@ -15,8 +15,7 @@ public class Room  {
   private int id;
   private ArrayList<Item> roomItems;
   private Player thePlayer;
-  private String doorDirection;
-  private int doorLocation;
+  private HashMap <String,int> doors;
     // Default constructor
  public Room() {
    this.setHeight(8);
@@ -25,22 +24,22 @@ public class Room  {
    this.setDoor("N",1);
  }
 
- 
+
 
 
    // Required getter and setters below
 
- 
+
  public int getWidth() {
    return 0;
  }
 
- 
+
  public void setWidth(int newWidth) {
    width = newWidth;
  }
 
- 
+
  public int getHeight() {
    return 0;
  }
@@ -78,9 +77,9 @@ public class Room  {
  public void setPlayer(Player newPlayer) {
    thePlayer = newPlayer;
  }
- 
+
  public int getDoor(String direction){
-   return doorLocation;
+   return (doors.get(direction));
  }
 
 /*
@@ -89,8 +88,7 @@ location is a number between 0 and the length of the wall
 */
 
 public void setDoor(String direction, int location){
-  doorDirection = direction;
-  doorLocation = location;
+  doors.put(direction,location);
 }
 
 
@@ -107,7 +105,7 @@ public boolean isPlayerInRoom() {
     */
    public String displayRoom() {
     return null;
-     
-     
+
+
    }
 }
