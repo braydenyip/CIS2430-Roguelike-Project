@@ -13,7 +13,8 @@ public class Item  {
     private Point xyLocation;
     private Character displayCharacter;
     private Room currentRoom;
-
+    private String description;
+    
     //Constructors
     public Item() {
         this(-1,"Void Scroll", "default", new Point(0,0));
@@ -98,6 +99,6 @@ public class Item  {
 
 
     public void setCurrentRoom(Room newCurrentRoom) {
-        currentRoom = newCurrentRoom
+        currentRoom = newCurrentRoom;
     }
 }
