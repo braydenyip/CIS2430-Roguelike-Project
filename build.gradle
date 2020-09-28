@@ -15,26 +15,28 @@ repositories {
 
 configurations{
   demo
+  shadow
 }
 dependencies {
+
     demo 'com.googlecode.json-simple:json-simple:1.1.1'
     shadow 'com.googlecode.json-simple:json-simple:1.1.1'
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
-jar {
-    baseName = 'jarA1'
-    version =  '0.1'
-     manifest {
-        attributes 'Main-Class': 'rogue.A1Solution'
-    }
-}
+
 
 run { 
     standardInput = System.in 
 }
+jar {
+  manifest{
+
+  }
+}
 
 shadowJar {
-   baseName = 'A1'
+   archiveBaseName = 'A1'
    classifier = ''
    archiveVersion = ''
 

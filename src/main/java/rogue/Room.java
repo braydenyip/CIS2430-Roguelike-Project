@@ -9,52 +9,49 @@ import java.awt.Point;
  * doors out, etc.
  */
 public class Room  {
+
   private int width;
   private int height;
   private int id;
   private ArrayList<Item> roomItems;
-  private HashMap<String,Character> roomSymbols;
   private Player thePlayer;
-  private HashMap<String,Integer> doors;
-  
-
+  private String doorDirection;
+  private int doorLocation;
     // Default constructor
  public Room() {
-   this.Room();
+   this.setHeight(8);
+   this.setWidth(8);
+   this.setId(-1);
+   this.setDoor("N",1);
  }
 
  
- public Room(int width, int height, int id, ArrayList<Item> roomItems, HashMap<String, Character> roomSymbols, Player thePlayer, HashMap<String, Integer> doors) {
-  this.setWidth(width);
-  this.setHeight(height);
-  this.setId(id);
-  this.setDoor()
- }
+
 
    // Required getter and setters below
 
  
  public int getWidth() {
-  return width;
+   return 0;
  }
 
  
  public void setWidth(int newWidth) {
-  width = newWidth;
+   width = newWidth;
  }
 
  
  public int getHeight() {
-  return height;
+   return 0;
  }
 
 
  public void setHeight(int newHeight) {
-  height = newHeight;
+   height = newHeight;
  }
 
  public int getId() {
-  return getId();
+   return 0;
  }
 
 
@@ -81,9 +78,9 @@ public class Room  {
  public void setPlayer(Player newPlayer) {
    thePlayer = newPlayer;
  }
-
+ 
  public int getDoor(String direction){
-  
+   return doorLocation;
  }
 
 /*
@@ -92,7 +89,8 @@ location is a number between 0 and the length of the wall
 */
 
 public void setDoor(String direction, int location){
-
+  doorDirection = direction;
+  doorLocation = location;
 }
 
 
@@ -101,13 +99,15 @@ public boolean isPlayerInRoom() {
 }
 
 
-/**
-* Produces a string that can be printed to produce an ascii rendering of the room and all of its contents
-* @return (String) String representation of how the room looks
-*/
-public String displayRoom() {
 
-}
- 
 
+   /**
+    * Produces a string that can be printed to produce an ascii rendering of the room and all of its contents
+    * @return (String) String representation of how the room looks
+    */
+   public String displayRoom() {
+    return null;
+     
+     
+   }
 }

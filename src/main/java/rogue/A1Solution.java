@@ -26,9 +26,12 @@ public class A1Solution{
         String configurationFileLocation = "fileLocations.json";  //please don't change this for this version of the assignment
         
  // reading the input file locations using the configuration file
+        JSONParser parser = new JSONParser();
         try {
+
             Object obj = parser.parse(new FileReader(configurationFileLocation));
             JSONObject configurationJSON = (JSONObject) obj;
+
             // Extract the Rooms value from the file to get the file location for rooms
             
 
@@ -44,9 +47,9 @@ public class A1Solution{
         }
 
 // instantiate a new Rogue object and call methods to do the required things
-        
+        System.out.println("We have liftoff!");
         
     }
 
 
-    
+}
