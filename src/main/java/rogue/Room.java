@@ -15,7 +15,7 @@ public class Room  {
   private int id;
   private ArrayList<Item> roomItems;
   private Player thePlayer;
-  private HashMap <String,int> doors;
+  private Map <String,int> doors;
     // Default constructor
  public Room() {
    this.setHeight(8);

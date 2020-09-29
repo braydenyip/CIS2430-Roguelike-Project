@@ -35,10 +35,10 @@ public class A1Solution{
 
             // Extract the Rooms value from the file to get the file location for rooms
             String roomsFileName = (String)configurationJSON.get("Rooms");
-            
+            System.out.println(roomsFileName);
             // Extract the Symbols value from the file to get the file location for symbols-map
             String symbolsFileName = (String)configurationJSON.get("Symbols");
-
+            System.out.println(roomsFileName);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

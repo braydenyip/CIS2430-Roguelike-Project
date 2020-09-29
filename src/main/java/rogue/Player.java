@@ -6,47 +6,45 @@ import java.awt.Point;
  */
 public class Player {
 
-
-
+    private String name;
+    private Point xyLocation;
+    private Room currentRoom;
     // Default constructor
     public Player() {
-
+      this("Bilbo Baggins");
     }
 
 
     public Player(String name) {
-
+      this.name = name;
     }
 
 
     public String getName() {
-
-        return null;
+      return name;
     }
 
 
     public void setName(String newName) {
-
+      name = newName;
     }
 
     public Point getXyLocation() {
-        return null;
-
+      return xyLocation;
     }
 
 
     public void setXyLocation(Point newXyLocation) {
-
+      xyLocation = newXyLocation;
     }
 
 
     public Room getCurrentRoom() {
-        return null;
-
+      return currentRoom;
     }
 
 
     public void setCurrentRoom(Room newRoom) {
-
+      room = newRoom;
     }
 }
