@@ -45,6 +45,6 @@ public class Player {
 
 
     public void setCurrentRoom(Room newRoom) {
-      room = newRoom;
+      currentRoom = newRoom;
     }
 }

@@ -24,7 +24,8 @@ public class A1Solution{
     public static void main(String[] args) {
         // Hardcoded configuration file location/name
         String configurationFileLocation = "fileLocations.json";  //please don't change this for this version of the assignment
-
+        String roomsFileName = new String();
+        String symbolsFileName = new String();
  // reading the input file locations using the configuration file
         JSONParser parser = new JSONParser();
         try {
@@ -34,11 +35,10 @@ public class A1Solution{
 
 
             // Extract the Rooms value from the file to get the file location for rooms
-            String roomsFileName = (String)configurationJSON.get("Rooms");
-            System.out.println(roomsFileName);
+            roomsFileName = (String)configurationJSON.get("Rooms");
             // Extract the Symbols value from the file to get the file location for symbols-map
-            String symbolsFileName = (String)configurationJSON.get("Symbols");
-            System.out.println(roomsFileName);
+            symbolsFileName = (String)configurationJSON.get("Symbols");
+
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -49,7 +49,9 @@ public class A1Solution{
 
 // instantiate a new Rogue object and call methods to do the required things
         System.out.println("We have liftoff!");
-
+        Rogue game = new Rogue();
+        game.setSymbols(symbolsFileName);
+        game.createRooms(roomsFileName);
     }
 
 

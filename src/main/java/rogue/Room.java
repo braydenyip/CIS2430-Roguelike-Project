@@ -2,7 +2,7 @@ package rogue;
 import java.util.ArrayList;
 import java.util.Map;
 import java.awt.Point;
-
+import java.util.HashMap;
 
 /**
  * A room within the dungeon - contains monsters, treasure,
@@ -13,9 +13,9 @@ public class Room  {
   private int width;
   private int height;
   private int id;
-  private ArrayList<Item> roomItems;
+  private ArrayList<Item> roomItems = new ArrayList<Item>(); // Stores all the items.
   private Player thePlayer;
-  private Map <String,int> doors;
+  private Map <String,Integer> doors = new HashMap<String,Integer>(); // This map stores the locations of each door.
     // Default constructor
  public Room() {
    this.setHeight(8);
@@ -23,10 +23,7 @@ public class Room  {
    this.setId(-1);
    this.setDoor("N",1);
  }
-
-
-
-
+ 
    // Required getter and setters below
 
 
@@ -79,7 +76,7 @@ public class Room  {
  }
 
  public int getDoor(String direction){
-   return (doors.get(direction));
+   return (doors.get(direction)).intValue();
  }
 
 /*
@@ -88,7 +85,8 @@ location is a number between 0 and the length of the wall
 */
 
 public void setDoor(String direction, int location){
-  doors.put(direction,location);
+  Integer loc = new Integer(location);
+  doors.put(direction,loc);
 }
 
 
@@ -99,13 +97,14 @@ public boolean isPlayerInRoom() {
 
 
 
-   /**
-    * Produces a string that can be printed to produce an ascii rendering of the room and all of its contents
-    * @return (String) String representation of how the room looks
-    */
-   public String displayRoom() {
-    return null;
+/**
+* Produces a string that can be printed to produce an ascii rendering of the room and all of its contents
+* @return (String) String representation of how the room looks
+*/
+public String displayRoom() {
+  return null;
 
 
-   }
+}
+
 }
