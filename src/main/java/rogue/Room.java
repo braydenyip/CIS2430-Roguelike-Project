@@ -76,7 +76,7 @@ public class Room  {
  }
 
  public int getDoor(String direction){
-   return (doors.get(direction)).intValue();
+   return (doors.get(direction)).intValue(); //get the door in (direction), which returns a value, which is converted to a primitive int.
  }
 
 /*

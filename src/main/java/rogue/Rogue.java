@@ -75,7 +75,18 @@ public class Rogue{
       Object roomsObj = roomsJSON.get("room");
       JSONArray allRooms = new JSONArray();
       allRooms = (JSONArray) roomsObj;
-      System.out.println(allRooms.get(0));
+      for (Object roomObject: allRooms){
+        addRoom((JSONObject) roomObject);
+      }
+      //System.out.println(allRooms.get(0));
+    }
+
+    private void addRoom(JSONObject roomInfo){ //roomInfo should be one of the objects from the array with the required fields
+      Room newRoom = new Room();
+      //JSONArray doors = (JSONArray)roomInfo.get("doors");
+      // TO-DO: add the doors to the map in Room.
+      //append the rooms list with the newly made room.
+      rooms.add(newRoom);
     }
     public String displayAll(){
       String displayString = new String();
