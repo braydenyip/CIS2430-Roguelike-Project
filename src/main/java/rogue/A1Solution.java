@@ -33,7 +33,6 @@ public class A1Solution{
             Object obj = parser.parse(new FileReader(configurationFileLocation));
             JSONObject configurationJSON = (JSONObject) obj;
 
-
             // Extract the Rooms value from the file to get the file location for rooms
             roomsFileName = (String)configurationJSON.get("Rooms");
             // Extract the Symbols value from the file to get the file location for symbols-map

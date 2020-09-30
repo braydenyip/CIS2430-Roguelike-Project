@@ -39,7 +39,7 @@ public class Rogue{
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            System.out.println(symbolsJSON.toString());
+
     }
 
     public ArrayList<Room> getRooms(){
@@ -57,8 +57,8 @@ public class Rogue{
     }
 
     public void createRooms(String filename){
-
-//  (Almost) the same code as before to read the file and get a JSONObject which stores all that room information.
+      // This method fills up the rooms array.
+      //  (Almost) the same code as before to read the file and get a JSONObject which stores all that room information.
       JSONParser parser = new JSONParser();
       JSONObject roomsJSON = new JSONObject();
       try {
@@ -72,11 +72,18 @@ public class Rogue{
       } catch (ParseException e) {
           e.printStackTrace();
       }
-      System.out.println(roomsJSON.toString());
-
+      Object roomsObj = roomsJSON.get("room");
+      JSONArray allRooms = new JSONArray();
+      allRooms = (JSONArray) roomsObj;
+      System.out.println(allRooms.get(0));
     }
     public String displayAll(){
+      String displayString = new String();
         //creates a string that displays all the rooms in the dungeon
+        // not worried about fulfilling rooms that are adjacent or whatever, we're just printing rooms one after another
+        for(Room rm: rooms){
+          displayString += rm.displayRoom() + "\n\n";
+        }
         return null;
     }
 }

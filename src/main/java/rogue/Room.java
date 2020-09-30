@@ -23,7 +23,7 @@ public class Room  {
    this.setId(-1);
    this.setDoor("N",1);
  }
- 
+
    // Required getter and setters below
 
 
@@ -94,12 +94,10 @@ public boolean isPlayerInRoom() {
   return true;
 }
 
-
-
-
 /**
 * Produces a string that can be printed to produce an ascii rendering of the room and all of its contents
 * @return (String) String representation of how the room looks
+* WILL NOT provide extra newlines -- handled by Rogue's class.
 */
 public String displayRoom() {
   return null;
