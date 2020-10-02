@@ -94,7 +94,7 @@ public void setDoor(String direction, int location){
   doors.put(direction,loc);
 }
 
-// New setter methods for symbols.
+// New setter methods for symbols, other than the items
 public void setDoorSymbol(String symbol){
   doorSymbol = symbol;
 }
@@ -119,6 +119,30 @@ public void setPlayerSymbol(String symbol){
   playerSymbol = symbol;
 }
 
+// New getter methods for each symbol, other than the items. Not really necessary but whatever
+public String getDoorSymbol(){
+  return doorSymbol;
+}
+
+public String getFloorSymbol(){
+  return floorSymbol;
+}
+
+public String getPassageSymbol(){
+  return passageSymbol;
+}
+
+public String getWallSymbolEW(){
+  return wallSymbolEW;
+}
+public String getWallSymbolNS(){
+  return wallSymbolNS;
+}
+public String getPlayerSymbol(){
+  return playerSymbol;
+}
+
+
 public boolean isPlayerInRoom() {
   return true;
 }
@@ -129,7 +153,15 @@ public boolean isPlayerInRoom() {
 * WILL NOT provide extra newlines -- handled by Rogue's class.
 */
 public String displayRoom() {
-  return null;
+  int i = 0;
+  int j = 0;
+  for(i=0;i<height;i++){ // for each row in the room
+    for(j=0;j<width;j++){ // print a string of length width, we need to process each coordinate.
+      System.out.print("."); // TEST PRINT ONLY
+    }
+    System.out.println();
+  }
+
 
 
 }
