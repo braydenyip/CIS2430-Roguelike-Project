@@ -19,7 +19,7 @@ public class Rogue{
     private ArrayList<Room> rooms = new ArrayList<Room>();
     private ArrayList<Item> items = new ArrayList<Item>();
 
-    public void setPlayer(Player thePlayer){
+    public void setPlayer(Player thePlayer){ // player will be made in the Solution class
         this.thePlayer = thePlayer;
     }
 
@@ -86,8 +86,13 @@ public class Rogue{
 
     private void addRoom(JSONObject roomInfo){ //roomInfo should be one of the objects from the array with the required fields
       Room newRoom = new Room();
+      // turn the prim-longs in the JSON to prim-ints that our methods take. like string decoding?
+      
+
+
       //JSONArray doors = (JSONArray)roomInfo.get("doors");
       // TO-DO: add the doors to the map in Room.
+
       //append the rooms list with the newly made room.
       rooms.add(newRoom);
     }

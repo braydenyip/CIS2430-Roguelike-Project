@@ -9,6 +9,8 @@ import java.util.HashMap;
  * doors out, etc.
  */
 public class Room  {
+  // TO-DO: Replace with an AL
+  private ArrayList<String> defaultSymbols;
   private String doorSymbol;
   private String floorSymbol;
   private String passageSymbol;
@@ -19,7 +21,7 @@ public class Room  {
   private int height;
   private int id;
   private ArrayList<Item> roomItems = new ArrayList<Item>(); // Stores all the items.
-  private Player thePlayer;
+  private boolean playerIsPresent = false;
   private Map <String,Integer> doors = new HashMap<String,Integer>(); // This map stores the locations of each door.
     // Default constructor
  public Room() {
@@ -94,57 +96,16 @@ public void setDoor(String direction, int location){
   doors.put(direction,loc);
 }
 
-// New setter methods for symbols, other than the items
-public void setDoorSymbol(String symbol){
-  doorSymbol = symbol;
+public void setDisplaySymbols(ArrayList<String> symbolsList){
+  defaultSymbols = symbolsList;
 }
 
-public void setFloorSymbol(String symbol){
-  floorSymbol = symbol;
+public void makePlayerPresent(){
+  playerIsPresent = true;
 }
-
-public void setPassageSymbol(String symbol){
-  passageSymbol = symbol;
-}
-
-public void setWallSymbolEW(String symbol){
-  wallSymbolEW = symbol;
-}
-
-public void setWallSymbolNS(String symbol){
-  wallSymbolNS = symbol;
-}
-
-public void setPlayerSymbol(String symbol){
-  playerSymbol = symbol;
-}
-
-// New getter methods for each symbol, other than the items. Not really necessary but whatever
-public String getDoorSymbol(){
-  return doorSymbol;
-}
-
-public String getFloorSymbol(){
-  return floorSymbol;
-}
-
-public String getPassageSymbol(){
-  return passageSymbol;
-}
-
-public String getWallSymbolEW(){
-  return wallSymbolEW;
-}
-public String getWallSymbolNS(){
-  return wallSymbolNS;
-}
-public String getPlayerSymbol(){
-  return playerSymbol;
-}
-
 
 public boolean isPlayerInRoom() {
-  return true;
+  return playerIsPresent;
 }
 
 /**
@@ -161,9 +122,7 @@ public String displayRoom() {
     }
     System.out.println();
   }
-
-
-
+  return("No.");
 }
 
 }
