@@ -9,7 +9,12 @@ import java.util.HashMap;
  * doors out, etc.
  */
 public class Room  {
-
+  private String doorSymbol;
+  private String floorSymbol;
+  private String passageSymbol;
+  private String wallSymbolNS;
+  private String wallSymbolEW;
+  private String playerSymbol;
   private int width;
   private int height;
   private int id;
@@ -89,6 +94,30 @@ public void setDoor(String direction, int location){
   doors.put(direction,loc);
 }
 
+// New setter methods for symbols.
+public void setDoorSymbol(String symbol){
+  doorSymbol = symbol;
+}
+
+public void setFloorSymbol(String symbol){
+  floorSymbol = symbol;
+}
+
+public void setPassageSymbol(String symbol){
+  passageSymbol = symbol;
+}
+
+public void setWallSymbolEW(String symbol){
+  wallSymbolEW = symbol;
+}
+
+public void setWallSymbolNS(String symbol){
+  wallSymbolNS = symbol;
+}
+
+public void setPlayerSymbol(String symbol){
+  playerSymbol = symbol;
+}
 
 public boolean isPlayerInRoom() {
   return true;

@@ -39,6 +39,9 @@ public class Rogue{
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            Object symbolsObj = symbolsJSON.get("symbols");
+            JSONArray symbolsList = new JSONArray();
+            symbolsList = (JSONArray) symbolsObj;
 
     }
 
