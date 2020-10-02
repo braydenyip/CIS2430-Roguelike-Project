@@ -42,7 +42,7 @@ public class Rogue{
             Object symbolsObj = symbolsJSON.get("symbols");
             JSONArray symbolsList = new JSONArray();
             symbolsList = (JSONArray) symbolsObj;
-
+            
     }
 
     public ArrayList<Room> getRooms(){
@@ -87,7 +87,7 @@ public class Rogue{
     private void addRoom(JSONObject roomInfo){ //roomInfo should be one of the objects from the array with the required fields
       Room newRoom = new Room();
       // turn the prim-longs in the JSON to prim-ints that our methods take. like string decoding?
-      
+
 
 
       //JSONArray doors = (JSONArray)roomInfo.get("doors");

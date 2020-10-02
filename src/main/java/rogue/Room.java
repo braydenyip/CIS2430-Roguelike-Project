@@ -113,6 +113,7 @@ public boolean isPlayerInRoom() {
 * @return (String) String representation of how the room looks
 * WILL NOT provide extra newlines -- handled by Rogue's class.
 */
+
 public String displayRoom() {
   int i = 0;
   int j = 0;
@@ -122,7 +123,7 @@ public String displayRoom() {
     }
     System.out.println();
   }
-  return("No.");
+  return("Test.");
 }
 
 }
