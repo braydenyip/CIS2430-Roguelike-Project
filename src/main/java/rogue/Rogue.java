@@ -22,6 +22,7 @@ public class Rogue{
 
     public void setPlayer(Player thePlayer){ // player will be made in the Solution class
         this.thePlayer = thePlayer;
+        this.thePlayer.setXyLocation(new Point(1,1));
     }
 
 
@@ -93,6 +94,7 @@ public class Rogue{
       newRoom.setHeight(((Long)roomInfo.get("height")).intValue());
       newRoom.setWidth(((Long)roomInfo.get("width")).intValue());
       newRoom.setId(((Long)roomInfo.get("id")).intValue());
+      newRoom.setPlayer(thePlayer);
       // Get the array of doors, turn it into a JSONObject and get the id and dir
       JSONArray doors = (JSONArray)roomInfo.get("doors");
       JSONObject doorObj = new JSONObject();
@@ -101,6 +103,12 @@ public class Rogue{
         doorId = ((Long)doorObj.get("id")).intValue();
         doorStr = (String)doorObj.get("dir");
         newRoom.setDoor(doorStr,doorId);
+      }
+      if ((boolean)roomInfo.get("start")){
+        thePlayer.setCurrentRoom(newRoom);
+        int avgHeight = newRoom.getHeight() / 2;
+        int avgWidth = newRoom.getWidth() / 2;
+        thePlayer.setXyLocation(new Point(avgWidth,avgHeight));
       }
       //append the rooms list with the newly made room.
       rooms.add(newRoom);
