@@ -128,10 +128,25 @@ public String displayRoom() {
     }
   }
   roomString+="\n";
+  int wDoorLoc = this.getDoor("W");
+  int eDoorLoc = this.getDoor("E");
   for(i=1;i<height-1;i++){ // for each row in the room that is not the N/S walls
     for(j=0;j<width;j++){ // print a string of length width, we need to process each coordinate.
-      if (j == 0 || j == width-1){ // Print NS Wall or a Door
-        roomString += "|";
+      if (j == 0){ // West wall or door
+        if (wDoorLoc == i){
+          roomString += "+";
+        }
+        else{
+          roomString += "|";
+        }
+      }
+      else if (j == width-1){ // East wall or door
+        if (eDoorLoc == i){
+          roomString += "+";
+        }
+        else{
+          roomString += "|";
+        }
       }
       else{ // If nothing else is there show the floor.
         roomString += ".";

@@ -26,8 +26,8 @@
             "height": 10,
             "width": 20,
             "doors": [{
-                    "dir": "N",
-                    "id": 1
+                    "dir": "E",
+                    "id": 3
                 },
                 {
                     "dir": "S",
