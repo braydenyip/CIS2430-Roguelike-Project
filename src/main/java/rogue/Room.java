@@ -101,7 +101,7 @@ public void setDisplaySymbols(ArrayList<String> symbolsList){
 }
 
 public boolean isPlayerInRoom() {
-  if (thePlayer != null){
+  if (thePlayer.getCurrentRoom().getId() == id){
     return true;
   }
   else{
@@ -122,7 +122,15 @@ public String displayRoom() {
   roomString = "Room #" + id + ":\n";
   for(i=0;i<height;i++){ // for each row in the room
     for(j=0;j<width;j++){ // print a string of length width, we need to process each coordinate.
-      roomString += ".";
+      if (i==0 || i ==height-1){ // Print EW Wall (gets first priority)
+        roomString += "-";
+      }
+      else if (j == 0 || j == width-1){ // Print NS Wall.
+        roomString += "|";
+      }
+      else{ // If nothing else is there show the floor.
+        roomString += ".";
+      }
     }
     roomString += "\n";
   }
