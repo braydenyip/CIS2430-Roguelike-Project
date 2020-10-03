@@ -88,13 +88,20 @@ public class Rogue{
     private void addRoom(JSONObject roomInfo){ //roomInfo should be one of the objects from the array with the required fields
       Room newRoom = new Room();
       // turn the prim-longs in the JSON to prim-ints that our methods take. like string decoding?
-
+      int doorId;
+      String doorStr;
       newRoom.setHeight(((Long)roomInfo.get("height")).intValue());
       newRoom.setWidth(((Long)roomInfo.get("width")).intValue());
       newRoom.setId(((Long)roomInfo.get("id")).intValue());
-      //JSONArray doors = (JSONArray)roomInfo.get("doors");
-      // TO-DO: add the doors to the map in Room.
-
+      // Get the array of doors, turn it into a JSONObject and get the id and dir
+      JSONArray doors = (JSONArray)roomInfo.get("doors");
+      JSONObject doorObj = new JSONObject();
+      for(Object door : doors){
+        doorObj = (JSONObject) door;
+        doorId = ((Long)doorObj.get("id")).intValue();
+        doorStr = (String)doorObj.get("dir");
+        newRoom.setDoor(doorStr,doorId);
+      }
       //append the rooms list with the newly made room.
       rooms.add(newRoom);
     }

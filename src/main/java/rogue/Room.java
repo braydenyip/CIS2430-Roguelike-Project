@@ -11,12 +11,6 @@ import java.util.HashMap;
 public class Room  {
   // TO-DO: Replace with an AL
   private ArrayList<String> defaultSymbols;
-  private String doorSymbol;
-  private String floorSymbol;
-  private String passageSymbol;
-  private String wallSymbolNS;
-  private String wallSymbolEW;
-  private String playerSymbol;
   private Player thePlayer;
   private int width;
   private int height;
@@ -28,7 +22,6 @@ public class Room  {
    this.setHeight(8);
    this.setWidth(8);
    this.setId(-1);
-   this.setDoor("N",1);
  }
 
    // Required getter and setters below
@@ -81,9 +74,14 @@ public class Room  {
  public void setPlayer(Player newPlayer) {
    thePlayer = newPlayer;
  }
-
+//TO-DO: error handling for this function
  public int getDoor(String direction){
-   return (doors.get(direction)).intValue(); //get the door in (direction), which returns a value, which is converted to a primitive int.
+   if (doors.containsKey(direction)){
+     return (doors.get(direction)).intValue(); //get the door in (direction), which returns a value, which is converted to a primitive int.
+   }
+   else{
+     return -1;
+   }
  }
 
 /*
@@ -120,12 +118,19 @@ public String displayRoom() {
   int j = 0;
   String roomString = new String();
   roomString = "Room #" + id + ":\n";
-  for(i=0;i<height;i++){ // for each row in the room
+  int nDoorLoc = this.getDoor("N");
+  for (j=0;j<width;j++){ //Make the string for the N wall , the first EW wall
+    if (nDoorLoc == j){
+      roomString+="+";
+    }
+    else{
+      roomString+="-"; //append an EW door char
+    }
+  }
+  roomString+="\n";
+  for(i=1;i<height-1;i++){ // for each row in the room that is not the N/S walls
     for(j=0;j<width;j++){ // print a string of length width, we need to process each coordinate.
-      if (i==0 || i ==height-1){ // Print EW Wall (gets first priority)
-        roomString += "-";
-      }
-      else if (j == 0 || j == width-1){ // Print NS Wall.
+      if (j == 0 || j == width-1){ // Print NS Wall or a Door
         roomString += "|";
       }
       else{ // If nothing else is there show the floor.
@@ -134,6 +139,16 @@ public String displayRoom() {
     }
     roomString += "\n";
   }
+  int sDoorLoc = this.getDoor("S");
+  for (j=0;j<width;j++){ //Make the string for the N wall , the first EW wall
+    if (sDoorLoc == j){
+      roomString+="+";
+    }
+    else{
+      roomString+="-"; //append an EW door char
+    }
+  }
+  roomString+="\n";
   return roomString;
 }
 
