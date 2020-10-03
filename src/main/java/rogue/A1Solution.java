@@ -51,6 +51,7 @@ public class A1Solution{
         Rogue game = new Rogue();
         game.setSymbols(symbolsFileName);
         game.createRooms(roomsFileName);
+        System.out.println(game.displayAll());
     }
 
 

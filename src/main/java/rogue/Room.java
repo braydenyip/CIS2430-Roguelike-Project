@@ -17,11 +17,11 @@ public class Room  {
   private String wallSymbolNS;
   private String wallSymbolEW;
   private String playerSymbol;
+  private Player thePlayer;
   private int width;
   private int height;
   private int id;
   private ArrayList<Item> roomItems = new ArrayList<Item>(); // Stores all the items.
-  private boolean playerIsPresent = false;
   private Map <String,Integer> doors = new HashMap<String,Integer>(); // This map stores the locations of each door.
     // Default constructor
  public Room() {
@@ -35,7 +35,7 @@ public class Room  {
 
 
  public int getWidth() {
-   return 0;
+   return width;
  }
 
 
@@ -45,7 +45,7 @@ public class Room  {
 
 
  public int getHeight() {
-   return 0;
+   return height;
  }
 
 
@@ -54,7 +54,7 @@ public class Room  {
  }
 
  public int getId() {
-   return 0;
+   return id;
  }
 
 
@@ -100,12 +100,13 @@ public void setDisplaySymbols(ArrayList<String> symbolsList){
   defaultSymbols = symbolsList;
 }
 
-public void makePlayerPresent(){
-  playerIsPresent = true;
-}
-
 public boolean isPlayerInRoom() {
-  return playerIsPresent;
+  if (thePlayer != null){
+    return true;
+  }
+  else{
+    return false;
+  }
 }
 
 /**
@@ -117,13 +118,15 @@ public boolean isPlayerInRoom() {
 public String displayRoom() {
   int i = 0;
   int j = 0;
+  String roomString = new String();
+  roomString = "Room #" + id + ":\n";
   for(i=0;i<height;i++){ // for each row in the room
     for(j=0;j<width;j++){ // print a string of length width, we need to process each coordinate.
-      System.out.print("."); // TEST PRINT ONLY
+      roomString += ".";
     }
-    System.out.println();
+    roomString += "\n";
   }
-  return("Test.");
+  return roomString;
 }
 
 }

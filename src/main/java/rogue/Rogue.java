@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import java.awt.Point;
+import java.lang.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -42,7 +43,7 @@ public class Rogue{
             Object symbolsObj = symbolsJSON.get("symbols");
             JSONArray symbolsList = new JSONArray();
             symbolsList = (JSONArray) symbolsObj;
-            
+
     }
 
     public ArrayList<Room> getRooms(){
@@ -88,8 +89,9 @@ public class Rogue{
       Room newRoom = new Room();
       // turn the prim-longs in the JSON to prim-ints that our methods take. like string decoding?
 
-
-
+      newRoom.setHeight(((Long)roomInfo.get("height")).intValue());
+      newRoom.setWidth(((Long)roomInfo.get("width")).intValue());
+      newRoom.setId(((Long)roomInfo.get("id")).intValue());
       //JSONArray doors = (JSONArray)roomInfo.get("doors");
       // TO-DO: add the doors to the map in Room.
 
@@ -103,6 +105,6 @@ public class Rogue{
         for(Room rm: rooms){
           displayString += rm.displayRoom() + "\n\n";
         }
-        return null;
+        return displayString;
     }
 }
