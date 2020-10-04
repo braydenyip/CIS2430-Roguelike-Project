@@ -1,13 +1,13 @@
 package rogue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 import java.awt.Point;
-import java.lang.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,6 +19,7 @@ public class Rogue{
     private Player thePlayer;
     private ArrayList<Room> rooms = new ArrayList<Room>();
     private ArrayList<Item> items = new ArrayList<Item>();
+    private HashMap<String,String> defaultSymbols = new HashMap<String,String>();
 
     public void setPlayer(Player thePlayer){ // player will be made in the Solution class
         this.thePlayer = thePlayer;
@@ -41,10 +42,17 @@ public class Rogue{
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            String symbolName = new String();
+            String symbol = new String();
             Object symbolsObj = symbolsJSON.get("symbols");
             JSONArray symbolsList = new JSONArray();
             symbolsList = (JSONArray) symbolsObj;
-
+            for (Object s : symbolsList){
+              JSONObject symbolPair = (JSONObject) s;
+              symbolName = (String)symbolPair.get("name");
+              symbol = (String)symbolPair.get("symbol");
+              defaultSymbols.put(symbolName,symbol);
+            }
     }
 
     public ArrayList<Room> getRooms(){
@@ -95,6 +103,7 @@ public class Rogue{
       newRoom.setWidth(((Long)roomInfo.get("width")).intValue());
       newRoom.setId(((Long)roomInfo.get("id")).intValue());
       newRoom.setPlayer(thePlayer);
+      newRoom.setSymbols(defaultSymbols);
       // Get the array of doors, turn it into a JSONObject and get the id and dir
       JSONArray doors = (JSONArray)roomInfo.get("doors");
       JSONObject doorObj = new JSONObject();
@@ -105,7 +114,9 @@ public class Rogue{
         newRoom.setDoor(doorStr,doorId);
       }
       if ((boolean)roomInfo.get("start")){
+        // set thePlayer's room to the room where you start.
         thePlayer.setCurrentRoom(newRoom);
+        // set thePlayer's location to the average location -- the middle.
         int avgHeight = newRoom.getHeight() / 2;
         int avgWidth = newRoom.getWidth() / 2;
         thePlayer.setXyLocation(new Point(avgWidth,avgHeight));

@@ -10,13 +10,13 @@ import java.util.HashMap;
  */
 public class Room  {
   // TO-DO: Replace with an AL
-  private ArrayList<String> defaultSymbols;
+  private Map<String,String> defaultSymbols = new HashMap<String,String>();
   private Player thePlayer;
   private int width;
   private int height;
   private int id;
   private ArrayList<Item> roomItems = new ArrayList<Item>(); // Stores all the items.
-  private Map <String,Integer> doors = new HashMap<String,Integer>(); // This map stores the locations of each door.
+  private HashMap<String,Integer> doors = new HashMap<String,Integer>(); // This map stores the locations of each door.
     // Default constructor
  public Room() {
    this.setHeight(8);
@@ -94,8 +94,8 @@ public void setDoor(String direction, int location){
   doors.put(direction,loc);
 }
 
-public void setDisplaySymbols(ArrayList<String> symbolsList){
-  defaultSymbols = symbolsList;
+public void setSymbols(HashMap<String,String> symbols){
+  defaultSymbols = symbols;
 }
 
 public boolean isPlayerInRoom() {
@@ -126,46 +126,46 @@ public String displayRoom() {
 
   for (x=0;x<width;x++){ //Make the string for the N wall , the first EW wall
     if (this.playerOnTile(id,x,y)){
-      roomString += "@";
+      roomString += defaultSymbols.get("PLAYER");
     }
     else if (nDoorLoc == x){
-      roomString+="+";
+      roomString += defaultSymbols.get("DOOR");
     }
     else{
-      roomString+="-"; //append an EW door char
+      roomString += defaultSymbols.get("NS_WALL"); //append an NS door char
     }
   }
-  roomString+="\n";
+  roomString += "\n";
   for(y=1;y<height-1;y++){ // for each row in the room that is not the N/S walls
     for(x=0;x<width;x++){ // print a string of length width, we need to process each coordinate.
       if (x == 0){ // West wall or door
         if (this.playerOnTile(id,x,y)){
-          roomString += "@";
+          roomString += defaultSymbols.get("PLAYER");
         }
         else if (wDoorLoc == y){
-          roomString += "+";
+          roomString += defaultSymbols.get("DOOR");
         }
         else{
-          roomString += "|";
+          roomString += defaultSymbols.get("EW_WALL");
         }
       }
       else if (x == width-1){ // East wall or door
         if (this.playerOnTile(id,x,y)){
-          roomString += "@";
+          roomString += defaultSymbols.get("PLAYER");
         }
         else if (eDoorLoc == y){
-          roomString += "+";
+          roomString += defaultSymbols.get("DOOR");
         }
         else{
-          roomString += "|";
+          roomString += defaultSymbols.get("EW_WALL");
         }
       }
       else{ // If nothing else is there show the floor or the player or an item
         if (this.playerOnTile(id,x,y)){
-          roomString += "@";
+          roomString += defaultSymbols.get("PLAYER");
         }
         else{
-          roomString += ".";
+          roomString += defaultSymbols.get("FLOOR");
         }
       }
     }
@@ -173,18 +173,18 @@ public String displayRoom() {
   }
 
   y=height-1;
-  for (x=0;x<width;x++){ //Make the string for the N wall , the first EW wall
+  for (x=0;x<width;x++){ //Make the string for the S wall
     if (this.playerOnTile(id,x,y)){
-      roomString += "@";
+      roomString += defaultSymbols.get("PLAYER");
     }
     else if (sDoorLoc == x){
-      roomString+="+";
+      roomString += defaultSymbols.get("DOOR");
     }
     else{
-      roomString+="-"; //append an EW door char
+      roomString += defaultSymbols.get("NS_WALL"); //append an NS door char
     }
   }
-  roomString+="\n";
+  roomString += "\n";
   return roomString;
 }
 
