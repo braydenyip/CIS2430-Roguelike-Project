@@ -135,12 +135,14 @@ public String displayRoom() {
       roomString += defaultSymbols.get("NS_WALL"); //append an NS door char
     }
   }
+
   roomString += "\n";
+
   for(y=1;y<height-1;y++){ // for each row in the room that is not the N/S walls
     for(x=0;x<width;x++){ // print a string of length width, we need to process each coordinate.
       if (x == 0){ // West wall or door
         if (this.playerOnTile(id,x,y)){
-          roomString += defaultSymbols.get("PLAYER");
+          roomString += defaultSymbols.get("PLAYER"); // Note that players can be rendered in walls -- suppose they are in a door!
         }
         else if (wDoorLoc == y){
           roomString += defaultSymbols.get("DOOR");
@@ -164,6 +166,9 @@ public String displayRoom() {
         if (this.playerOnTile(id,x,y)){
           roomString += defaultSymbols.get("PLAYER");
         }
+        else if (this.itemOnTile(x,y)){
+          roomString += defaultSymbols.get("ITEM");
+        }
         else{
           roomString += defaultSymbols.get("FLOOR");
         }
@@ -173,6 +178,7 @@ public String displayRoom() {
   }
 
   y=height-1;
+
   for (x=0;x<width;x++){ //Make the string for the S wall
     if (this.playerOnTile(id,x,y)){
       roomString += defaultSymbols.get("PLAYER");
@@ -184,9 +190,21 @@ public String displayRoom() {
       roomString += defaultSymbols.get("NS_WALL"); //append an NS door char
     }
   }
+
   roomString += "\n";
   return roomString;
 }
+
+private boolean itemOnTile(int x, int y){ //Checks for an item on the specified tile
+  Point tile = new Point(x,y);
+  for (Item item : roomItems){
+    if (tile.equals(item.getXyLocation())){
+      return true;
+    }
+  }
+  return false;
+}
+
 
 private boolean playerOnTile(int id, int x, int y){
   if (this.isPlayerInRoom() == true){ // Of course the player must be in the room

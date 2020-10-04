@@ -88,10 +88,11 @@ public class Rogue{
       Object roomsObj = roomsJSON.get("room");
       JSONArray allRooms = new JSONArray();
       allRooms = (JSONArray) roomsObj;
+
       for (Object roomObject: allRooms){
         addRoom((JSONObject) roomObject);
       }
-      //System.out.println(allRooms.get(0));
+      
     }
 
     private void addRoom(JSONObject roomInfo){ //roomInfo should be one of the objects from the array with the required fields
@@ -107,12 +108,14 @@ public class Rogue{
       // Get the array of doors, turn it into a JSONObject and get the id and dir
       JSONArray doors = (JSONArray)roomInfo.get("doors");
       JSONObject doorObj = new JSONObject();
+
       for(Object door : doors){
         doorObj = (JSONObject) door;
         doorId = ((Long)doorObj.get("id")).intValue();
         doorStr = (String)doorObj.get("dir");
         newRoom.setDoor(doorStr,doorId);
       }
+
       if ((boolean)roomInfo.get("start")){
         // set thePlayer's room to the room where you start.
         thePlayer.setCurrentRoom(newRoom);
@@ -121,6 +124,21 @@ public class Rogue{
         int avgWidth = newRoom.getWidth() / 2;
         thePlayer.setXyLocation(new Point(avgWidth,avgHeight));
       }
+
+      JSONArray loot = (JSONArray)roomInfo.get("loot"); // get the room's loot as a JSONArray
+      JSONObject lootObj = new JSONObject();
+      ArrayList<Item> newRoomItems = new ArrayList<Item>();
+
+      for (Object item: loot){ // for each item in the list initialize it and add it to an array.
+        lootObj = (JSONObject) item;
+        int itemId = ((Long)lootObj.get("id")).intValue();
+        int itemX = ((Long)lootObj.get("x")).intValue();
+        int itemY = ((Long)lootObj.get("y")).intValue();
+        Item newItem = new Item(itemId,"default","default",new Point(itemX,itemY));
+        newRoomItems.add(newItem);
+      }
+
+      newRoom.setRoomItems(newRoomItems);
       //append the rooms list with the newly made room.
       rooms.add(newRoom);
     }

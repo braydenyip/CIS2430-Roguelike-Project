@@ -14,7 +14,7 @@ public class Item  {
     private Character displayCharacter;
     private Room currentRoom;
     private String description;
-    
+
     //Constructors
     public Item() {
         this(-1,"Void Scroll", "default", new Point(0,0));
@@ -26,7 +26,7 @@ public class Item  {
         this.setType(type);
         this.setXyLocation(xyLocation);
     }
-    
+
     // Getters and setters
 
 
@@ -58,11 +58,11 @@ public class Item  {
     public void setType(String type) {
         this.type = type;
     }
-    
+
 
     public Character getDisplayCharacter() {
         return null;
-        
+
     }
 
 
@@ -73,7 +73,7 @@ public class Item  {
 
     public String getDescription() {
         return null;
-     
+
     }
 
 
@@ -83,11 +83,11 @@ public class Item  {
 
 
     public Point getXyLocation() {
-        return null;
-     
+        return xyLocation;
+
     }
 
-    
+
     public void setXyLocation(Point newXyLocation) {
         xyLocation = newXyLocation;
     }

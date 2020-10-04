@@ -2,8 +2,8 @@
     "room": [{
             "id": 1,
             "start": true,
-            "height": 10,
-            "width": 20,
+            "height": 15,
+            "width": 25,
             "doors": [{
                 "dir": "S",
                 "id": 2
