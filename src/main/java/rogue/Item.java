@@ -21,84 +21,82 @@ public class Item  {
     }
 
     public Item(int id, String name, String type, Point xyLocation) {
-        this.setId(id);
-        this.setName(name);
-        this.setType(type);
-        this.setXyLocation(xyLocation);
+      this.setId(id);
+      this.setName(name);
+      this.setType(type);
+      this.setXyLocation(xyLocation);
     }
 
     // Getters and setters
 
 
     public int getId() {
-        return id;
+      return id;
     }
 
 
     public void setId(int id) {
-        this.id = id;
+      this.id = id;
     }
 
 
     public String getName() {
-        return name;
+      return name;
     }
 
 
     public void setName(String name) {
-        this.name = name;
+      this.name = name;
     }
 
 
     public String getType() {
-        return type;
+      return type;
     }
 
 
     public void setType(String type) {
-        this.type = type;
+      this.type = type;
     }
 
 
     public Character getDisplayCharacter() {
-        return null;
-
+      return null;
     }
 
 
     public void setDisplayCharacter(Character newDisplayCharacter) {
-        displayCharacter = newDisplayCharacter;
+      displayCharacter = newDisplayCharacter;
     }
 
 
     public String getDescription() {
-        return null;
-
+      return null;
     }
 
 
     public void setDescription(String newDescription) {
-        description = newDescription;
+      description = newDescription;
     }
 
 
     public Point getXyLocation() {
-        return xyLocation;
-
+      return xyLocation;
     }
 
 
     public void setXyLocation(Point newXyLocation) {
-        xyLocation = newXyLocation;
+      xyLocation = newXyLocation;
     }
 
 
     public Room getCurrentRoom() {
-        return null;
+      return null;
     }
 
 
     public void setCurrentRoom(Room newCurrentRoom) {
-        currentRoom = newCurrentRoom;
+      currentRoom = newCurrentRoom;
     }
+    
 }

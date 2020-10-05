@@ -46,6 +46,7 @@ public class Room  {
    height = newHeight;
  }
 
+
  public int getId() {
    return id;
  }
@@ -74,10 +75,11 @@ public class Room  {
  public void setPlayer(Player newPlayer) {
    thePlayer = newPlayer;
  }
-//TO-DO: error handling for this function
- public int getDoor(String direction){
-   if (doors.containsKey(direction)){
-     return (doors.get(direction)).intValue(); //get the door in (direction), which returns a value, which is converted to a primitive int.
+
+
+ public int getDoor(String direction) {
+   if ( doors.containsKey(direction) ) {
+     return (doors.get(direction)).intValue(); // get the door in (direction), which returns a value, which is converted to a primitive int.
    }
    else{
      return -1;
@@ -89,23 +91,52 @@ direction is one of NSEW
 location is a number between 0 and the length of the wall
 */
 
-public void setDoor(String direction, int location){
+public void setDoor(String direction, int location) {
   Integer loc = new Integer(location);
   doors.put(direction,loc);
 }
 
-public void setSymbols(HashMap<String,String> symbols){
+
+public void setSymbols(HashMap<String,String> symbols) {
   defaultSymbols = symbols;
 }
 
+
+// "detector" classes
+
 public boolean isPlayerInRoom() {
-  if (thePlayer.getCurrentRoom().getId() == id){
+  if (thePlayer.getCurrentRoom().getId() == id) {
     return true;
   }
   else{
     return false;
   }
 }
+
+
+private boolean itemOnTile(int x, int y){ // Checks for an item on the specified tile
+  Point tile = new Point(x,y);
+  for (Item item : roomItems) {
+    if (tile.equals(item.getXyLocation())) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+private boolean playerOnTile(int id, int x, int y){
+  if (this.isPlayerInRoom() == true) { // Of course the player must be in the room
+    Point pt = thePlayer.getXyLocation();
+    int px = (int)pt.getX();
+    int py = (int)pt.getY();
+    if (x == px && y == py) { // if the x and y coordinates given and the player's current coords match return true.
+      return true;
+    }
+  }
+  return false;
+}
+
 
 /**
 * Produces a string that can be printed to produce an ascii rendering of the room and all of its contents
@@ -124,52 +155,52 @@ public String displayRoom() {
   int wDoorLoc = this.getDoor("W");
   int eDoorLoc = this.getDoor("E");
 
-  for (x=0;x<width;x++){ //Make the string for the N wall , the first EW wall
-    if (this.playerOnTile(id,x,y)){
+  for (x=0;x<width;x++) { // Make the string for the N wall , the first EW wall
+    if (this.playerOnTile(id,x,y)) {
       roomString += defaultSymbols.get("PLAYER");
     }
-    else if (nDoorLoc == x){
+    else if (nDoorLoc == x) {
       roomString += defaultSymbols.get("DOOR");
     }
-    else{
-      roomString += defaultSymbols.get("NS_WALL"); //append an NS door char
+    else {
+      roomString += defaultSymbols.get("NS_WALL"); // append an NS door char
     }
   }
 
   roomString += "\n";
 
-  for(y=1;y<height-1;y++){ // for each row in the room that is not the N/S walls
-    for(x=0;x<width;x++){ // print a string of length width, we need to process each coordinate.
-      if (x == 0){ // West wall or door
-        if (this.playerOnTile(id,x,y)){
+  for (y=1;y<height-1;y++) { // for each row in the room that is not the N/S walls
+    for (x=0;x<width;x++) { // print a string of length width, we need to process each coordinate.
+      if (x == 0) { // West wall or door
+        if (this.playerOnTile(id,x,y)) {
           roomString += defaultSymbols.get("PLAYER"); // Note that players can be rendered in walls -- suppose they are in a door!
         }
-        else if (wDoorLoc == y){
+        else if (wDoorLoc == y) {
           roomString += defaultSymbols.get("DOOR");
         }
-        else{
+        else {
           roomString += defaultSymbols.get("EW_WALL");
         }
       }
-      else if (x == width-1){ // East wall or door
-        if (this.playerOnTile(id,x,y)){
+      else if (x == width-1) { // East wall or door
+        if (this.playerOnTile(id,x,y)) {
           roomString += defaultSymbols.get("PLAYER");
         }
-        else if (eDoorLoc == y){
+        else if (eDoorLoc == y) {
           roomString += defaultSymbols.get("DOOR");
         }
-        else{
+        else {
           roomString += defaultSymbols.get("EW_WALL");
         }
       }
-      else{ // If nothing else is there show the floor or the player or an item
-        if (this.playerOnTile(id,x,y)){
+      else { // If nothing else is there show the floor or the player or an item
+        if (this.playerOnTile(id,x,y)) {
           roomString += defaultSymbols.get("PLAYER");
         }
-        else if (this.itemOnTile(x,y)){
+        else if (this.itemOnTile(x,y)) {
           roomString += defaultSymbols.get("ITEM");
         }
-        else{
+        else {
           roomString += defaultSymbols.get("FLOOR");
         }
       }
@@ -179,15 +210,15 @@ public String displayRoom() {
 
   y=height-1;
 
-  for (x=0;x<width;x++){ //Make the string for the S wall
-    if (this.playerOnTile(id,x,y)){
+  for (x=0;x<width;x++) { // Make the string for the S wall
+    if (this.playerOnTile(id,x,y)) {
       roomString += defaultSymbols.get("PLAYER");
     }
-    else if (sDoorLoc == x){
+    else if (sDoorLoc == x) {
       roomString += defaultSymbols.get("DOOR");
     }
-    else{
-      roomString += defaultSymbols.get("NS_WALL"); //append an NS door char
+    else {
+      roomString += defaultSymbols.get("NS_WALL"); // append an NS door char
     }
   }
 
@@ -195,27 +226,5 @@ public String displayRoom() {
   return roomString;
 }
 
-private boolean itemOnTile(int x, int y){ //Checks for an item on the specified tile
-  Point tile = new Point(x,y);
-  for (Item item : roomItems){
-    if (tile.equals(item.getXyLocation())){
-      return true;
-    }
-  }
-  return false;
-}
-
-
-private boolean playerOnTile(int id, int x, int y){
-  if (this.isPlayerInRoom() == true){ // Of course the player must be in the room
-    Point pt = thePlayer.getXyLocation();
-    int px = (int)pt.getX();
-    int py = (int)pt.getY();
-    if (x == px && y == py){ // if the x and y coordinates given and the player's current coords match return true.
-      return true;
-    }
-  }
-  return false;
-}
 
 }

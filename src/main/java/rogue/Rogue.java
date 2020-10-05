@@ -92,7 +92,7 @@ public class Rogue{
       for (Object roomObject: allRooms){
         addRoom((JSONObject) roomObject);
       }
-      
+
     }
 
     private void addRoom(JSONObject roomInfo){ //roomInfo should be one of the objects from the array with the required fields
@@ -109,14 +109,16 @@ public class Rogue{
       JSONArray doors = (JSONArray)roomInfo.get("doors");
       JSONObject doorObj = new JSONObject();
 
-      for(Object door : doors){
+      for(Object door : doors) {
         doorObj = (JSONObject) door;
+
         doorId = ((Long)doorObj.get("id")).intValue();
         doorStr = (String)doorObj.get("dir");
+
         newRoom.setDoor(doorStr,doorId);
       }
 
-      if ((boolean)roomInfo.get("start")){
+      if ( (boolean)roomInfo.get("start") ) {
         // set thePlayer's room to the room where you start.
         thePlayer.setCurrentRoom(newRoom);
         // set thePlayer's location to the average location -- the middle.
@@ -129,7 +131,7 @@ public class Rogue{
       JSONObject lootObj = new JSONObject();
       ArrayList<Item> newRoomItems = new ArrayList<Item>();
 
-      for (Object item: loot){ // for each item in the list initialize it and add it to an array.
+      for (Object item: loot) { // for each item in the list initialize it and add it to an array.
         lootObj = (JSONObject) item;
         int itemId = ((Long)lootObj.get("id")).intValue();
         int itemX = ((Long)lootObj.get("x")).intValue();
@@ -139,14 +141,15 @@ public class Rogue{
       }
 
       newRoom.setRoomItems(newRoomItems);
-      //append the rooms list with the newly made room.
+      // append the rooms list with the newly made room.
       rooms.add(newRoom);
     }
-    public String displayAll(){
+
+    public String displayAll() {
       String displayString = new String();
-        //creates a string that displays all the rooms in the dungeon
+        // creates a string that displays all the rooms in the dungeon
         // not worried about fulfilling rooms that are adjacent or whatever, we're just printing rooms one after another
-        for(Room rm: rooms){
+        for(Room rm: rooms) {
           displayString += rm.displayRoom() + "\n\n";
         }
         return displayString;
