@@ -1,29 +1,27 @@
 package rogue;
 
-import java.util.Scanner;
-import java.util.ArrayList;
-
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import java.awt.Point;
 
-import org.json.simple.JSONArray;
+//import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public class A1Solution{
+public class A1Solution {
 
-
-
-
+    /**
+    * The main executable for the game.
+    * @param args This program does not use any command line arguments.
+    *
+    *
+    */
     public static void main(String[] args) {
         // Hardcoded configuration file location/name
-        String configurationFileLocation = "fileLocations.json";  //please don't change this for this version of the assignment
+        String configurationFileLocation = "fileLocations.json"; // still don't touch
         String roomsFileName = new String();
         String symbolsFileName = new String();
  // reading the input file locations using the configuration file
@@ -34,11 +32,11 @@ public class A1Solution{
             JSONObject configurationJSON = (JSONObject) obj;
 
             // Extract the Rooms value from the file to get the file location for rooms
-            roomsFileName = (String)configurationJSON.get("Rooms");
+            roomsFileName = (String) configurationJSON.get("Rooms");
             // Extract the Symbols value from the file to get the file location for symbols-map
-            symbolsFileName = (String)configurationJSON.get("Symbols");
+            symbolsFileName = (String) configurationJSON.get("Symbols");
 
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

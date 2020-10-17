@@ -2,7 +2,7 @@ package rogue;
 import java.awt.Point;
 
 /**
- * A basic Item class; basic functionality for both consumables and equipment
+ * A basic Item class; basic functionality for both consumables and equipment.
  */
 public class Item  {
 
@@ -15,16 +15,19 @@ public class Item  {
     private Room currentRoom;
     private String description;
 
-    //Constructors
+    /**
+    * The default constructor
+    * Sets a blank "scroll" at the origin
+    */
     public Item() {
-        this(-1,"Void Scroll", "default", new Point(0,0));
+        this(-1, "Void Scroll", "default", new Point(0, 0));
     }
 
-    public Item(int id, String name, String type, Point xyLocation) {
-      this.setId(id);
-      this.setName(name);
-      this.setType(type);
-      this.setXyLocation(xyLocation);
+    public Item(int newId, String newName, String newType, Point startXyLocation) {
+      this.setId(newId);
+      this.setName(newName);
+      this.setType(newType);
+      this.setXyLocation(startXyLocation);
     }
 
     // Getters and setters
@@ -35,8 +38,8 @@ public class Item  {
     }
 
 
-    public void setId(int id) {
-      this.id = id;
+    public void setId(int newId) {
+      id = newId;
     }
 
 
@@ -45,8 +48,8 @@ public class Item  {
     }
 
 
-    public void setName(String name) {
-      this.name = name;
+    public void setName(String newName) {
+      name = newName;
     }
 
 
@@ -55,8 +58,8 @@ public class Item  {
     }
 
 
-    public void setType(String type) {
-      this.type = type;
+    public void setType(String newType) {
+      type = newType;
     }
 
 
@@ -98,5 +101,4 @@ public class Item  {
     public void setCurrentRoom(Room newCurrentRoom) {
       currentRoom = newCurrentRoom;
     }
-    
 }

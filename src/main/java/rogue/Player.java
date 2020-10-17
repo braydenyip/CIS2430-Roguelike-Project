@@ -1,8 +1,8 @@
 package rogue;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.awt.Point;
 /**
- * The player character
+ * The player's character.
  */
 public class Player {
 
@@ -15,8 +15,8 @@ public class Player {
     }
 
 
-    public Player(String name) {
-      this.name = name;
+    public Player(String newName) {
+      name = newName;
     }
 
 
@@ -47,5 +47,5 @@ public class Player {
     public void setCurrentRoom(Room newRoom) {
       currentRoom = newRoom;
     }
-    
+
 }
