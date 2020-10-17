@@ -17,7 +17,9 @@ public class Room  {
   private int id;
   private ArrayList<Item> roomItems = new ArrayList<Item>(); // Stores all the items.
   private HashMap<String, Integer> doors = new HashMap<String, Integer>(); // Stores the locations of each door
-    // Default constructor
+/**
+* Constructs a room with a default ID of -1
+*/
  public Room() {
    this.setId(-1);
  }
@@ -34,7 +36,7 @@ public class Room  {
 
 /**
 * Sets the width of the room, including the walls.
-* @param int The new width of the room.
+* @param newWidth The new width of the room.
 */
  public void setWidth(int newWidth) {
    width = newWidth;
@@ -50,7 +52,7 @@ public class Room  {
 
  /**
  * Sets the height of the room, including the walls.
- * @param int The new height of the room.
+ * @param newHeight The new height of the room.
  */
  public void setHeight(int newHeight) {
    height = newHeight;
@@ -66,7 +68,7 @@ public class Room  {
 
  /**
  * Sets the ID number of the room.
- * @param int The new ID number of the room.
+ * @param newId The new ID number of the room.
  */
  public void setId(int newId) {
    id = newId;
@@ -82,8 +84,8 @@ public class Room  {
  }
 
  /**
- * Sets the items for a room
- * @param ArrayList<Item> Items to be added to the room
+ * Sets the items for a room.
+ * @param newRoomItems Items to be added to the room
  */
 
  public void setRoomItems(ArrayList<Item> newRoomItems) {
@@ -91,7 +93,7 @@ public class Room  {
  }
 
  /**
- * Returns the room's Player object
+ * Returns the room's Player object.
  * @return (Player) The player associated with the room
  */
 
@@ -101,7 +103,7 @@ public class Room  {
 
  /**
  * Sets the Player object for the room. This player should be in the room.
- * @param Player The player in the room
+ * @param newPlayer The player in the room
  */
 
  public void setPlayer(Player newPlayer) {
@@ -111,7 +113,7 @@ public class Room  {
 /**
 * Get the position of a door given a direction.
 * There shall not be more than 1 door per direction.
-* @param String The direction of the door
+* @param direction The direction of the door
 * @return (int) The position of the door from the upper-left hand corner, or -1 if it is not found
 */
  public int getDoor(String direction) {
@@ -124,8 +126,8 @@ public class Room  {
 /**
 * Direction is one of "N", "S", "E", or "W".
 * Location is a number between 0 and the length of the wall
-* @param String The direction of the door
-* @param int The distance of the door, measured from the upper-left corner
+* @param direction The direction of the door
+* @param location The distance of the door, measured from the upper-left corner
 */
 
 public void setDoor(String direction, int location) {
@@ -135,7 +137,7 @@ public void setDoor(String direction, int location) {
 
 /**
 * Sets the symbols that are displayed for each room element (e.g. walls, doors).
-* @param HashMap<String,String> A map associating each element of a room to an ASCII character.
+* @param symbols A map associating each element of a room to an ASCII character.
 */
 public void setSymbols(HashMap<String, String> symbols) {
   defaultSymbols = symbols;
@@ -153,7 +155,6 @@ public boolean isPlayerInRoom() {
   }
   return false;
 }
-
 
 private boolean itemOnTile(int x, int y) { // Checks for an item on the specified tile
   Point tile = new Point(x, y);
@@ -185,17 +186,14 @@ private boolean playerOnTile(int x, int y) {
 * WILL NOT provide extra newlines -- handled by Rogue's class.
 */
 
-public String displayRoom() { // Shrink to < 50 lines
+public String displayRoom() { // Shrink to < 50 lines from 64
   int x = 0;
   int y = 0;
-  String roomString = new String();
-  roomString = "Room #" + id + ":\n";
-  // store the relative coordinate for each door
+  String roomString = new String("");
   int nDoorLoc = this.getDoor("N");
   int sDoorLoc = this.getDoor("S");
   int wDoorLoc = this.getDoor("W");
   int eDoorLoc = this.getDoor("E");
-
   for (x = 0; x < width; x++) { // Make the string for the N wall , the first EW wall
     if (this.playerOnTile(x, y)) {
       roomString += defaultSymbols.get("PLAYER");
@@ -205,9 +203,7 @@ public String displayRoom() { // Shrink to < 50 lines
       roomString += defaultSymbols.get("NS_WALL"); // append an NS door char
     }
   }
-
   roomString += "\n";
-
   for (y = 1; y < (height - 1); y++) { // for each row in the room that is not the N/S walls
     for (x = 0; x < width; x++) { // print a string of length width, we need to process each coordinate.
       if (x == 0) { // West wall or door
@@ -238,9 +234,7 @@ public String displayRoom() { // Shrink to < 50 lines
     }
     roomString += "\n";
   }
-
-  y = height - 1;
-
+  y = height - 1; // might be able to remove this
   for (x = 0; x < width; x++) { // Make the string for the S wall
     if (this.playerOnTile(x, y)) {
       roomString += defaultSymbols.get("PLAYER");
@@ -250,8 +244,7 @@ public String displayRoom() { // Shrink to < 50 lines
       roomString += defaultSymbols.get("NS_WALL"); // append an NS door char
     }
   }
-
-  roomString += "\n";
+  roomString += "\n"; // This is not one of the extra newlines
   return roomString;
 }
 
