@@ -16,13 +16,19 @@ public class Item  {
     private String description;
 
     /**
-    * The default constructor.
+    * Constructs a blank Item
     * Sets a blank "scroll" at the origin
     */
     public Item() {
         this(-1, "Void Scroll", "default", new Point(0, 0));
     }
-
+    /**
+    * Constructs an item with the given properties
+    * @param newId the Id number of the item.
+    * @param newName the name of the item, or null for no name
+    * @param newType the type of the item.
+    * @param startXyLocation where the item should be placed.
+    */
     public Item(int newId, String newName, String newType, Point startXyLocation) {
       this.setId(newId);
       this.setName(newName);
@@ -132,7 +138,7 @@ public class Item  {
     }
 
     /**
-    * Returns the Room object where the item is located
+    * Returns the Room object where the item is located.
     * @return (Room) A room object.
     */
     public Room getCurrentRoom() {
@@ -140,7 +146,7 @@ public class Item  {
     }
 
     /**
-    * Puts the item into a specific room
+    * Puts the item into a specific room.
     * @param newCurrentRoom the Room where the item will go
     */
     public void setCurrentRoom(Room newCurrentRoom) {
