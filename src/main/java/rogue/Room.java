@@ -72,27 +72,48 @@ public class Room  {
    id = newId;
  }
 
+ /**
+ * Returns all the items in the room.
+ * @return (ArrayList<Item>) An ArrayList of all the items in the room, or an empty array if there are no items
+ */
 
  public ArrayList<Item> getRoomItems() {
    return roomItems;
  }
 
+ /**
+ * Sets the items for a room
+ * @param ArrayList<Item> Items to be added to the room
+ */
 
  public void setRoomItems(ArrayList<Item> newRoomItems) {
    roomItems = newRoomItems;
  }
 
+ /**
+ * Returns the room's Player object
+ * @return (Player) The player associated with the room
+ */
 
  public Player getPlayer() {
    return thePlayer;
  }
 
+ /**
+ * Sets the Player object for the room. This player should be in the room.
+ * @param Player The player in the room
+ */
 
  public void setPlayer(Player newPlayer) {
    thePlayer = newPlayer;
  }
 
-
+/**
+* Get the position of a door given a direction.
+* There shall not be more than 1 door per direction.
+* @param String The direction of the door
+* @return (int) The position of the door from the upper-left hand corner, or -1 if it is not found
+*/
  public int getDoor(String direction) {
    if (doors.containsKey(direction)) {
      return (doors.get(direction)).intValue(); // get the door in given dir
@@ -100,9 +121,11 @@ public class Room  {
    return -1;
  }
 
-/*
-direction is one of NSEW
-location is a number between 0 and the length of the wall
+/**
+* Direction is one of "N", "S", "E", or "W".
+* Location is a number between 0 and the length of the wall
+* @param String The direction of the door
+* @param int The distance of the door, measured from the upper-left corner
 */
 
 public void setDoor(String direction, int location) {
@@ -110,14 +133,20 @@ public void setDoor(String direction, int location) {
   doors.put(direction, loc);
 }
 
-
+/**
+* Sets the symbols that are displayed for each room element (e.g. walls, doors).
+* @param HashMap<String,String> A map associating each element of a room to an ASCII character.
+*/
 public void setSymbols(HashMap<String, String> symbols) {
   defaultSymbols = symbols;
 }
 
 
 // "detector" classes
-
+/**
+* Checks if the player is in the current room.
+* @return (boolean) true if the player is in the room, otherwise return false.
+*/
 public boolean isPlayerInRoom() {
   if (thePlayer.getCurrentRoom().getId() == id) {
     return true;
