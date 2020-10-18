@@ -14,19 +14,27 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
+/**
+* The class that stores the game state and links other classes together.
+*/
 public class Rogue {
     private Player thePlayer;
     private ArrayList<Room> rooms = new ArrayList<Room>();
     private ArrayList<Item> items = new ArrayList<Item>();
     private HashMap<String, String> defaultSymbols = new HashMap<String, String>();
-
+    /**
+    * Sets the player associated with the game.
+    * @param newPlayer the Player object that represents the user character
+    */
     public void setPlayer(Player newPlayer) { // player will be made in the Solution class
         thePlayer = newPlayer;
         this.thePlayer.setXyLocation(new Point(1, 1));
     }
 
-
+    /**
+    * Sets the display symbols based on a JSON file.
+    * @param filename a JSON file containing associations of characters to elements of the game
+    */
     public void setSymbols(String filename) {
       // (Almost) the same code as before to read the file and get a JSONObject which stores the graphics definitions.
             JSONParser parser = new JSONParser();
@@ -54,21 +62,35 @@ public class Rogue {
               defaultSymbols.put(symbolName, symbol);
             }
     }
-
+    /**
+    * Returns a list of all of the Rooms in the level.
+    * @return (ArrayList<Room>) the list of rooms in the level
+    */
     public ArrayList<Room> getRooms() {
         return rooms;
 
     }
-
+    /**
+    * Returns a list of all of the Items in the level.
+    * @return (ArrayList<Room>) the list of items in the level
+    */
     public ArrayList<Item> getItems() {
         return items;
 
     }
+    /**
+    * Returns the Player in its current state in the game.
+    * @return (Player) the Player object containing its state and attributes
+    */
     public Player getPlayer() {
         return thePlayer;
 
     }
 
+    /**
+    * Parses a JSON file which contains information about all the rooms and items in the level.
+    * @param filename the name of the JSON file containing level data
+    */
     public void createRooms(String filename) {
       // This method fills up the rooms array.
       //  (Almost) the same code as before to read the file and get a JSONObject which stores all that room information.
@@ -145,6 +167,10 @@ public class Rogue {
       rooms.add(newRoom);
     }
 
+    /**
+    * Returns a string that displays all the rooms in the level.
+    * @return (String) A formatted string that displays all the rooms in the level
+    */
     public String displayAll() {
       String displayString = new String();
         // creates a string that displays all the rooms in the dungeon

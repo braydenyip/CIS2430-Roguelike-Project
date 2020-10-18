@@ -8,8 +8,7 @@ import java.util.HashMap;
  * A room within the dungeon - contains monsters, treasure,
  * doors out, etc.
  */
-public class Room  {
-  // TO-DO: Replace with an AL
+public class Room {
   private Map<String, String> defaultSymbols = new HashMap<String, String>();
   private Player thePlayer;
   private int width;
@@ -17,7 +16,7 @@ public class Room  {
   private int id;
   private ArrayList<Item> roomItems = new ArrayList<Item>(); // Stores all the items.
   private HashMap<String, Integer> doors = new HashMap<String, Integer>(); // Stores the locations of each door
-  
+
 /**
 * Constructs a room with a default ID of -1.
 */

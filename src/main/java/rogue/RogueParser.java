@@ -17,38 +17,38 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class RogueParser{
+public class RogueParser {
 
-	private ArrayList<Map<String,String>> rooms = new ArrayList<>();
-	private ArrayList<Map<String,String>> items = new ArrayList<>();
-    private ArrayList<Map<String,String>> itemLocations = new ArrayList<>();
-    private HashMap<String, Character> symbols = new HashMap<>();
+  private ArrayList<Map<String, String>> rooms = new ArrayList<>();
+  private ArrayList<Map<String, String>> items = new ArrayList<>();
+  private ArrayList<Map<String, String>> itemLocations = new ArrayList<>();
+  private HashMap<String, Character> symbols = new HashMap<>();
 
-    Iterator<Map<String, String>> roomIterator;
-    Iterator<Map<String, String>> itemIterator;
+  private Iterator<Map<String, String>> roomIterator;
+  private Iterator<Map<String, String>> itemIterator;
 
-    private int numOfRooms = -1;
-    private int numOfItems = -1;
+  private int numOfRooms = -1;
+  private int numOfItems = -1;
 
-    /**
-     * Default constructor
-     */
-    public RogueParser() {
+  /**
+   * Default constructor.
+   */
+  public RogueParser() {
 
-    }
+  }
 
-    /**
-     * Constructor that takes filename and sets up the object
-     * @param filename  (String) name of file that contains file location for rooms and symbols
-     */
-	public RogueParser(String filename) {
-	    parse(filename);
+  /**
+  * Constructor that takes filename and sets up the object.
+	* @param filename  (String) name of file that contains file location for rooms and symbols
+  */
+  public RogueParser(String filename) {
+		parse(filename);
 	}
 
-    /**
-     * Return the next room
-     * @return (Map) Information about a room
-     */
+  /**
+  * Return the next room.
+  * @return (Map) Information about a room
+  */
 	public Map nextRoom() {
         if(roomIterator.hasNext()) {
             return roomIterator.next();
@@ -176,22 +176,22 @@ public class RogueParser{
 	}
 
     /**
-     * Get a room's information
+     * Get a room's information.
      * @param roomJSON (JSONObject) Contains information about one room
      * @return (Map<String, String>) Contains key/values that has information about the room
      */
 	private Map<String, String> singleRoom(JSONObject roomJSON){
 		HashMap<String, String> room = new HashMap<>();
 		room.put("id",roomJSON.get("id").toString());
-		room.put("start",roomJSON.get("start").toString() );
+		room.put("start",roomJSON.get("start").toString());
 		room.put("height", roomJSON.get("height").toString());
-        room.put("width", roomJSON.get("width").toString());
+    room.put("width", roomJSON.get("width").toString());
 
         // Cheap way of making sure all 4 directions have a sentinel value in the map
 		room.put("E", "-1");
 		room.put("N", "-1");
 		room.put("S", "-1");
-        room.put("W", "-1");
+    room.put("W", "-1");
 
         // Update the map with any doors in the room
         JSONArray doorArray = (JSONArray) roomJSON.get("doors");
@@ -211,7 +211,7 @@ public class RogueParser{
     }
 
     /**
-     * Create a map for information about an item in a room
+     * Create a map for information about an item in a room.
      * @param lootJSON (JSONObject) Loot key from the rooms file
      * @param roomID (String) Room id value
      * @return (Map<String, String>) Contains information about the item, where it is and what room
@@ -228,7 +228,7 @@ public class RogueParser{
     }
 
     /**
-     * Get the Item information from the Item key
+     * Get the Item information from the Item key.
      * @param roomsJSON (JSONObject) The entire JSON file that contains keys for room and items
      */
     private void extractItemInfo(JSONObject roomsJSON){
@@ -241,7 +241,7 @@ public class RogueParser{
     }
 
     /**
-     * Get a single item from its JSON object
+     * Get a single item from its JSON object.
      * @param itemsJSON (JSONObject) JSON version of an item
      * @return (Map<String, String>) Contains information about a single item
      */
