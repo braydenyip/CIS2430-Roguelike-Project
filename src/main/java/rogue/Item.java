@@ -16,14 +16,14 @@ public class Item  {
     private String description;
 
     /**
-    * Constructs a blank Item
+    * Constructs a blank Item.
     * Sets a blank "scroll" at the origin
     */
     public Item() {
         this(-1, "Void Scroll", "default", new Point(0, 0));
     }
     /**
-    * Constructs an item with the given properties
+    * Constructs an item with the given properties.
     * @param newId the Id number of the item.
     * @param newName the name of the item, or null for no name
     * @param newType the type of the item.
@@ -123,7 +123,7 @@ public class Item  {
 
     /**
     * Returns a Point object.
-    * @return (Point) A Point object containing the x and y coordinates of the item
+    * @return (Point) A Point object containing the x and y coordinates of the item.
     */
     public Point getXyLocation() {
       return xyLocation;
@@ -131,7 +131,7 @@ public class Item  {
 
     /**
     * Sets the x and y coordinates of the item.
-    * @param newXyLocation the new coordinates of the object
+    * @param newXyLocation the new coordinates of the object.
     */
     public void setXyLocation(Point newXyLocation) {
       xyLocation = newXyLocation;

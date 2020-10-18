@@ -17,8 +17,9 @@ public class Room  {
   private int id;
   private ArrayList<Item> roomItems = new ArrayList<Item>(); // Stores all the items.
   private HashMap<String, Integer> doors = new HashMap<String, Integer>(); // Stores the locations of each door
+  
 /**
-* Constructs a room with a default ID of -1
+* Constructs a room with a default ID of -1.
 */
  public Room() {
    this.setId(-1);
