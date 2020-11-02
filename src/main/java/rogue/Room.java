@@ -186,9 +186,8 @@ private boolean playerOnTile(int x, int y) {
 * WILL NOT provide extra newlines -- handled by Rogue's class.
 */
 
-public String displayRoom() { // Shrink to < 50 lines from 64
-  int x = 0;
-  int y = 0;
+public String displayRoom() { // Shrink to < 50 lines from 61
+  int x, y = 0;
   String roomString = new String("");
   int nDoorLoc = this.getDoor("N");
   int sDoorLoc = this.getDoor("S");
@@ -234,7 +233,6 @@ public String displayRoom() { // Shrink to < 50 lines from 64
     }
     roomString += "\n";
   }
-  y = height - 1; // might be able to remove this
   for (x = 0; x < width; x++) { // Make the string for the S wall
     if (this.playerOnTile(x, y)) {
       roomString += defaultSymbols.get("PLAYER");
@@ -247,6 +245,5 @@ public String displayRoom() { // Shrink to < 50 lines from 64
   roomString += "\n"; // This is not one of the extra newlines
   return roomString;
 }
-
 
 }
