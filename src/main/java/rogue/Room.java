@@ -186,7 +186,7 @@ private boolean playerOnTile(int x, int y) {
 * WILL NOT provide extra newlines -- handled by Rogue's class.
 */
 
-public String displayRoom() { // Shrink to < 50 lines from 61
+public String displayRoom() {
   String roomString = new String("");
   int wDoorLoc = this.getDoor("W");
   int eDoorLoc = this.getDoor("E");
@@ -198,7 +198,7 @@ public String displayRoom() { // Shrink to < 50 lines from 61
   return roomString;
 }
 
-private String addNSWallLine(int doorLoc, String roomString) {
+private String addNSWallLine(int doorLoc, String roomString) { // Add a north-south wall
   for (int x = 0; x < width; x++) {
     roomString += getDoorOrWall(doorLoc, x, "NS");
   }
@@ -222,7 +222,7 @@ private String addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString)
   return roomString;
 }
 
-private String getDoorOrWall(int doorLoc, int coord, String direction) {
+private String getDoorOrWall(int doorLoc, int coord, String direction) { // Determines whether or not to place a door or wall
   if (direction == "NS" && doorLoc != coord) {
     return (defaultSymbols.get("NS_WALL"));
   } else if (direction == "EW" && doorLoc != coord) {
