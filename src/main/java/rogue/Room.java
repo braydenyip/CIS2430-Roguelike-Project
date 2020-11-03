@@ -9,7 +9,7 @@ import java.util.HashMap;
  * doors out, etc.
  */
 public class Room {
-  private Map<String, String> defaultSymbols = new HashMap<String, String>();
+  private static Map<String, String> defaultSymbols = new HashMap<String, String>(); // static because we want this to be the same
   private Player thePlayer;
   private int width;
   private int height;
@@ -137,6 +137,7 @@ public void setDoor(String direction, int location) {
 
 /**
 * Sets the symbols that are displayed for each room element (e.g. walls, doors).
+* These change will affect ALL Rooms
 * @param symbols A map associating each element of a room to an ASCII character.
 */
 public void setSymbols(HashMap<String, String> symbols) {
@@ -156,6 +157,7 @@ public boolean isPlayerInRoom() {
   return false;
 }
 
+// Determines if an item is on the tile
 private boolean itemOnTile(int x, int y) { // Checks for an item on the specified tile
   Point tile = new Point(x, y);
   for (Item item : roomItems) {
@@ -166,7 +168,7 @@ private boolean itemOnTile(int x, int y) { // Checks for an item on the specifie
   return false;
 }
 
-
+// Determines if the player is on the tile
 private boolean playerOnTile(int x, int y) {
   if (this.isPlayerInRoom()) { // Of course the player must be in the room
     Point pt = thePlayer.getXyLocation();
@@ -198,6 +200,7 @@ public String displayRoom() {
   return roomString;
 }
 
+// Creates a line that is an NS wall
 private String addNSWallLine(int doorLoc, String roomString) { // Add a north-south wall
   for (int x = 0; x < width; x++) {
     roomString += getDoorOrWall(doorLoc, x, "NS");
@@ -206,6 +209,7 @@ private String addNSWallLine(int doorLoc, String roomString) { // Add a north-so
   return roomString;
 }
 
+// Creates a line in between the NS walls
 private String addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString) {
   roomString += getDoorOrWall(wDoorLoc, y, "EW");
   for (int x = 1; x < (width - 1); x++) { // rendering all internal tiles
@@ -222,6 +226,7 @@ private String addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString)
   return roomString;
 }
 
+// Logic to determine if an edge tile is a wall or a door
 private String getDoorOrWall(int doorLoc, int coord, String direction) { // Determines whether or not to place a door or wall
   if (direction == "NS" && doorLoc != coord) {
     return (defaultSymbols.get("NS_WALL"));
@@ -232,4 +237,13 @@ private String getDoorOrWall(int doorLoc, int coord, String direction) { // Dete
   }
 }
 
+}
+
+private String getSymbol(String symbolName) {
+
+    if (defaultSymbols.containsKey(symbolName)) {
+        return defaultSymbols.get(symbolName);
+    }
+    // Does not contain the key
+    return null;
 }
