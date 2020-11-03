@@ -126,13 +126,16 @@ public class Room {
 /**
 * Direction is one of "N", "S", "E", or "W".
 * Location is a number between 0 and the length of the wall
+* Negative location doors will not be put.
 * @param direction The direction of the door
 * @param location The distance of the door, measured from the upper-left corner
 */
 
 public void setDoor(String direction, int location) {
   Integer loc = new Integer(location);
-  doors.put(direction, loc);
+  if (loc > -1){ // If the location is -1 don't put a door
+    doors.put(direction, loc);
+  }
 }
 
 /**

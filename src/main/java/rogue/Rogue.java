@@ -116,49 +116,32 @@ public class Rogue {
     private void addRoom(HashMap<String, String> roomData) { //method to add a single room
       Room newRoom = new Room();
       // turn the prim-longs in the JSON to prim-ints that our methods take. like string decoding?
-      newRoom.setHeight( Integer.parseInt(roomData.get("height").parseInt() );
-      newRoom.setWidth( Integer.parseInt(roomData.get("width").parseInt() );
-      newRoom.setId( Integer.parseInt(roomData.get("id").parseInt() );
+      newRoom.setHeight( Integer.parseInt(roomData.get("height")) );
+      newRoom.setWidth( Integer.parseInt(roomData.get("width")) );
+      newRoom.setId( Integer.parseInt(roomData.get("id")) );
       newRoom.setPlayer(thePlayer);
       newRoom.setSymbols(defaultSymbols);
-      // Get the array of doors, turn it into a JSONObject and get the id and dir
-      JSONArray doors = (JSONArray) roomInfo.get("doors");
-      JSONObject doorObj = new JSONObject();
-
-      for (Object door : doors) {
-        doorObj = (JSONObject) door;
-
-        doorId = ((Long) doorObj.get("id")).intValue();
-        doorStr = (String) doorObj.get("dir");
-
-        newRoom.setDoor(doorStr, doorId);
+      // Set the doors
+      newRoom.setDoor("N",Integer.parseInt(roomData.get("N")));
+      newRoom.setDoor("S",Integer.parseInt(roomData.get("S")));
+      newRoom.setDoor("E",Integer.parseInt(roomData.get("E")));
+      newRoom.setDoor("W",Integer.parseInt(roomData.get("W")));
+      if ((boolean) roomData.get("start")) {
+        configurePlayerStart(newRoom);
       }
 
-      if ((boolean) roomInfo.get("start")) {
-        // set thePlayer's room to the room where you start.
-        thePlayer.setCurrentRoom(newRoom);
-        // set thePlayer's location to the average location -- the middle.
-        int avgHeight = newRoom.getHeight() / 2;
-        int avgWidth = newRoom.getWidth() / 2;
-        thePlayer.setXyLocation(new Point(avgWidth, avgHeight));
-      }
-
-      JSONArray loot = (JSONArray) roomInfo.get("loot"); // get the room's loot as a JSONArray
-      JSONObject lootObj = new JSONObject();
-      ArrayList<Item> newRoomItems = new ArrayList<Item>();
-
-      for (Object item: loot) { // for each item in the list initialize it and add it to an array.
-        lootObj = (JSONObject) item;
-        int itemId = ((Long) lootObj.get("id")).intValue();
-        int itemX = ((Long) lootObj.get("x")).intValue();
-        int itemY = ((Long) lootObj.get("y")).intValue();
-        Item newItem = new Item(itemId, "default", "default", new Point(itemX, itemY));
-        newRoomItems.add(newItem);
-      }
-
-      newRoom.setRoomItems(newRoomItems);
+      //newRoom.setRoomItems(newRoomItems);
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
+    }
+
+    private void configurePlayerStart(Room newRoom) {
+      // set thePlayer's room to the room where you start.
+      thePlayer.setCurrentRoom(newRoom);
+      // set thePlayer's location to the average location
+      int avgHeight = newRoom.getHeight() / 2;
+      int avgWidth = newRoom.getWidth() / 2;
+      thePlayer.setXyLocation(new Point(avgWidth, avgHeight));
     }
 
     /**

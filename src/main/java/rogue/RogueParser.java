@@ -31,8 +31,7 @@ public class RogueParser {
      * Default constructor.
      */
     public RogueParser() {
-
-
+      
     }
 
     /**
