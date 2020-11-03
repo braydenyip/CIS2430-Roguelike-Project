@@ -123,130 +123,130 @@ public class Room {
    return -1;
  }
 
-/**
-* Direction is one of "N", "S", "E", or "W".
-* Location is a number between 0 and the length of the wall
-* Negative location doors will not be put.
-* @param direction The direction of the door
-* @param location The distance of the door, measured from the upper-left corner
-*/
+  /**
+  * Direction is one of "N", "S", "E", or "W".
+  * Location is a number between 0 and the length of the wall
+  * Negative location doors will not be put.
+  * @param direction The direction of the door
+  * @param location The distance of the door, measured from the upper-left corner
+  */
 
-public void setDoor(String direction, int location) {
-  Integer loc = new Integer(location);
-  if (loc > -1){ // If the location is -1 don't put a door
-    doors.put(direction, loc);
-  }
-}
-
-/**
-* Sets the symbols that are displayed for each room element (e.g. walls, doors).
-* These change will affect ALL Rooms
-* @param symbols A map associating each element of a room to an ASCII character.
-*/
-public void setSymbols(HashMap<String, String> symbols) {
-  defaultSymbols = symbols;
-}
-
-
-// "detector" classes
-/**
-* Checks if the player is in the current room.
-* @return (boolean) true if the player is in the room, otherwise return false.
-*/
-public boolean isPlayerInRoom() {
-  if (thePlayer.getCurrentRoom().getId() == id) {
-    return true;
-  }
-  return false;
-}
-
-// Determines if an item is on the tile
-private boolean itemOnTile(int x, int y) { // Checks for an item on the specified tile
-  Point tile = new Point(x, y);
-  for (Item item : roomItems) {
-    if (tile.equals(item.getXyLocation())) {
-      return true;
+  public void setDoor(String direction, int location) {
+    Integer loc = new Integer(location);
+    if (loc > -1){ // If the location is -1 don't put a door
+      doors.put(direction, loc);
     }
   }
-  return false;
-}
 
-// Determines if the player is on the tile
-private boolean playerOnTile(int x, int y) {
-  if (this.isPlayerInRoom()) { // Of course the player must be in the room
-    Point pt = thePlayer.getXyLocation();
-    int px = (int) pt.getX();
-    int py = (int) pt.getY();
-    if (x == px && y == py) { // if the x and y coordinates given and the player's current coords match return true.
+  /**
+  * Sets the symbols that are displayed for each room element (e.g. walls, doors).
+  * These change will affect ALL Rooms
+  * @param symbols A map associating each element of a room to an ASCII character.
+  */
+  public void setSymbols(HashMap<String, String> symbols) {
+    defaultSymbols = symbols;
+  }
+
+
+  // "detector" classes
+  /**
+  * Checks if the player is in the current room.
+  * @return (boolean) true if the player is in the room, otherwise return false.
+  */
+  public boolean isPlayerInRoom() {
+    if (thePlayer.getCurrentRoom().getId() == id) {
       return true;
     }
+    return false;
   }
-  return false;
-}
 
-
-/**
-* Produces a string that can be printed to produce an ascii rendering of the room and all of its contents.
-* @return (String) String representation of how the room looks
-* WILL NOT provide extra newlines -- handled by Rogue's class.
-*/
-
-public String displayRoom() {
-  String roomString = new String("");
-  int wDoorLoc = this.getDoor("W");
-  int eDoorLoc = this.getDoor("E");
-  roomString = addNSWallLine(this.getDoor("N"), roomString);
-  for (int y = 1; y < (height - 1); y++) { // for each row in the room that is not the N/S walls
-    roomString = addRoomLine(wDoorLoc, eDoorLoc, y, roomString);
+  // Determines if an item is on the tile
+  private boolean itemOnTile(int x, int y) { // Checks for an item on the specified tile
+    Point tile = new Point(x, y);
+    for (Item item : roomItems) {
+      if (tile.equals(item.getXyLocation())) {
+        return true;
+      }
+    }
+    return false;
   }
-  roomString = addNSWallLine(this.getDoor("S"), roomString);
-  return roomString;
-}
 
-// Creates a line that is an NS wall
-private String addNSWallLine(int doorLoc, String roomString) { // Add a north-south wall
-  for (int x = 0; x < width; x++) {
-    roomString += getDoorOrWall(doorLoc, x, "NS");
+  // Determines if the player is on the tile
+  private boolean playerOnTile(int x, int y) {
+    if (this.isPlayerInRoom()) { // Of course the player must be in the room
+      Point pt = thePlayer.getXyLocation();
+      int px = (int) pt.getX();
+      int py = (int) pt.getY();
+      if (x == px && y == py) { // if the x and y coordinates given and the player's current coords match return true.
+        return true;
+      }
+    }
+    return false;
   }
-  roomString += "\n";
-  return roomString;
-}
 
-// Creates a line in between the NS walls
-private String addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString) {
-  roomString += getDoorOrWall(wDoorLoc, y, "EW");
-  for (int x = 1; x < (width - 1); x++) { // rendering all internal tiles
-    if (this.playerOnTile(x, y)) {
-      roomString += defaultSymbols.get("PLAYER");
-    } else if (this.itemOnTile(x, y)) {
-      roomString += defaultSymbols.get("POTION"); // Replace with helper
+
+  /**
+  * Produces a string that can be printed to produce an ascii rendering of the room and all of its contents.
+  * @return (String) String representation of how the room looks
+  * WILL NOT provide extra newlines -- handled by Rogue's class.
+  */
+
+  public String displayRoom() {
+    String roomString = new String("");
+    int wDoorLoc = this.getDoor("W");
+    int eDoorLoc = this.getDoor("E");
+    roomString = addNSWallLine(this.getDoor("N"), roomString);
+    for (int y = 1; y < (height - 1); y++) { // for each row in the room that is not the N/S walls
+      roomString = addRoomLine(wDoorLoc, eDoorLoc, y, roomString);
+    }
+    roomString = addNSWallLine(this.getDoor("S"), roomString);
+    return roomString;
+  }
+
+  // Creates a line that is an NS wall
+  private String addNSWallLine(int doorLoc, String roomString) { // Add a north-south wall
+    for (int x = 0; x < width; x++) {
+      roomString += getDoorOrWall(doorLoc, x, "NS");
+    }
+    roomString += "\n";
+    return roomString;
+  }
+
+  // Creates a line in between the NS walls
+  private String addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString) {
+    roomString += getDoorOrWall(wDoorLoc, y, "EW");
+    for (int x = 1; x < (width - 1); x++) { // rendering all internal tiles
+      if (this.playerOnTile(x, y)) {
+        roomString += defaultSymbols.get("PLAYER");
+      } else if (this.itemOnTile(x, y)) {
+        roomString += defaultSymbols.get("POTION"); // Replace with helper
+      } else {
+        roomString += defaultSymbols.get("FLOOR");
+      }
+    }
+    roomString += getDoorOrWall(eDoorLoc, y, "EW");
+    roomString += "\n";
+    return roomString;
+  }
+
+  // Logic to determine if an edge tile is a wall or a door
+  private String getDoorOrWall(int doorLoc, int coord, String direction) { // Determines whether or not to place a door or wall
+    if (direction == "NS" && doorLoc != coord) {
+      return (defaultSymbols.get("NS_WALL"));
+    } else if (direction == "EW" && doorLoc != coord) {
+      return (defaultSymbols.get("EW_WALL"));
     } else {
-      roomString += defaultSymbols.get("FLOOR");
+      return (defaultSymbols.get("DOOR"));
     }
   }
-  roomString += getDoorOrWall(eDoorLoc, y, "EW");
-  roomString += "\n";
-  return roomString;
-}
 
-// Logic to determine if an edge tile is a wall or a door
-private String getDoorOrWall(int doorLoc, int coord, String direction) { // Determines whether or not to place a door or wall
-  if (direction == "NS" && doorLoc != coord) {
-    return (defaultSymbols.get("NS_WALL"));
-  } else if (direction == "EW" && doorLoc != coord) {
-    return (defaultSymbols.get("EW_WALL"));
-  } else {
-    return (defaultSymbols.get("DOOR"));
+  private String getSymbol(String symbolName) {
+
+      if (defaultSymbols.containsKey(symbolName)) {
+          return defaultSymbols.get(symbolName);
+      }
+      // Does not contain the key
+      return null;
   }
-}
 
-}
-
-private String getSymbol(String symbolName) {
-
-    if (defaultSymbols.containsKey(symbolName)) {
-        return defaultSymbols.get(symbolName);
-    }
-    // Does not contain the key
-    return null;
 }

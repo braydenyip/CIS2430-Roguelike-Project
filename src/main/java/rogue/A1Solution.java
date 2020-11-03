@@ -22,35 +22,15 @@ public class A1Solution {
     public static void main(String[] args) {
         // Hardcoded configuration file location/name
         String configurationFileLocation = "fileLocations.json"; // still don't touch
-        String roomsFileName = new String();
-        String symbolsFileName = new String();
- // reading the input file locations using the configuration file
-        JSONParser parser = new JSONParser();
-        try {
+        RogueParser theParser = new RogueParser(configurationFileLocation);
 
-            Object obj = parser.parse(new FileReader(configurationFileLocation));
-            JSONObject configurationJSON = (JSONObject) obj;
+        Player thePlayer = new Player("Brayden");
+        Rogue game = new Rogue(theParser, thePlayer); // This parser will be "full"
 
-            // Extract the Rooms value from the file to get the file location for rooms
-            roomsFileName = (String) configurationJSON.get("Rooms");
-            // Extract the Symbols value from the file to get the file location for symbols-map
-            symbolsFileName = (String) configurationJSON.get("Symbols");
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-// instantiate a new Rogue object and call methods to do the required things
-        Rogue game = new Rogue();
-        Player thePlayer = new Player();
-        game.setPlayer(thePlayer);
-        game.setSymbols(symbolsFileName);
-        game.createRooms(roomsFileName);
         System.out.println("Welcome " + game.getPlayer().getName());
+        game.setPlayer(thePlayer);
+        game.setSymbols();
+        game.createRooms();
         System.out.println(game.displayAll());
     }
 

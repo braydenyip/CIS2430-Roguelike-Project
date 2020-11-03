@@ -25,10 +25,12 @@ public class Rogue {
     private RogueParser parser;
 
     /**
-    * One parameter constructor
+    * Two parameter constructor
     * @param theParser the RogueParser for the game, which must be initialized
+    * @param theHero the Player, which must be initialized
     */
-    public Rogue(RogueParser theParser) {
+    public Rogue(RogueParser theParser, Player theHero) {
+      setPlayer(theHero);
       setParser(theParser);
     }
 
@@ -36,7 +38,7 @@ public class Rogue {
     * Sets the parser that the Rogue uses
     * @param newParser the new parser for the game
     */
-    public setParser(RogueParser newParser) {
+    public void setParser(RogueParser newParser) {
       parser = newParser;
     }
 
@@ -83,33 +85,15 @@ public class Rogue {
     }
 
     /**
-    * Appends the room objects into a list
-    * @param filename the name of the JSON file containing level data
+    * Runs the Parser's roomIterator to fill the array "rooms" with objects
     */
-    public void createRooms(String filename) {
+    public void createRooms() {
       // This method fills up the rooms array.
-      // (Almost) the same code as before to read the file and get a JSONObject which stores all that room information.
-      JSONParser parser = new JSONParser();
-      JSONObject roomsJSON = new JSONObject();
-      try {
-          Object obj = parser.parse(new FileReader(filename));
-          roomsJSON = (JSONObject) obj;
-
-      } catch (FileNotFoundException e) {
-          e.printStackTrace();
-      } catch (IOException e) {
-          e.printStackTrace();
-      } catch (ParseException e) {
-          e.printStackTrace();
+      HashMap<String, String> theRoomData = (HashMap<String, String>) parser.nextRoom();
+      while (theRoomData != null){
+        addRoom(theRoomData);
+        theRoomData = (HashMap<String, String>) parser.nextRoom();
       }
-      Object roomsObj = roomsJSON.get("room");
-      JSONArray allRooms = new JSONArray();
-      allRooms = (JSONArray) roomsObj;
-
-      for (Object roomObject: allRooms) {
-        addRoom((JSONObject) roomObject);
-      }
-
     }
 
     // turns a HashMap from the RogueParser into a Room and appends
@@ -119,18 +103,17 @@ public class Rogue {
       newRoom.setHeight( Integer.parseInt(roomData.get("height")) );
       newRoom.setWidth( Integer.parseInt(roomData.get("width")) );
       newRoom.setId( Integer.parseInt(roomData.get("id")) );
-      newRoom.setPlayer(thePlayer);
       newRoom.setSymbols(defaultSymbols);
       // Set the doors
       newRoom.setDoor("N",Integer.parseInt(roomData.get("N")));
       newRoom.setDoor("S",Integer.parseInt(roomData.get("S")));
       newRoom.setDoor("E",Integer.parseInt(roomData.get("E")));
       newRoom.setDoor("W",Integer.parseInt(roomData.get("W")));
-      if ((boolean) roomData.get("start")) {
+      if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
-
-      //newRoom.setRoomItems(newRoomItems);
+      System.out.println(thePlayer.getXyLocation());
+      newRoom.setPlayer(thePlayer);
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
     }
@@ -139,6 +122,7 @@ public class Rogue {
       // set thePlayer's room to the room where you start.
       thePlayer.setCurrentRoom(newRoom);
       // set thePlayer's location to the average location
+
       int avgHeight = newRoom.getHeight() / 2;
       int avgWidth = newRoom.getWidth() / 2;
       thePlayer.setXyLocation(new Point(avgWidth, avgHeight));
