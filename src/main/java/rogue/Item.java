@@ -12,7 +12,7 @@ public class Item  {
     private String type;
     private Point xyLocation;
     private Character displayCharacter;
-    private Room currentRoom;
+    private Room currentRoomId;
     private String description;
 
     /**
@@ -149,7 +149,7 @@ public class Item  {
     * Puts the item into a specific room.
     * @param newCurrentRoom the Room where the item will go
     */
-    public void setCurrentRoom(Room newCurrentRoom) {
-      currentRoom = newCurrentRoom;
+    public void setCurrentRoomId(int newCurrentRoomId) {
+      currentRoomId = newCurrentRoomId;
     }
 }

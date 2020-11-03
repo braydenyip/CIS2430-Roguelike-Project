@@ -29,8 +29,7 @@ public class A1Solution {
 
         System.out.println("Welcome " + game.getPlayer().getName());
         game.setPlayer(thePlayer);
-        game.setSymbols();
-        game.createRooms();
+        game.initializeGameState();
         System.out.println(game.displayAll());
     }
 

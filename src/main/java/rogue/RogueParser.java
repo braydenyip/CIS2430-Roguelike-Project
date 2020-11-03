@@ -31,7 +31,7 @@ public class RogueParser {
      * Default constructor.
      */
     public RogueParser() {
-      
+
     }
 
     /**
@@ -41,6 +41,8 @@ public class RogueParser {
     public RogueParser(String filename) {
 
         parse(filename);
+        System.out.println(itemLocations);
+        System.out.println(items);
     }
 
     /**
@@ -270,6 +272,7 @@ public class RogueParser {
 
         for (Map<String, String> itemLocation : itemLocations) {
             if (itemLocation.get("id").toString().equals(item.get("id").toString())) {
+                // we have to go back to the Room to get the location.
                 item.put("room", itemLocation.get("room"));
                 item.put("x", itemLocation.get("x"));
                 item.put("y", itemLocation.get("y"));

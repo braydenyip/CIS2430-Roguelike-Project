@@ -83,7 +83,14 @@ public class Rogue {
         return thePlayer;
 
     }
-
+    /**
+    * Creates the rooms and items for the game environment from JSON
+    */
+    public void initializeGameState(){
+      setSymbols();
+      createItems();
+      createRooms();
+    }
     /**
     * Runs the Parser's roomIterator to fill the array "rooms" with objects
     */
@@ -112,7 +119,6 @@ public class Rogue {
       if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
-      System.out.println(thePlayer.getXyLocation());
       newRoom.setPlayer(thePlayer);
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
@@ -140,5 +146,33 @@ public class Rogue {
           displayString += rm.displayRoom() + "\n\n";
         }
         return displayString;
+    }
+
+    /**
+    * Fills the item array in the same way as the rooms
+    */
+    public void createItems(){
+      HashMap<String, String> theItemData = (HashMap<String, String>) parser.nextItem();
+      while (theItemData != null){
+        addItem(theItemData);
+        theItemData = (HashMap<String, String>) parser.nextItem();
+      }
+    }
+
+    private void addItem(HashMap<String, String> itemData){
+      Item newItem = new Item();
+      newItem.setId(Integer.parseInt(itemData.get("id")));
+      newItem.setName(itemData.get("name"));
+      newItem.setType(itemData.get("type"));
+      newItem.setRoom(Integer.parseInt(itemData.get("Room")));
+      setItemPosition(newItem,itemData.get("x"),itemData.get("y"));
+      items.add(newItem);
+    }
+
+    // Converts strings to ints and sets newItem's position to a new Point.
+    private void setItemPosition(Item newItem, String xString, String yString){
+      int x = Integer.parseInt(xString);
+      int y = Integer.parseInt(yString);
+      newItem.setXyLocation(new Point(x,y));
     }
 }
