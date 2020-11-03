@@ -187,63 +187,49 @@ private boolean playerOnTile(int x, int y) {
 */
 
 public String displayRoom() { // Shrink to < 50 lines from 61
-  int x, y = 0;
   String roomString = new String("");
-  int nDoorLoc = this.getDoor("N");
-  int sDoorLoc = this.getDoor("S");
   int wDoorLoc = this.getDoor("W");
   int eDoorLoc = this.getDoor("E");
-  for (x = 0; x < width; x++) { // Make the string for the N wall , the first EW wall
-    if (this.playerOnTile(x, y)) {
-      roomString += defaultSymbols.get("PLAYER");
-    } else if (nDoorLoc == x) {
-      roomString += defaultSymbols.get("DOOR");
-    } else {
-      roomString += defaultSymbols.get("NS_WALL"); // append an NS door char
-    }
+  roomString = addNSWallLine(this.getDoor("N"), roomString);
+  for (int y = 1; y < (height - 1); y++) { // for each row in the room that is not the N/S walls
+    roomString = addRoomLine(wDoorLoc, eDoorLoc, y, roomString);
+  }
+  roomString = addNSWallLine(this.getDoor("S"), roomString);
+  return roomString;
+}
+
+private String addNSWallLine(int doorLoc, String roomString) {
+  for (int x = 0; x < width; x++) {
+    roomString += getDoorOrWall(doorLoc, x, "NS");
   }
   roomString += "\n";
-  for (y = 1; y < (height - 1); y++) { // for each row in the room that is not the N/S walls
-    for (x = 0; x < width; x++) { // print a string of length width, we need to process each coordinate.
-      if (x == 0) { // West wall or door
-        if (this.playerOnTile(x, y)) {
-          roomString += defaultSymbols.get("PLAYER"); // player in door
-        } else if (wDoorLoc == y) {
-          roomString += defaultSymbols.get("DOOR");
-        } else {
-          roomString += defaultSymbols.get("EW_WALL");
-        }
-      } else if (x == (width - 1)) { // East wall or door
-        if (this.playerOnTile(x, y)) {
-          roomString += defaultSymbols.get("PLAYER");
-        } else if (eDoorLoc == y) {
-          roomString += defaultSymbols.get("DOOR");
-        } else {
-          roomString += defaultSymbols.get("EW_WALL");
-        }
-      } else { // If nothing else is there show the floor or the player or an item
-        if (this.playerOnTile(x, y)) {
-          roomString += defaultSymbols.get("PLAYER");
-        } else if (this.itemOnTile(x, y)) {
-          roomString += defaultSymbols.get("ITEM");
-        } else {
-          roomString += defaultSymbols.get("FLOOR");
-        }
-      }
-    }
-    roomString += "\n";
-  }
-  for (x = 0; x < width; x++) { // Make the string for the S wall
+  return roomString;
+}
+
+private String addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString) {
+  roomString += getDoorOrWall(wDoorLoc, y, "EW");
+  for (int x = 1; x < (width - 1); x++) { // rendering all internal tiles
     if (this.playerOnTile(x, y)) {
       roomString += defaultSymbols.get("PLAYER");
-    } else if (sDoorLoc == x) {
-      roomString += defaultSymbols.get("DOOR");
+    } else if (this.itemOnTile(x, y)) {
+      roomString += defaultSymbols.get("POTION"); // Replace with helper
     } else {
-      roomString += defaultSymbols.get("NS_WALL"); // append an NS door char
+      roomString += defaultSymbols.get("FLOOR");
     }
   }
-  roomString += "\n"; // This is not one of the extra newlines
+  roomString += getDoorOrWall(eDoorLoc, y, "EW");
+  roomString += "\n";
   return roomString;
+}
+
+private String getDoorOrWall(int doorLoc, int coord, String direction) {
+  if (direction == "NS" && doorLoc != coord) {
+    return (defaultSymbols.get("NS_WALL"));
+  } else if (direction == "EW" && doorLoc != coord) {
+    return (defaultSymbols.get("EW_WALL"));
+  } else {
+    return (defaultSymbols.get("DOOR"));
+  }
 }
 
 }

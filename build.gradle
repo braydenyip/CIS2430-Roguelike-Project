@@ -2,28 +2,26 @@ plugins {
     id 'java'
     id 'application'
     id "com.github.johnrengelman.shadow" version "6.0.0"
-    id 'checkstyle'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
 
 
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
 configurations{
+  demo
   shadow
 }
 dependencies {
 
-    shadow 'com.googlecode.lanterna:lanterna:3.0.3'
+    demo 'com.googlecode.json-simple:json-simple:1.1.1'
     shadow 'com.googlecode.json-simple:json-simple:1.1.1'
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
-    compile 'com.googlecode.lanterna:lanterna:3.0.3'
 }
 
 
@@ -38,12 +36,12 @@ jar {
 }
 
 shadowJar {
-   archiveBaseName = 'A2'
+   archiveBaseName = 'A1'
    classifier = ''
    archiveVersion = ''
 
 }
 
 application {
-    mainClassName = "rogue.TextUI"
+    mainClassName = "rogue.A1Solution"
 }
