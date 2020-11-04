@@ -250,7 +250,6 @@ public class RogueParser {
             items.add(singleItem((JSONObject) itemsJSONArray.get(i)));
             numOfItems += 1;
         }
-        System.out.println(items);
     }
 
     /**
