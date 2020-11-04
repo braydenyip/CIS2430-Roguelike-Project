@@ -265,7 +265,6 @@ public class RogueParser {
         item.put("name", itemsJSON.get("name").toString());
         item.put("type", itemsJSON.get("type").toString());
         item.put("displayCharacter", symbols.get(item.get("type").toUpperCase()));
-        System.out.println(itemLocations);
         for (Map<String, String> itemLocation : itemLocations) {
             if (itemLocation.get("id").toString().equals(item.get("id"))) {
                 // we have to go back to the Room to get the location.
