@@ -89,7 +89,12 @@ public class Room {
  */
 
  public void setRoomItems(ArrayList<Item> newRoomItems) {
-   roomItems = newRoomItems;
+   for(Item newItem : newRoomItems){
+     int newItemRoomId = newItem.getCurrentRoomId();
+     if (newItemRoomId > 0 && newItemRoomId == id){
+       roomItems.add(newItem);
+     }
+   }
  }
 
  /**
@@ -161,14 +166,14 @@ public class Room {
   }
 
   // Determines if an item is on the tile
-  private boolean itemOnTile(int x, int y) { // Checks for an item on the specified tile
+  private Item itemOnTile(int x, int y) { // Checks for an item on the specified tile
     Point tile = new Point(x, y);
     for (Item item : roomItems) {
       if (tile.equals(item.getXyLocation())) {
-        return true;
+        return item;
       }
     }
-    return false;
+    return null;
   }
 
   // Determines if the player is on the tile
@@ -214,12 +219,14 @@ public class Room {
 
   // Creates a line in between the NS walls
   private String addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString) {
+    Item tileItem;
     roomString += getDoorOrWall(wDoorLoc, y, "EW");
     for (int x = 1; x < (width - 1); x++) { // rendering all internal tiles
+      tileItem = itemOnTile(x, y);
       if (this.playerOnTile(x, y)) {
         roomString += defaultSymbols.get("PLAYER");
-      } else if (this.itemOnTile(x, y)) {
-        roomString += defaultSymbols.get("POTION"); // Replace with helper
+      } else if (tileItem != null) {
+        roomString += tileItem.getDisplayCharacter();
       } else {
         roomString += defaultSymbols.get("FLOOR");
       }

@@ -14,7 +14,7 @@
                     "y": 3
                 },
                 {
-                    "id": 1,
+                    "id": 2,
                     "x": 8,
                     "y": 8
                 }
@@ -40,17 +40,17 @@
     "items": [{
             "id": 1,
             "name": "Health Potion",
-            "type": "consumable"
+            "type": "potion"
         },
         {
             "id": 2,
             "name": "Scroll of Fireball",
-            "type": "consumable"
+            "type": "scroll"
         },
         {
             "id": 3,
             "name": "Iron Helmet",
-            "type": "equipment"
+            "type": "armor"
         }
     ]
 }

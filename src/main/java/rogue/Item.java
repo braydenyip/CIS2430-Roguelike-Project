@@ -11,8 +11,8 @@ public class Item  {
     private String name;
     private String type;
     private Point xyLocation;
-    private Character displayCharacter;
-    private Room currentRoomId;
+    private String displayCharacter;
+    private int currentRoomId;
     private String description;
 
     /**
@@ -20,7 +20,8 @@ public class Item  {
     * Sets a blank "scroll" at the origin
     */
     public Item() {
-        this(-1, "Void Scroll", "default", new Point(0, 0));
+        this(-1, "Void Scroll", "default", new Point(-1, -1));
+        this.setCurrentRoomId(-1);
     }
     /**
     * Constructs an item with the given properties.
@@ -35,7 +36,8 @@ public class Item  {
       this.setType(newType);
       this.setXyLocation(startXyLocation);
       this.setDescription("");
-      this.setDisplayCharacter('*');
+      this.setDisplayCharacter("!");
+      this.setCurrentRoomId(-1);
     }
 
     // Getters and setters
@@ -93,7 +95,7 @@ public class Item  {
     * Returns the display character for the item.
     * @return (Character) The character that represents the item
     */
-    public Character getDisplayCharacter() {
+    public String getDisplayCharacter() {
       return displayCharacter;
     }
 
@@ -101,7 +103,7 @@ public class Item  {
     * Set the display character for the item.
     * @param newDisplayCharacter The character which should be displayed when this item appears in-game
     */
-    public void setDisplayCharacter(Character newDisplayCharacter) {
+    public void setDisplayCharacter(String newDisplayCharacter) {
       displayCharacter = newDisplayCharacter;
     }
 
@@ -141,8 +143,8 @@ public class Item  {
     * Returns the Room object where the item is located.
     * @return (Room) A room object.
     */
-    public Room getCurrentRoom() {
-      return currentRoom;
+    public int getCurrentRoomId() {
+      return currentRoomId;
     }
 
     /**

@@ -119,6 +119,7 @@ public class Rogue {
       if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
+      newRoom.setRoomItems(items);
       newRoom.setPlayer(thePlayer);
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
@@ -161,11 +162,14 @@ public class Rogue {
 
     private void addItem(HashMap<String, String> itemData){
       Item newItem = new Item();
+      int roomId = Integer.parseInt(itemData.get("room"));
       newItem.setId(Integer.parseInt(itemData.get("id")));
       newItem.setName(itemData.get("name"));
       newItem.setType(itemData.get("type"));
-      newItem.setRoom(Integer.parseInt(itemData.get("Room")));
-      setItemPosition(newItem,itemData.get("x"),itemData.get("y"));
+      if (roomId > 0){
+        newItem.setCurrentRoomId(roomId);
+        setItemPosition(newItem,itemData.get("x"),itemData.get("y"));
+      }
       items.add(newItem);
     }
 

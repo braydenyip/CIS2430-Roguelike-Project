@@ -39,10 +39,7 @@ public class RogueParser {
      * @param filename  (String) name of file that contains file location for rooms and symbols
      */
     public RogueParser(String filename) {
-
         parse(filename);
-        System.out.println(itemLocations);
-        System.out.println(items);
     }
 
     /**
@@ -140,10 +137,9 @@ public class RogueParser {
             Object symbolsObj = parser.parse(new FileReader(symbolsFileLocation));
             symbolsJSON = (JSONObject) symbolsObj;
 
-
+            extractSymbolInfo(symbolsJSON);
             extractRoomInfo(roomsJSON);
             extractItemInfo(roomsJSON);
-            extractSymbolInfo(symbolsJSON);
 
             roomIterator = rooms.iterator();
             itemIterator = items.iterator();
@@ -235,7 +231,6 @@ public class RogueParser {
     private Map<String, String>  itemPosition(JSONObject lootJSON, String roomID) {
 
         HashMap<String, String> loot = new HashMap<>();
-
         loot.put("room", roomID);
         loot.put("id", lootJSON.get("id").toString());
         loot.put("x", lootJSON.get("x").toString());
@@ -251,11 +246,11 @@ public class RogueParser {
     private void extractItemInfo(JSONObject roomsJSON) {
 
         JSONArray itemsJSONArray = (JSONArray) roomsJSON.get("items");
-
         for (int i = 0; i < itemsJSONArray.size(); i++) {
             items.add(singleItem((JSONObject) itemsJSONArray.get(i)));
             numOfItems += 1;
         }
+        System.out.println(items);
     }
 
     /**
@@ -269,14 +264,18 @@ public class RogueParser {
         item.put("id", itemsJSON.get("id").toString());
         item.put("name", itemsJSON.get("name").toString());
         item.put("type", itemsJSON.get("type").toString());
-
+        item.put("displayCharacter", symbols.get(item.get("type").toUpperCase()));
+        System.out.println(itemLocations);
         for (Map<String, String> itemLocation : itemLocations) {
-            if (itemLocation.get("id").toString().equals(item.get("id").toString())) {
+            if (itemLocation.get("id").toString().equals(item.get("id"))) {
                 // we have to go back to the Room to get the location.
                 item.put("room", itemLocation.get("room"));
                 item.put("x", itemLocation.get("x"));
                 item.put("y", itemLocation.get("y"));
                 break;
+            }
+            else{
+              item.put("room", "-1");
             }
 
         }
