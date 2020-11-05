@@ -15,7 +15,7 @@ public class Room {
   private int height;
   private int id;
   private ArrayList<Item> roomItems = new ArrayList<Item>(); // Stores all the items.
-  private HashMap<String, Integer> doors = new HashMap<String, Integer>(); // Stores the locations of each door
+  private ArrayList<Door> doors = new ArrayList<Door>(); // Stores Door objects
 
 /**
 * Constructs a room with a default ID of -1.
@@ -115,32 +115,28 @@ public class Room {
    thePlayer = newPlayer;
  }
 
-/**
-* Get the position of a door given a direction.
-* There shall not be more than 1 door per direction.
-* @param direction The direction of the door
-* @return (int) The position of the door from the upper-left hand corner, or -1 if it is not found
-*/
- public int getDoor(String direction) {
-   if (doors.containsKey(direction)) {
-     return (doors.get(direction)).intValue(); // get the door in given dir
+  /**
+  * Get the position of a door given a direction.
+  * There shall not be more than 1 door per direction.
+  * @param direction The direction of the door
+  * @return (int) The position of the door from the upper-left hand corner, or -1 if it is not found
+  */
+   public int getDoor(String direction) {
+     for(Door door : doors){
+       if (door.getDirection().equals(direction)){
+         return door.getPosition();
+       }
+     }
+     return -1;
    }
-   return -1;
- }
 
   /**
-  * Direction is one of "N", "S", "E", or "W".
-  * Location is a number between 0 and the length of the wall
-  * Negative location doors will not be put.
-  * @param direction The direction of the door
-  * @param location The distance of the door, measured from the upper-left corner
+  * Adds a door to the list of the doors
+  * @param newDoor a new door
   */
-
-  public void setDoor(String direction, int location) {
-    Integer loc = new Integer(location);
-    if (loc > -1){ // If the location is -1 don't put a door
-      doors.put(direction, loc);
-    }
+  public void addDoor(Door newDoor) {
+    newDoor.connectRoom(this); // Mutually associate the rooms and doors, filling the pair
+    doors.add(newDoor);
   }
 
   /**

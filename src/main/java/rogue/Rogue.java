@@ -112,10 +112,7 @@ public class Rogue {
       newRoom.setId( Integer.parseInt(roomData.get("id")) );
       newRoom.setSymbols(defaultSymbols);
       // Set the doors
-      newRoom.setDoor("N",Integer.parseInt(roomData.get("N")));
-      newRoom.setDoor("S",Integer.parseInt(roomData.get("S")));
-      newRoom.setDoor("E",Integer.parseInt(roomData.get("E")));
-      newRoom.setDoor("W",Integer.parseInt(roomData.get("W")));
+      addDoorsToRoom(newRoom);
       if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
@@ -123,6 +120,17 @@ public class Rogue {
       newRoom.setPlayer(thePlayer);
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
+    }
+
+    // method to add doors to the room
+    private void addDoorsToRoom(Room newRoom){
+      HashMap<String, String> doorData = parser.getDoorPositions(newRoom.getId());
+      for(String direction : doorData.keySet()){
+        Door newDoor = new Door();
+        newDoor.setPosition(Integer.parseInt(doorData.get(direction)));
+        newDoor.setDirection(direction);
+        newRoom.addDoor(newDoor);
+      }
     }
 
     private void configurePlayerStart(Room newRoom) {

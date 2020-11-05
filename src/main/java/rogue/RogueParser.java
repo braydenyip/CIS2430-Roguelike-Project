@@ -19,7 +19,8 @@ public class RogueParser {
     private ArrayList<Map<String, String>> rooms = new ArrayList<>();
     private ArrayList<Map<String, String>> items = new ArrayList<>();
     private ArrayList<Map<String, String>> itemLocations = new ArrayList<>();
-    private ArrayList<Map<String, String>> doors = new ArrayList<>();
+    private HashMap<String, Map<String, String>> doors = new HashMap<>();
+    private HashMap<String, Map<String, String>> doorConnections = new HashMap<>();
     private HashMap<String, String> symbols = new HashMap<>();
 
     private Iterator<Map<String, String>> roomIterator;
@@ -85,7 +86,22 @@ public class RogueParser {
         // Does not contain the key
         return null;
     }
-
+    /**
+    * Get the door position map of a room
+    * @param id the id of the room
+    * @return (HashMap<String, String>) a map associating door direction to position
+    */
+    public HashMap<String, String> getDoorPositions(int id){
+      return (HashMap<String, String>) (doors.get(Integer.toString(id)));
+    }
+    /**
+    * Get the door connection map of a given room
+    * @param id the id of the room
+    * @return (HashMap<String, String>) a map indicating door connection
+    */
+    public HashMap<String, String> getDoorConnections(int id){
+      return (HashMap<String, String>) (doorConnections.get(Integer.toString(id)));
+    }
     /**
      * Get all the symbols in a map
      * @return (HashMap<String, String>) The map with all the symbols
@@ -195,23 +211,27 @@ public class RogueParser {
     private Map<String, String> singleRoom(JSONObject roomJSON) {
 
         HashMap<String, String> room = new HashMap<>();
-        room.put("id", roomJSON.get("id").toString());
+        String idStr = roomJSON.get("id").toString();
+        room.put("id", idStr);
         room.put("start", roomJSON.get("start").toString());
         room.put("height", roomJSON.get("height").toString());
         room.put("width", roomJSON.get("width").toString());
 
-        // Cheap way of making sure all 4 directions have a sentinel value in the map
-        room.put("E", "-1");
-        room.put("N", "-1");
-        room.put("S", "-1");
-        room.put("W", "-1");
-
-        // Update the map with any doors in the room
+        // Update the two maps of maps with any doors in the room
+        // The door for each room are put in a Map which is stored in...
+        // another Map, whose key is the room ID!
         JSONArray doorArray = (JSONArray) roomJSON.get("doors");
+        HashMap<String, String> newDoors = new HashMap<>();
+        HashMap<String, String> newDoorConnects = new HashMap<>();
         for (int j = 0; j < doorArray.size(); j++) {
             JSONObject doorObj = (JSONObject) doorArray.get(j);
             String dir = String.valueOf(doorObj.get("dir"));
-            room.replace(dir, doorObj.get("id").toString());
+            String id = doorObj.get("id").toString();
+            String con = doorObj.get("con_room").toString();
+            newDoors.put(dir,id);
+            newDoorConnects.put(dir,con);
+            doors.put(idStr,newDoors);
+            doorConnections.put(idStr,newDoorConnects);
         }
 
         JSONArray lootArray = (JSONArray) roomJSON.get("loot");
@@ -222,7 +242,6 @@ public class RogueParser {
 
         return room;
     }
-
 
     /**
      * Create a map for information about an item in a room.
