@@ -129,7 +129,6 @@ public class Rogue {
       // set thePlayer's room to the room where you start.
       thePlayer.setCurrentRoom(newRoom);
       // set thePlayer's location to the average location
-
       int avgHeight = newRoom.getHeight() / 2;
       int avgWidth = newRoom.getWidth() / 2;
       thePlayer.setXyLocation(new Point(avgWidth, avgHeight));
