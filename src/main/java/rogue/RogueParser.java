@@ -19,6 +19,7 @@ public class RogueParser {
     private ArrayList<Map<String, String>> rooms = new ArrayList<>();
     private ArrayList<Map<String, String>> items = new ArrayList<>();
     private ArrayList<Map<String, String>> itemLocations = new ArrayList<>();
+    private ArrayList<Map<String, String>> doors = new ArrayList<>();
     private HashMap<String, String> symbols = new HashMap<>();
 
     private Iterator<Map<String, String>> roomIterator;
@@ -221,6 +222,7 @@ public class RogueParser {
 
         return room;
     }
+
 
     /**
      * Create a map for information about an item in a room.
