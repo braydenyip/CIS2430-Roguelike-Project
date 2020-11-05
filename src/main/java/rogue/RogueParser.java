@@ -260,6 +260,7 @@ public class RogueParser {
     private Map<String, String>  singleItem(JSONObject itemsJSON) {
 
         HashMap<String, String> item = new HashMap<>();
+
         item.put("id", itemsJSON.get("id").toString());
         item.put("name", itemsJSON.get("name").toString());
         item.put("type", itemsJSON.get("type").toString());
@@ -277,7 +278,6 @@ public class RogueParser {
             }
 
         }
-
         return item;
 
     }

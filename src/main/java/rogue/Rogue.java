@@ -166,6 +166,7 @@ public class Rogue {
       newItem.setId(Integer.parseInt(itemData.get("id")));
       newItem.setName(itemData.get("name"));
       newItem.setType(itemData.get("type"));
+      newItem.setDisplayCharacter(itemData.get("displayCharacter"));
       if (roomId > 0){
         newItem.setCurrentRoomId(roomId);
         setItemPosition(newItem,itemData.get("x"),itemData.get("y"));
