@@ -14,7 +14,7 @@ public class Room {
   private int width;
   private int height;
   private int id;
-  private ArrayList<Item> roomItems = new ArrayList<Item>(); // Stores all the items.
+  private ArrayList<Item> roomItems = new ArrayList<Item>();
   private ArrayList<Door> doors = new ArrayList<Door>(); // Stores Door objects
 
 /**
@@ -88,8 +88,8 @@ public class Room {
  * @param newRoomItems Items to be added to the room
  */
 
- public void setRoomItems(ArrayList<Item> newRoomItems) {
-   for(Item newItem : newRoomItems){
+ public void setRoomItems(ArrayList<Item> allGameItems) {
+   for(Item newItem : allGameItems){
      int newItemRoomId = newItem.getCurrentRoomId();
      if (newItemRoomId > 0 && newItemRoomId == id){
        roomItems.add(newItem);
@@ -97,6 +97,14 @@ public class Room {
    }
  }
 
+  /**
+  *
+  *
+  */
+
+  public void addItem(Item toAdd){
+   System.out.println(toAdd);
+  }
  /**
  * Returns the room's Player object.
  * @return (Player) The player associated with the room
