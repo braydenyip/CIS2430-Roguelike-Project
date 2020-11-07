@@ -102,7 +102,7 @@ public class Room {
   *
   */
 
-  public void addItem(Item toAdd){
+  public void addItem(Item toAdd) throws ImpossiblePositionException, NoSuchItemException {
    System.out.println(toAdd);
   }
  /**
