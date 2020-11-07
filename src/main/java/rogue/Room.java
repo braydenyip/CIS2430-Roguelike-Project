@@ -98,12 +98,26 @@ public class Room {
  }
 
   /**
-  *
-  *
+  * Adds an item to the room if valid
+  * @param toAdd the Item to be added to the room
   */
 
   public void addItem(Item toAdd) throws ImpossiblePositionException, NoSuchItemException {
-   System.out.println(toAdd);
+    Point loc = toAdd.getXyLocation();
+    int x = loc.getX();
+    int y = loc.getY();
+    if (x == 0 || x == (width-1) || y == 0 || y == (height-1)){ // wall exception
+      throw new ImpossiblePositionException("Item is in a wall or door.");
+    }
+    else if (itemOnTile(x,y) != null || playerOnTile(x,y)){
+      throw new ImpossiblePositionException("Another object is on the tile");
+    }
+    else if (toAdd.getId() == -1) {
+      throw new NoSuchItemException("No such item exists for this room");
+    }
+    else {
+      roomItems.add(toAdd);
+    }
   }
  /**
  * Returns the room's Player object.

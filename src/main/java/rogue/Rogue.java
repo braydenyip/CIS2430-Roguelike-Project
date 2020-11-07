@@ -116,8 +116,9 @@ public class Rogue {
       if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
-      newRoom.setRoomItems(items);
       newRoom.setPlayer(thePlayer);
+      newRoom.setRoomItems(items);
+
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
     }
@@ -174,8 +175,8 @@ public class Rogue {
       newItem.setName(itemData.get("name"));
       newItem.setType(itemData.get("type"));
       newItem.setDisplayCharacter(itemData.get("displayCharacter"));
+      newItem.setCurrentRoomId(roomId);
       if (roomId > 0){
-        newItem.setCurrentRoomId(roomId);
         setItemPosition(newItem,itemData.get("x"),itemData.get("y"));
       }
       items.add(newItem);
