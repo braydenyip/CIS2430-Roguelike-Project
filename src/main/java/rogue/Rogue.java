@@ -40,6 +40,7 @@ public class Rogue {
     */
     public void initializeGameState(){
       setSymbols();
+      setItemLocations();
       createItems();
       createRooms();
     }
@@ -145,16 +146,25 @@ public class Rogue {
         configurePlayerStart(newRoom);
       }
       for (Item anItem : items){
-        try {
-          newRoom.addItem(anItem);
-        } catch(NoSuchItemException e) {
-          System.out.println(e);
-        } catch(ImpossiblePositionException e) {
-          System.out.println(e);
-        }
+        attemptToAddItem(newRoom, anItem);
       }
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
+    }
+
+    private void attemptToAddItem(Room newRoom, Item anItem){
+      try {
+        newRoom.addItem(anItem);
+      } catch(NoSuchItemException e) {
+        for (HashMap<String, String> location : itemLocations){
+          if(location.get("id") == anItem.getId()){
+            itemLocations.remove(location);
+            break;
+          }
+        }
+      } catch(ImpossiblePositionException e) {
+        System.out.println(e);
+      }
     }
 
     // method to add doors to the room

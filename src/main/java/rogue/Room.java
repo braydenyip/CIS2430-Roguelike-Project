@@ -113,7 +113,7 @@ public class Room {
     Point loc = toAdd.getXyLocation();
     int x = loc.getX();
     int y = loc.getY();
-    if (x <= 0 || x >= (width-1) || y <= 0 || y >= (height-1)){ // wall exception
+    if (x <= 0 || x >= (width - 1) || y <= 0 || y >= (height - 1)){ // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     }
     else if (itemOnTile(x,y) != null || playerOnTile(x,y)){
@@ -141,7 +141,7 @@ public class Room {
  */
 
  public void setPlayer() {
-   thePlayer = rogue.getPlayer()
+   thePlayer = rogue.getPlayer();
  }
 
   /**
