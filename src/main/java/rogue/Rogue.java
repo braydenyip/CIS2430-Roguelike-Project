@@ -19,9 +19,10 @@ import org.json.simple.parser.ParseException;
 */
 public class Rogue {
     private Player thePlayer;
-    private ArrayList<Room> rooms = new ArrayList<Room>();
-    private ArrayList<Item> items = new ArrayList<Item>();
-    private HashMap<String, String> defaultSymbols = new HashMap<String, String>();
+    private static ArrayList<Room> rooms = new ArrayList<Room>();
+    private static ArrayList<Item> items = new ArrayList<Item>();
+    private static ArrayList<HashMap<String, String>> itemLocations;
+    private static HashMap<String, String> defaultSymbols = new HashMap<String, String>();
     private RogueParser parser;
 
     /**
@@ -82,6 +83,20 @@ public class Rogue {
     public Player getPlayer() {
         return thePlayer;
 
+    }
+    /**
+    * Determines whether an item ID exists in the item list
+    * @param itemID an item ID coming from a Room
+    * @return (boolean) True if the id is in the list of items, otherwise false
+    */
+    public static boolean itemExists(int itemID) {
+      itemLocations = parser.getItemLocations();
+      for(Item item: items){ // would be better if these were sorted
+        if (item.getId() == itemID){
+          return true;
+        }
+      }
+      return false;
     }
     /**
     * Creates the rooms and items for the game environment from JSON
@@ -173,6 +188,7 @@ public class Rogue {
       }
     }
 
+    // adds an item to the list of items
     private void addItem(HashMap<String, String> itemData){
       Item newItem = new Item();
       int roomId = Integer.parseInt(itemData.get("room"));
@@ -181,7 +197,7 @@ public class Rogue {
       newItem.setType(itemData.get("type"));
       newItem.setDisplayCharacter(itemData.get("displayCharacter"));
       newItem.setCurrentRoomId(roomId);
-      if (roomId > 0){
+      if (roomId >= 0){
         setItemPosition(newItem,itemData.get("x"),itemData.get("y"));
       }
       items.add(newItem);

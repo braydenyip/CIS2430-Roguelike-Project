@@ -58,6 +58,13 @@ public class RogueParser {
     }
 
     /**
+    * Returns the item locations map
+    * @return (ArrayList<HashMap<String, String>>) the item location map
+    */
+    public ArrayList<Map<String, String>> getItemLocations(){
+      return itemLocations;
+    }
+    /**
      * Returns the next item.
      * @return (Map) Information about an item
      */
@@ -278,7 +285,7 @@ public class RogueParser {
      * @param itemsJSON (JSONObject) JSON version of an item
      * @return (Map<String, String>) Contains information about a single item
      */
-    private Map<String, String>  singleItem(JSONObject itemsJSON) {
+    private Map<String, String> singleItem(JSONObject itemsJSON) {
 
         HashMap<String, String> item = new HashMap<>();
 
@@ -288,13 +295,13 @@ public class RogueParser {
         item.put("displayCharacter", symbols.get(item.get("type").toUpperCase()));
         for (Map<String, String> itemLocation : itemLocations) {
             if (itemLocation.get("id").toString().equals(item.get("id"))) {
-                // we have to go back to the Room to get the location.
+                // if the item exists in the room specify the item's coordinates
                 item.put("room", itemLocation.get("room"));
                 item.put("x", itemLocation.get("x"));
                 item.put("y", itemLocation.get("y"));
                 break;
             }
-            else{
+            else { // if the item location is not associated with the item
               item.put("room", "-1");
             }
 
