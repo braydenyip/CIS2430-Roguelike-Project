@@ -193,4 +193,8 @@ public class Rogue {
       int y = Integer.parseInt(yString);
       newItem.setXyLocation(new Point(x,y));
     }
+
+    public String makeMove(char input) throws InvalidMoveException{
+      System.out.println(input);
+    }
 }
