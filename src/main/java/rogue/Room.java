@@ -96,7 +96,7 @@ public class Room {
  */
 
  public void setRoomItems(ArrayList<Item> allGameItems) {
-   for(Item newItem : allGameItems) {
+   for (Item newItem : allGameItems) {
      int newItemRoomId = newItem.getCurrentRoomId();
      if (newItemRoomId > 0 && newItemRoomId == id) {
        roomItems.add(newItem);
@@ -105,24 +105,23 @@ public class Room {
  }
 
   /**
-  * Adds an item to the room if valid
+  * Adds an item to the room if valid.
   * @param toAdd the Item to be added to the room
+  * @throws ImpossiblePositionException if the item is in an illegal position
+  * @throws NoSuchItemException if the item is not in the room's list of items
   */
 
   public void addItem(Item toAdd) throws ImpossiblePositionException, NoSuchItemException {
     Point loc = toAdd.getXyLocation();
     int x = (int) loc.getX();
     int y = (int) loc.getY();
-    if (x <= 0 || x >= (width - 1) || y <= 0 || y >= (height - 1)){ // wall exception
+    if (x <= 0 || x >= (width - 1) || y <= 0 || y >= (height - 1)) { // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
-    }
-    else if (itemOnTile(x,y) != null || playerOnTile(x,y)){
+    } else if (itemOnTile(x, y) != null || playerOnTile(x, y)) {
       throw new ImpossiblePositionException("Another object is on the tile");
-    }
-    else if (!(rogue.itemExists(toAdd.getId()))) {
+    } else if (!(rogue.itemExists(toAdd.getId()))) {
       throw new NoSuchItemException("No such item exists for this room");
-    }
-    else {
+    } else {
       roomItems.add(toAdd);
     }
   }
@@ -137,7 +136,7 @@ public class Room {
  }
 
  /**
- * Sets the Player object for the room from the Rogue class
+ * Sets the Player object for the room from the Rogue class.
  */
 
  public void setPlayer() {
@@ -151,8 +150,8 @@ public class Room {
   * @return (int) The position of the door from the upper-left hand corner, or -1 if it is not found
   */
    public int getDoor(String direction) {
-     for(Door door : doors){
-       if (door.getDirection().equals(direction)){
+     for (Door door : doors) {
+       if (door.getDirection().equals(direction)) {
          return door.getPosition();
        }
      }
@@ -160,7 +159,7 @@ public class Room {
    }
 
   /**
-  * Adds a door to the list of the doors
+  * Adds a door to the list of the doors.
   * @param newDoor a new door
   */
   public void addDoor(Door newDoor) {
@@ -169,16 +168,16 @@ public class Room {
   }
 
   /**
-  * Sets the symbols for this room based on the rogue's map
+  * Sets the symbols for this room based on the rogue's map.
   */
   public void setSymbols() {
     defaultSymbols = rogue.getSymbols();
   }
 
   /**
-  * Sets the symbols and player from Rogue
+  * Sets the symbols and player from Rogue.
   */
-  public void updateFromRogue(){
+  public void updateFromRogue() {
     setSymbols();
     setPlayer();
   }
@@ -196,7 +195,7 @@ public class Room {
     return false;
   }
 
-  // Determines if an item is on the tile
+  // Determines if an item is on the tile.
   private Item itemOnTile(int x, int y) { // Checks for an item on the specified tile
     Point tile = new Point(x, y);
     for (Item item : roomItems) {
@@ -207,7 +206,7 @@ public class Room {
     return null;
   }
 
-  // Determines if the player is on the tile
+  // Determines if the player is on the tile.
   private boolean playerOnTile(int x, int y) {
     if (this.isPlayerInRoom()) { // Of course the player must be in the room
       Point pt = thePlayer.getXyLocation();
@@ -248,7 +247,7 @@ public class Room {
     return roomString;
   }
 
-  // Creates a line in between the NS walls
+  // Creates a line in between the NS walls.
   private String addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString) {
     Item tileItem;
     roomString += getDoorOrWall(wDoorLoc, y, "EW");
@@ -267,8 +266,8 @@ public class Room {
     return roomString;
   }
 
-  // Logic to determine if an edge tile is a wall or a door
-  private String getDoorOrWall(int doorLoc, int coord, String direction) { // Determines whether or not to place a door or wall
+  // Logic to determine if an edge tile is a wall or a door.
+  private String getDoorOrWall(int doorLoc, int coord, String direction) {
     if (direction == "NS" && doorLoc != coord) {
       return (defaultSymbols.get("NS_WALL"));
     } else if (direction == "EW" && doorLoc != coord) {
