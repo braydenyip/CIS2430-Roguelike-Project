@@ -36,6 +36,15 @@ public class Rogue {
     }
 
     /**
+    * Creates the rooms and items for the game environment from JSON
+    */
+    public void initializeGameState(){
+      setSymbols();
+      createItems();
+      createRooms();
+    }
+
+    /**
     * Sets the parser that the Rogue uses
     * @param newParser the new parser for the game
     */
@@ -47,19 +56,26 @@ public class Rogue {
     * Sets the player associated with the game.
     * @param newPlayer the Player object that represents the user character
     */
-    public void setPlayer(Player newPlayer) { // player will be made in the Solution class
+    public void setPlayer(Player newPlayer) { // player will be made in the class above
         thePlayer = newPlayer;
         this.thePlayer.setXyLocation(new Point(1, 1));
     }
 
+    /**
+    * Gets the display symbol map
+    * @return (HashMap<String, String>) the symbol map
+    */
+    public HashMap<String, String> getSymbols(){
+      return defaultSymbols;
+    }
 
     /**
     * Sets or refreshes the displaySymbols to be passed to display methods
     */
     public void setSymbols() {
-      // (Almost) the same code as before to read the file and get a JSONObject which stores the graphics definitions.
       defaultSymbols = parser.getAllSymbols();
     }
+
     /**
     * Returns a list of all of the Rooms in the level.
     * @return (ArrayList<Room>) the list of rooms in the level
@@ -82,15 +98,20 @@ public class Rogue {
     */
     public Player getPlayer() {
         return thePlayer;
+    }
 
+    /**
+    * Sets the itemLocations to the one in the parser.
+    */
+    public void setItemLocations(){
+      itemLocations = parser.getItemLocations();
     }
     /**
     * Determines whether an item ID exists in the item list
-    * @param itemID an item ID coming from a Room
+    * @param itemID the target item id
     * @return (boolean) True if the id is in the list of items, otherwise false
     */
     public static boolean itemExists(int itemID) {
-      itemLocations = parser.getItemLocations();
       for(Item item: items){ // would be better if these were sorted
         if (item.getId() == itemID){
           return true;
@@ -98,14 +119,7 @@ public class Rogue {
       }
       return false;
     }
-    /**
-    * Creates the rooms and items for the game environment from JSON
-    */
-    public void initializeGameState(){
-      setSymbols();
-      createItems();
-      createRooms();
-    }
+
     /**
     * Runs the Parser's roomIterator to fill the array "rooms" with objects
     */
@@ -121,15 +135,15 @@ public class Rogue {
     // turns a HashMap from the RogueParser into a Room and appends
     private void addRoom(HashMap<String, String> roomData) { //method to add a single room
       Room newRoom = new Room();
+      newRoom.setRogue(this);
       newRoom.setHeight( Integer.parseInt(roomData.get("height")) );
       newRoom.setWidth( Integer.parseInt(roomData.get("width")) );
       newRoom.setId( Integer.parseInt(roomData.get("id")) );
-      newRoom.setSymbols(defaultSymbols);
+      newRoom.updateFromRogue();
       addDoorsToRoom(newRoom);
       if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
-      newRoom.setPlayer(thePlayer);
       for (Item anItem : items){
         try {
           newRoom.addItem(anItem);
@@ -163,19 +177,6 @@ public class Rogue {
       thePlayer.setXyLocation(new Point(avgWidth, avgHeight));
     }
 
-    /**
-    * Returns a string that displays all the rooms in the level.
-    * @return (String) A formatted string that displays all the rooms in the level
-    */
-    public String displayAll() {
-      String displayString = new String();
-        // creates a string that displays all the rooms in the dungeon
-        // not worried about fulfilling rooms that are adjacent or whatever, we're just printing rooms one after another
-        for (Room rm: rooms) {
-          displayString += rm.displayRoom() + "\n\n";
-        }
-        return displayString;
-    }
 
     /**
     * Fills the item array in the same way as the rooms
@@ -210,7 +211,27 @@ public class Rogue {
       newItem.setXyLocation(new Point(x,y));
     }
 
+    /**
+    * Outputs a new string based on a player move
+    * @return (String) the updated string
+    * @param input The character representing the player input
+    */
     public String makeMove(char input) throws InvalidMoveException{
       System.out.println(input);
     }
+
+    /**
+    * Returns a string that displays all the rooms in the level.
+    * @return (String) A formatted string that displays all the rooms in the level
+    */
+    public String displayAll() {
+      String displayString = new String();
+        // creates a string that displays all the rooms in the dungeon
+        // not worried about fulfilling rooms that are adjacent or whatever, we're just printing rooms one after another
+        for (Room rm: rooms) {
+          displayString += rm.displayRoom() + "\n\n";
+        }
+        return displayString;
+    }
+
 }

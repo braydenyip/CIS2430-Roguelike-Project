@@ -16,7 +16,7 @@ public class Room {
   private int id;
   private ArrayList<Item> roomItems = new ArrayList<Item>();
   private ArrayList<Door> doors = new ArrayList<Door>(); // Stores Door objects
-
+  private Rogue rogue;
 /**
 * Constructs a room with a default ID of -1.
 */
@@ -75,6 +75,13 @@ public class Room {
  }
 
  /**
+ * Gives the rogue data to the room
+ * @param newRogue the rogue class of the game
+ */
+ public void setRogue(Rogue newRogue){
+   rogue = newRogue;
+ }
+ /**
  * Returns all the items in the room.
  * @return (ArrayList<Item>) An ArrayList of all the items in the room, or an empty array if there are no items
  */
@@ -106,19 +113,20 @@ public class Room {
     Point loc = toAdd.getXyLocation();
     int x = loc.getX();
     int y = loc.getY();
-    if (x == 0 || x == (width-1) || y == 0 || y == (height-1)){ // wall exception
-      throw new ImpossiblePositionException("Item is in a wall or door.");
+    if (x <= 0 || x >= (width-1) || y <= 0 || y >= (height-1)){ // wall exception
+      throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     }
     else if (itemOnTile(x,y) != null || playerOnTile(x,y)){
       throw new ImpossiblePositionException("Another object is on the tile");
     }
-    else if (toAdd.getCurrentRoomId() == -1) {
+    else if (!(rogue.itemExists(toAdd.getId()))) {
       throw new NoSuchItemException("No such item exists for this room");
     }
     else {
       roomItems.add(toAdd);
     }
   }
+
  /**
  * Returns the room's Player object.
  * @return (Player) The player associated with the room
@@ -129,12 +137,11 @@ public class Room {
  }
 
  /**
- * Sets the Player object for the room. This player should be in the room.
- * @param newPlayer The player in the room
+ * Sets the Player object for the room from the Rogue class
  */
 
- public void setPlayer(Player newPlayer) {
-   thePlayer = newPlayer;
+ public void setPlayer() {
+   thePlayer = rogue.getPlayer()
  }
 
   /**
@@ -162,12 +169,18 @@ public class Room {
   }
 
   /**
-  * Sets the symbols that are displayed for each room element (e.g. walls, doors).
-  * These change will affect ALL Rooms
-  * @param symbols A map associating each element of a room to an ASCII character.
+  * Sets the symbols for this room based on the rogue's map
   */
-  public void setSymbols(HashMap<String, String> symbols) {
-    defaultSymbols = symbols;
+  public void setSymbols() {
+    defaultSymbols = rogue.getSymbols();
+  }
+
+  /**
+  * Sets the symbols and player from Rogue
+  */
+  public void updateFromRogue(){
+    setSymbols();
+    setPlayer();
   }
 
 
