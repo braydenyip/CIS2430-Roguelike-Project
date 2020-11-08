@@ -205,7 +205,7 @@ public class Rogue {
     * @return (String) the updated string
     * @param input The character representing the player input
     */
-    public String makeMove(char input) throws InvalidMoveException{
+    public String makeMove(char input) throws InvalidMoveException {
       System.out.println(input);
     }
 
