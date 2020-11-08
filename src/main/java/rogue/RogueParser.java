@@ -58,13 +58,6 @@ public class RogueParser {
     }
 
     /**
-    * Returns the item locations map
-    * @return (ArrayList<HashMap<String, String>>) the item location map
-    */
-    public ArrayList<Map<String, String>> getItemLocations(){
-      return itemLocations;
-    }
-    /**
      * Returns the next item.
      * @return (Map) Information about an item
      */
@@ -254,9 +247,9 @@ public class RogueParser {
      * Create a map for information about an item in a room.
      * @param lootJSON (JSONObject) Loot key from the rooms file
      * @param roomID (String) Room id value
-     * @return (Map<String, String>) Contains information about the item, where it is and what room
+     * @return (HashMap<String, String>) Contains information about the item, where it is and what room
      */
-    private Map<String, String>  itemPosition(JSONObject lootJSON, String roomID) {
+    private HashMap<String, String>  itemPosition(JSONObject lootJSON, String roomID) {
 
         HashMap<String, String> loot = new HashMap<>();
         loot.put("room", roomID);
@@ -292,7 +285,7 @@ public class RogueParser {
         item.put("id", itemsJSON.get("id").toString());
         item.put("name", itemsJSON.get("name").toString());
         item.put("type", itemsJSON.get("type").toString());
-        item.put("description", itemsJSON.get("description"));
+        item.put("description", itemsJSON.get("description").toString());
         item.put("displayCharacter", symbols.get(item.get("type").toUpperCase()));
         for (Map<String, String> itemLocation : itemLocations) {
             if (itemLocation.get("id").toString().equals(item.get("id"))) {

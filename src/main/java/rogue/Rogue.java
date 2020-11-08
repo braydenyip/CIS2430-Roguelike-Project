@@ -2,6 +2,7 @@ package rogue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -102,26 +103,6 @@ public class Rogue {
     }
 
     /**
-    * Sets the itemLocations to the one in the parser.
-    */
-    public void setItemLocations(){
-      itemLocations = parser.getItemLocations();
-    }
-    /**
-    * Determines whether an item ID exists in the item list
-    * @param itemID the target item id
-    * @return (boolean) True if the id is in the list of items, otherwise false
-    */
-    public static boolean itemExists(int itemID) {
-      for(Item item: items){ // would be better if these were sorted
-        if (item.getId() == itemID){
-          return true;
-        }
-      }
-      return false;
-    }
-
-    /**
     * Runs the Parser's roomIterator to fill the array "rooms" with objects
     */
     public void createRooms() {
@@ -145,9 +126,7 @@ public class Rogue {
       if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
-      for (Item anItem : items){
-        attemptToAddItem(newRoom, anItem);
-      }
+      setRoomItems(items);
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
     }
@@ -157,7 +136,7 @@ public class Rogue {
         newRoom.addItem(anItem);
       } catch(NoSuchItemException e) {
         for (HashMap<String, String> location : itemLocations){
-          if(location.get("id") == anItem.getId()){
+          if(Integer.valueOf(location.get("id")) == anItem.getId()){
             itemLocations.remove(location);
             break;
           }
