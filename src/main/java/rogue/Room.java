@@ -9,7 +9,7 @@ import java.util.HashMap;
  * doors out, etc.
  */
 public class Room {
-  private static Map<String, String> defaultSymbols = new HashMap<String, String>(); // static because we want this to be the same
+  private static Map<String, String> defaultSymbols = new HashMap<String, String>();
   private Player thePlayer;
   private int width;
   private int height;
@@ -75,30 +75,30 @@ public class Room {
  }
 
  /**
- * Gives the rogue data to the room
+ * Gives the rogue data to the room.
  * @param newRogue the rogue class of the game
  */
- public void setRogue(Rogue newRogue){
+ public void setRogue(Rogue newRogue) {
    rogue = newRogue;
  }
+
  /**
  * Returns all the items in the room.
  * @return (ArrayList<Item>) An ArrayList of all the items in the room, or an empty array if there are no items
  */
-
  public ArrayList<Item> getRoomItems() {
    return roomItems;
  }
 
  /**
  * Sets the items for a room.
- * @param newRoomItems Items to be added to the room
+ * @param allGameItems Items to be added to the room
  */
 
  public void setRoomItems(ArrayList<Item> allGameItems) {
-   for(Item newItem : allGameItems){
+   for(Item newItem : allGameItems) {
      int newItemRoomId = newItem.getCurrentRoomId();
-     if (newItemRoomId > 0 && newItemRoomId == id){
+     if (newItemRoomId > 0 && newItemRoomId == id) {
        roomItems.add(newItem);
      }
    }
@@ -111,8 +111,8 @@ public class Room {
 
   public void addItem(Item toAdd) throws ImpossiblePositionException, NoSuchItemException {
     Point loc = toAdd.getXyLocation();
-    int x = loc.getX();
-    int y = loc.getY();
+    int x = (int) loc.getX();
+    int y = (int) loc.getY();
     if (x <= 0 || x >= (width - 1) || y <= 0 || y >= (height - 1)){ // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     }

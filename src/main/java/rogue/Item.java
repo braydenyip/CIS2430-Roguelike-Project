@@ -149,7 +149,7 @@ public class Item  {
 
     /**
     * Puts the item into a specific room.
-    * @param newCurrentRoom the Room where the item will go
+    * @param newCurrentRoomId the Room where the item will go
     */
     public void setCurrentRoomId(int newCurrentRoomId) {
       currentRoomId = newCurrentRoomId;

@@ -58,10 +58,10 @@ public class RogueParser {
     }
 
     /**
-    * Returns the item locations map
+    * Returns the item locations map.
     * @return (ArrayList<HashMap<String, String>>) the item location map
     */
-    public ArrayList<Map<String, String>> getItemLocations(){
+    public ArrayList<Map<String, String>> getItemLocations() {
       return itemLocations;
     }
     /**
@@ -94,23 +94,23 @@ public class RogueParser {
         return null;
     }
     /**
-    * Get the door position map of a room
+    * Get the door position map of a room.
     * @param id the id of the room
     * @return (HashMap<String, String>) a map associating door direction to position
     */
-    public HashMap<String, String> getDoorPositions(int id){
+    public HashMap<String, String> getDoorPositions(int id) {
       return (HashMap<String, String>) (doors.get(Integer.toString(id)));
     }
     /**
-    * Get the door connection map of a given room
+    * Get the door connection map of a given room.
     * @param id the id of the room
     * @return (HashMap<String, String>) a map indicating door connection
     */
-    public HashMap<String, String> getDoorConnections(int id){
+    public HashMap<String, String> getDoorConnections(int id) {
       return (HashMap<String, String>) (doorConnections.get(Integer.toString(id)));
     }
     /**
-     * Get all the symbols in a map
+     * Get all the symbols in a map.
      * @return (HashMap<String, String>) The map with all the symbols
      */
     public HashMap<String, String> getAllSymbols() {
@@ -235,10 +235,10 @@ public class RogueParser {
             String dir = String.valueOf(doorObj.get("dir"));
             String id = doorObj.get("wall_pos").toString();
             String con = doorObj.get("con_room").toString();
-            newDoors.put(dir,id);
-            newDoorConnects.put(dir,con);
-            doors.put(idStr,newDoors);
-            doorConnections.put(idStr,newDoorConnects);
+            newDoors.put(dir, id);
+            newDoorConnects.put(dir, con);
+            doors.put(idStr, newDoors);
+            doorConnections.put(idStr, newDoorConnects);
         }
 
         JSONArray lootArray = (JSONArray) roomJSON.get("loot");
@@ -292,7 +292,7 @@ public class RogueParser {
         item.put("id", itemsJSON.get("id").toString());
         item.put("name", itemsJSON.get("name").toString());
         item.put("type", itemsJSON.get("type").toString());
-        item.put("description", itemsJSON.get("description"));
+        item.put("description", itemsJSON.get("description").toString());
         item.put("displayCharacter", symbols.get(item.get("type").toUpperCase()));
         for (Map<String, String> itemLocation : itemLocations) {
             if (itemLocation.get("id").toString().equals(item.get("id"))) {
@@ -301,8 +301,7 @@ public class RogueParser {
                 item.put("x", itemLocation.get("x"));
                 item.put("y", itemLocation.get("y"));
                 break;
-            }
-            else { // if the item location is not associated with the item
+            } else { // if the item location is not associated with the item
               item.put("room", "-1");
             }
 

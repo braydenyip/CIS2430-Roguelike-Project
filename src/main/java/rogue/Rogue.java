@@ -2,17 +2,10 @@ package rogue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.Map;
 
 import java.awt.Point;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
 * The class that stores the game state and links other classes together.
@@ -21,13 +14,13 @@ public class Rogue {
     private Player thePlayer;
     private static ArrayList<Room> rooms = new ArrayList<Room>();
     private static ArrayList<Item> items = new ArrayList<Item>();
-    private static ArrayList<HashMap<String, String>> itemLocations;
+    private static ArrayList<Map<String, String>> itemLocations;
     private static HashMap<String, String> defaultSymbols = new HashMap<String, String>();
     private RogueParser parser;
 
     /**
-    * Two parameter constructor
-    * @param theParser the RogueParser for the game, which must be initialized
+    * Two parameter constructor.
+    * @param theParser the RogueParser for the game, which must be initialized.
     * @param theHero the Player, which must be initialized
     */
     public Rogue(RogueParser theParser, Player theHero) {
@@ -36,9 +29,9 @@ public class Rogue {
     }
 
     /**
-    * Creates the rooms and items for the game environment from JSON
+    * Creates the rooms and items for the game environment from JSON.
     */
-    public void initializeGameState(){
+    public void initializeGameState() {
       setSymbols();
       setItemLocations();
       createItems();
@@ -46,7 +39,7 @@ public class Rogue {
     }
 
     /**
-    * Sets the parser that the Rogue uses
+    * Sets the parser that the Rogue uses.
     * @param newParser the new parser for the game
     */
     public void setParser(RogueParser newParser) {
@@ -63,15 +56,15 @@ public class Rogue {
     }
 
     /**
-    * Gets the display symbol map
+    * Gets the display symbol map.
     * @return (HashMap<String, String>) the symbol map
     */
-    public HashMap<String, String> getSymbols(){
+    public HashMap<String, String> getSymbols() {
       return defaultSymbols;
     }
 
     /**
-    * Sets or refreshes the displaySymbols to be passed to display methods
+    * Sets or refreshes the displaySymbols to be passed to display methods.
     */
     public void setSymbols() {
       defaultSymbols = parser.getAllSymbols();
@@ -104,17 +97,17 @@ public class Rogue {
     /**
     * Sets the itemLocations to the one in the parser.
     */
-    public void setItemLocations(){
+    public void setItemLocations() {
       itemLocations = parser.getItemLocations();
     }
     /**
-    * Determines whether an item ID exists in the item list
+    * Determines whether an item ID exists in the item list.
     * @param itemID the target item id
     * @return (boolean) True if the id is in the list of items, otherwise false
     */
     public static boolean itemExists(int itemID) {
-      for(Item item: items){ // would be better if these were sorted
-        if (item.getId() == itemID){
+      for (Item item: items) { // would be better if these were sorted
+        if (item.getId() == itemID) {
           return true;
         }
       }
@@ -122,55 +115,55 @@ public class Rogue {
     }
 
     /**
-    * Runs the Parser's roomIterator to fill the array "rooms" with objects
+    * Runs the Parser's roomIterator to fill the array "rooms" with objects.
     */
     public void createRooms() {
       // This method fills up the rooms array.
       HashMap<String, String> theRoomData = (HashMap<String, String>) parser.nextRoom();
-      while (theRoomData != null){
+      while (theRoomData != null) {
         addRoom(theRoomData);
         theRoomData = (HashMap<String, String>) parser.nextRoom();
       }
     }
 
-    // turns a HashMap from the RogueParser into a Room and appends
+    // turns a HashMap from the RogueParser into a Room and appends.
     private void addRoom(HashMap<String, String> roomData) { //method to add a single room
       Room newRoom = new Room();
       newRoom.setRogue(this);
-      newRoom.setHeight( Integer.parseInt(roomData.get("height")) );
-      newRoom.setWidth( Integer.parseInt(roomData.get("width")) );
-      newRoom.setId( Integer.parseInt(roomData.get("id")) );
+      newRoom.setHeight(Integer.parseInt(roomData.get("height")));
+      newRoom.setWidth(Integer.parseInt(roomData.get("width")));
+      newRoom.setId(Integer.parseInt(roomData.get("id")));
       newRoom.updateFromRogue();
       addDoorsToRoom(newRoom);
       if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
-      for (Item anItem : items){
+      for (Item anItem : items) { // add items from parser
         attemptToAddItem(newRoom, anItem);
       }
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
     }
 
-    private void attemptToAddItem(Room newRoom, Item anItem){
+    private void attemptToAddItem(Room newRoom, Item anItem) {
       try {
         newRoom.addItem(anItem);
-      } catch(NoSuchItemException e) {
-        for (HashMap<String, String> location : itemLocations){
-          if(location.get("id") == anItem.getId()){
+      } catch (NoSuchItemException e) {
+        for (Map<String, String> location : itemLocations) {
+          if (Integer.parseInt(location.get("id")) == anItem.getId()) {
             itemLocations.remove(location);
             break;
           }
         }
-      } catch(ImpossiblePositionException e) {
+      } catch (ImpossiblePositionException e) {
         System.out.println(e);
       }
     }
 
     // method to add doors to the room
-    private void addDoorsToRoom(Room newRoom){
+    private void addDoorsToRoom(Room newRoom) {
       HashMap<String, String> doorData = parser.getDoorPositions(newRoom.getId());
-      for(String direction : doorData.keySet()){
+      for (String direction : doorData.keySet()) {
         Door newDoor = new Door();
         newDoor.setPosition(Integer.parseInt(doorData.get(direction)));
         newDoor.setDirection(direction);
@@ -189,45 +182,48 @@ public class Rogue {
 
 
     /**
-    * Fills the item array in the same way as the rooms
+    * Fills the item array in the same way as the rooms.
     */
-    public void createItems(){
+    public void createItems() {
       HashMap<String, String> theItemData = (HashMap<String, String>) parser.nextItem();
-      while (theItemData != null){
+      while (theItemData != null) {
         addItem(theItemData);
         theItemData = (HashMap<String, String>) parser.nextItem();
       }
     }
 
     // adds an item to the list of items
-    private void addItem(HashMap<String, String> itemData){
+    private void addItem(HashMap<String, String> itemData) {
       Item newItem = new Item();
       int roomId = Integer.parseInt(itemData.get("room"));
       newItem.setId(Integer.parseInt(itemData.get("id")));
       newItem.setName(itemData.get("name"));
       newItem.setType(itemData.get("type"));
       newItem.setDisplayCharacter(itemData.get("displayCharacter"));
+      newItem.setDescription(itemData.get("description"));
       newItem.setCurrentRoomId(roomId);
-      if (roomId >= 0){
-        setItemPosition(newItem,itemData.get("x"),itemData.get("y"));
+      if (roomId >= 0) {
+        setItemPosition(newItem, itemData.get("x"), itemData.get("y"));
       }
       items.add(newItem);
     }
 
     // Converts strings to ints and sets newItem's position to a new Point.
-    private void setItemPosition(Item newItem, String xString, String yString){
+    private void setItemPosition(Item newItem, String xString, String yString) {
       int x = Integer.parseInt(xString);
       int y = Integer.parseInt(yString);
-      newItem.setXyLocation(new Point(x,y));
+      newItem.setXyLocation(new Point(x, y));
     }
 
     /**
-    * Outputs a new string based on a player move
+    * Outputs a new string based on a player move.
     * @return (String) the updated string
     * @param input The character representing the player input
+    * @throws InvalidMoveException when the player makes a move to an invalid location
     */
-    public String makeMove(char input) throws InvalidMoveException{
+    public String makeMove(char input) throws InvalidMoveException {
       System.out.println(input);
+      return ("test");
     }
 
     /**
