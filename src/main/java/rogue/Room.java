@@ -112,7 +112,7 @@ public class Room {
     else if (itemOnTile(x,y) != null || playerOnTile(x,y)){
       throw new ImpossiblePositionException("Another object is on the tile");
     }
-    else if (toAdd.getId() == -1) {
+    else if (toAdd.getCurrentRoomId() == -1) {
       throw new NoSuchItemException("No such item exists for this room");
     }
     else {

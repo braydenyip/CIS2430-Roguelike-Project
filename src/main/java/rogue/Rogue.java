@@ -106,19 +106,24 @@ public class Rogue {
     // turns a HashMap from the RogueParser into a Room and appends
     private void addRoom(HashMap<String, String> roomData) { //method to add a single room
       Room newRoom = new Room();
-      // turn the prim-longs in the JSON to prim-ints that our methods take. like string decoding?
       newRoom.setHeight( Integer.parseInt(roomData.get("height")) );
       newRoom.setWidth( Integer.parseInt(roomData.get("width")) );
       newRoom.setId( Integer.parseInt(roomData.get("id")) );
       newRoom.setSymbols(defaultSymbols);
-      // Set the doors
       addDoorsToRoom(newRoom);
       if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
       newRoom.setPlayer(thePlayer);
-      newRoom.setRoomItems(items);
-
+      for (Item anItem : items){
+        try {
+          newRoom.addItem(anItem);
+        } catch(NoSuchItemException e) {
+          System.out.println(e);
+        } catch(ImpossiblePositionException e) {
+          System.out.println(e);
+        }
+      }
       // append the rooms list with the newly made room.
       rooms.add(newRoom);
     }
