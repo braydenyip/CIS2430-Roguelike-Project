@@ -119,7 +119,7 @@ public class Room {
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     } else if (itemOnTile(x, y) != null || playerOnTile(x, y)) {
       throw new ImpossiblePositionException("Another object is on the tile");
-    } else if (!(rogue.itemExists(toAdd.getId()))) {
+    } else if (!(rogue.itemExists(id, toAdd.getId()))) {
       throw new NoSuchItemException("No such item exists for this room");
     } else {
       roomItems.add(toAdd);
@@ -191,6 +191,29 @@ public class Room {
   public boolean isPlayerInRoom() {
     if (thePlayer.getCurrentRoom().getId() == id) {
       return true;
+    }
+    return false;
+  }
+
+  /**
+  * Determines if there is an adjacent, open spot next to the coordinates.
+  * Adjacent tiles will be a king's move away.
+  * @param anItem the item to find a spot for
+  * @return (boolean) True if there is an adjacent open spot, otherwise false
+  */
+
+  public boolean openSpotExists(Item anItem) {
+    int y = (int) anItem.getXyLocation().getY();
+    int x = (int) anItem.getXyLocation().getX();
+    for (int yNew = (y - 1); yNew <= (y + 1); yNew++) {
+      for (int xNew = (x - 1); xNew <= (x + 1); xNew++) {
+        if (itemOnTile(xNew, yNew) == null && !(playerOnTile(xNew, yNew))) {
+          if (xNew > 0 &&  yNew > 0 && yNew < width - 1 && xNew < height - 1) {
+            anItem.setXyLocation(new Point(xNew, yNew));
+            return true;
+          }
+        }
+      }
     }
     return false;
   }

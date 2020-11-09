@@ -14,11 +14,10 @@ public class A1Solution {
         RogueParser theParser = new RogueParser(configurationFileLocation);
 
         Player thePlayer = new Player("Brayden");
-        Rogue game = new Rogue(theParser, thePlayer); // This parser will be "full"
-
-        System.out.println("Welcome " + game.getPlayer().getName());
+        Rogue game = new Rogue(theParser); // This parser will be "full"
         game.setPlayer(thePlayer);
         game.initializeGameState();
+        System.out.println("Welcome " + game.getPlayer().getName());
         System.out.println(game.displayAll());
     }
 

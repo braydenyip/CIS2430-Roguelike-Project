@@ -11,6 +11,10 @@ import java.awt.Point;
 * The class that stores the game state and links other classes together.
 */
 public class Rogue {
+    public static final char UP = 'w';
+    public static final char DOWN = 's';
+    public static final char LEFT = 'a';
+    public static final char RIGHT = 'd';
     private Player thePlayer;
     private static ArrayList<Room> rooms = new ArrayList<Room>();
     private static ArrayList<Item> items = new ArrayList<Item>();
@@ -19,12 +23,10 @@ public class Rogue {
     private RogueParser parser;
 
     /**
-    * Two parameter constructor.
+    * One parameter constructor.
     * @param theParser the RogueParser for the game, which must be initialized.
-    * @param theHero the Player, which must be initialized
     */
-    public Rogue(RogueParser theParser, Player theHero) {
-      setPlayer(theHero);
+    public Rogue(RogueParser theParser) {
       setParser(theParser);
     }
 
@@ -103,12 +105,15 @@ public class Rogue {
     /**
     * Determines whether an item ID exists in the item list.
     * @param itemID the target item id
+    * @param roomID the room id
     * @return (boolean) True if the id is in the list of items, otherwise false
     */
-    public static boolean itemExists(int itemID) {
-      for (Item item: items) { // would be better if these were sorted
-        if (item.getId() == itemID) {
-          return true;
+    public static boolean itemExists(int roomID, int itemID) {
+      for (Map<String, String> locationMap : itemLocations) {
+        if (Integer.valueOf(locationMap.get("room")) == roomID) {
+          if (Integer.valueOf(locationMap.get("id")) == itemID) {
+            return true;
+          }
         }
       }
       return false;
@@ -121,13 +126,14 @@ public class Rogue {
       // This method fills up the rooms array.
       HashMap<String, String> theRoomData = (HashMap<String, String>) parser.nextRoom();
       while (theRoomData != null) {
-        addRoom(theRoomData);
+        Room newRoom = createARoom(theRoomData);
+        rooms.add(newRoom);
         theRoomData = (HashMap<String, String>) parser.nextRoom();
       }
     }
 
     // turns a HashMap from the RogueParser into a Room and appends.
-    private void addRoom(HashMap<String, String> roomData) { //method to add a single room
+    private Room createARoom(HashMap<String, String> roomData) { //method to add a single room
       Room newRoom = new Room();
       newRoom.setRogue(this);
       newRoom.setHeight(Integer.parseInt(roomData.get("height")));
@@ -141,8 +147,7 @@ public class Rogue {
       for (Item anItem : items) { // add items from parser
         attemptToAddItem(newRoom, anItem);
       }
-      // append the rooms list with the newly made room.
-      rooms.add(newRoom);
+      return newRoom;
     }
 
     private void attemptToAddItem(Room newRoom, Item anItem) {
@@ -156,7 +161,11 @@ public class Rogue {
           }
         }
       } catch (ImpossiblePositionException e) {
-        System.out.println(e);
+        if (newRoom.openSpotExists(anItem)) {
+          attemptToAddItem(newRoom, anItem);
+        } else {
+          System.out.println(e);
+        }
       }
     }
 
