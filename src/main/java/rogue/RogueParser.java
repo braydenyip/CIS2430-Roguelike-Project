@@ -232,7 +232,7 @@ public class RogueParser {
         HashMap<String, String> newDoorConnects = new HashMap<>();
         for (int j = 0; j < doorArray.size(); j++) {
             JSONObject doorObj = (JSONObject) doorArray.get(j);
-            String dir = String.valueOf(doorObj.get("dir"));
+            String dir = doorObj.get("dir").toString();
             String id = doorObj.get("wall_pos").toString();
             String con = doorObj.get("con_room").toString();
             newDoors.put(dir, id);
