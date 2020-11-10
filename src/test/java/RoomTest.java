@@ -11,16 +11,30 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
+import java.util.HashMap;
+
 public class RoomTest {
 
 	private Room room;
-	private static final int TARGET = 20;
+	private static final int TARGET = 10;
+	private static final int POSITION = 4;
+	private static final int X1 = 3;
+	private static final int Y1 = 3;
+	private HashMap<String, String> defaultSymbols;
 	/**
 	* initializes a Room.
 	*/
 	@Before
 	public void setUp() {
 		room = new Room();
+		defaultSymbols = new HashMap<>();
+		defaultSymbols.put("NS_WALL", "-");
+		defaultSymbols.put("EW_WALL", "|");
+		defaultSymbols.put("FLOOR", ".");
+		defaultSymbols.put("PLAYER", "@");
+		defaultSymbols.put("DOOR", "+");
+		room.setId(1);
+		room.setSymbols(defaultSymbols);
 	}
 
 	/**
@@ -49,6 +63,41 @@ public class RoomTest {
 		Assert.assertEquals(TARGET, room.getId());
 	}
 
+	/**
+	* Tests the height methods.
+	*/
+	@Test
+	public void testHeightGetAndSet() {
+		room.setHeight(TARGET);
+		Assert.assertEquals(room.getHeight(), TARGET);
+	}
+
+	/**
+	* Tests Door addition.
+	*/
+	@Test
+	public void testAddDoor() {
+		Door newDoor = new Door();
+		newDoor.setPosition(POSITION);
+		newDoor.setDirection("E");
+		room.addDoor(newDoor);
+		newDoor.connectRoom(new Room());
+		Assert.assertTrue(newDoor.getOtherRoom(room).getId() == -1); // should be default
+		Assert.assertTrue(room.getDoor("S") == -1); // should return 4
+		Assert.assertTrue(room.getDoor("E") == POSITION); // returns position
+	}
+
+	/**
+	* Tests display method.
+	*/
+	@Test
+	public void testDisplayRoom() {
+		room.setWidth(X1);
+		room.setHeight(Y1);
+		String str = room.displayRoom();
+		// 3x3 room test
+		Assert.assertTrue(room.displayRoom().equals("---\n|.|\n---\n"));
+	}
 
 	//Assert.assertTrue(room.getWidth() == target);
 	//	Assert.assertFalse(false);

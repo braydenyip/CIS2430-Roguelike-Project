@@ -57,6 +57,31 @@ public class Player {
     }
 
     /**
+    * Returns only the x coordinate of the player
+    * @return (int) the player's x coordinate (horizontal) as an int
+    */
+    public int getXCoordinate() {
+      return ((int) xyLocation.getX());
+    }
+
+    /**
+    * Returns only the y coordinate of the player
+    * @return (int) the player's y coordinate (vertical) as an int
+    */
+    public int getYCoordinate() {
+      return ((int) xyLocation.getY());
+    }
+
+    /**
+    * Moves the player by a specific amount
+    * @param dx the amount to move the player by in x (horizontally)
+    * @param dy the amount to move the player by in y (vertically)
+    */
+    public void movePlayerBy(int dx, int dy) {
+      xyLocation.translate(dx, dy);
+    }
+
+    /**
     * Returns the Room which the player is in.
     * @return (Room) The room the player is currently in.
     */

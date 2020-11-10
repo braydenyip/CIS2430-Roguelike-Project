@@ -21,7 +21,6 @@ public class Item  {
     */
     public Item() {
         this(-1, "Void Scroll", "default", new Point(-1, -1));
-        this.setCurrentRoomId(-1);
     }
     /**
     * Constructs an item with the given properties.
@@ -137,6 +136,31 @@ public class Item  {
     */
     public void setXyLocation(Point newXyLocation) {
       xyLocation = newXyLocation;
+    }
+
+    /**
+    * Returns only the x coordinate of the item
+    * @return (int) the item's x coordinate (horizontal) as an int
+    */
+    public int getXCoordinate() {
+      return ((int) xyLocation.getX());
+    }
+
+    /**
+    * Returns only the y coordinate of the item
+    * @return (int) the item's y coordinate (vertical) as an int
+    */
+    public int getYCoordinate() {
+      return ((int) xyLocation.getY());
+    }
+
+    /**
+    * Moves the item by a specific amount
+    * @param dx the amount to move the item by in x (horizontally)
+    * @param dy the amount to move the item by in y (vertically)
+    */
+    public void moveItemBy(int dx, int dy) {
+      xyLocation.translate(dx, dy);
     }
 
     /**

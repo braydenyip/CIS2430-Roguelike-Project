@@ -15,6 +15,7 @@ public class Rogue {
     public static final char DOWN = 's';
     public static final char LEFT = 'a';
     public static final char RIGHT = 'd';
+
     private Player thePlayer;
     private static ArrayList<Room> rooms = new ArrayList<Room>();
     private static ArrayList<Item> items = new ArrayList<Item>();
@@ -233,6 +234,12 @@ public class Rogue {
     public String makeMove(char input) throws InvalidMoveException {
       System.out.println(input);
       return ("test");
+    }
+
+    // Encapsulates illegal move logic
+    private boolean isMoveIllegal(char input, Player thePlayer) {
+      Point playerLocation = thePlayer.getXyLocation();
+      return false;
     }
 
     /**

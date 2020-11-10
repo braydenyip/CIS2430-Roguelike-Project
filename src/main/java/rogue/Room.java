@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class Room {
   private static Map<String, String> defaultSymbols = new HashMap<String, String>();
-  private Player thePlayer;
+  private Player thePlayer = null;
   private int width;
   private int height;
   private int id;
@@ -91,7 +91,7 @@ public class Room {
  }
 
  /**
- * Sets the items for a room.
+ * Forcibly sets the items for a room.
  * @param allGameItems Items to be added to the room
  */
 
@@ -143,6 +143,14 @@ public class Room {
    thePlayer = rogue.getPlayer();
  }
 
+ /**
+ * Sets the Player object for the room manually.
+ * @param newPlayer the Player object to put in the room
+ */
+ public void setPlayer(Player newPlayer) {
+   thePlayer = newPlayer;
+ }
+
   /**
   * Get the position of a door given a direction.
   * There shall not be more than 1 door per direction.
@@ -168,10 +176,18 @@ public class Room {
   }
 
   /**
-  * Sets the symbols for this room based on the rogue's map.
+  * Sets the symbols for all rooms based on the rogue's map.
   */
   public void setSymbols() {
     defaultSymbols = rogue.getSymbols();
+  }
+
+  /**
+  * Sets the symbol map for all rooms manually.
+  * @param newSymbols the map of symbols to set for Rooms.
+  */
+  public void setSymbols(HashMap<String, String> newSymbols) {
+    defaultSymbols = newSymbols;
   }
 
   /**
@@ -189,6 +205,9 @@ public class Room {
   * @return (boolean) true if the player is in the room, otherwise return false.
   */
   public boolean isPlayerInRoom() {
+    if (thePlayer == null) {
+      return false;
+    }
     if (thePlayer.getCurrentRoom().getId() == id) {
       return true;
     }
