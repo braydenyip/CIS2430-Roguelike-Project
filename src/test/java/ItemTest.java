@@ -11,7 +11,7 @@ public class ItemTest {
   private Item item;
   private static final int ID_CONST = 11;
   /**
-  * Sets up an item
+  * Sets up an item.
   */
   @Before
   public void setUp() {
@@ -19,7 +19,14 @@ public class ItemTest {
   }
 
   /**
-  * Four param constructor test
+  *
+  */
+  @After
+  public void tearDown() {
+
+  }
+  /**
+  * Four param constructor test.
   */
   @Test
   public void paramItemConstTest() {
@@ -29,7 +36,7 @@ public class ItemTest {
     Assert.assertTrue(item.getType().equals("Consumable"));
   }
   /**
-  * Tests item ID methods
+  * Tests item ID methods.
   */
   @Test
   public void testIDGetAndSet() {
@@ -38,14 +45,14 @@ public class ItemTest {
   }
 
   /**
-  * Tests setting the location of an item and moving it
+  * Tests setting the location of an item and moving it.
   */
   @Test
   public void testXyLocationAndMove() {
     Point pt = new Point(7, 5);
     item.setXyLocation(pt);
-    Assert.assertEquals(pt,item.getXyLocation());
-    Assert.assertEquals(pt.getX(),item.getXyLocation().getX(),0.1);
+    Assert.assertEquals(pt, item.getXyLocation());
+    Assert.assertEquals(pt.getX(), item.getXyLocation().getX(), 0.1);
     item.moveItemBy(-3, 2);
     Assert.assertEquals(item.getXCoordinate(), 4);
     Assert.assertEquals(item.getYCoordinate(), 7);

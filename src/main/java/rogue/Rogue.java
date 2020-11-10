@@ -237,7 +237,7 @@ public class Rogue {
     }
 
     // Encapsulates illegal move logic
-    private boolean isMoveIllegal(char input, Player thePlayer) {
+    private boolean isMoveIllegal(char input) {
       Point playerLocation = thePlayer.getXyLocation();
       return false;
     }

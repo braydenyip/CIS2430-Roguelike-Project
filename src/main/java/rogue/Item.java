@@ -139,7 +139,7 @@ public class Item  {
     }
 
     /**
-    * Returns only the x coordinate of the item
+    * Returns only the x coordinate of the item.
     * @return (int) the item's x coordinate (horizontal) as an int
     */
     public int getXCoordinate() {
@@ -147,7 +147,7 @@ public class Item  {
     }
 
     /**
-    * Returns only the y coordinate of the item
+    * Returns only the y coordinate of the item.
     * @return (int) the item's y coordinate (vertical) as an int
     */
     public int getYCoordinate() {
@@ -155,7 +155,7 @@ public class Item  {
     }
 
     /**
-    * Moves the item by a specific amount
+    * Moves the item by a specific amount.
     * @param dx the amount to move the item by in x (horizontally)
     * @param dy the amount to move the item by in y (vertically)
     */

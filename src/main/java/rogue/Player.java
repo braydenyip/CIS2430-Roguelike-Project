@@ -57,7 +57,7 @@ public class Player {
     }
 
     /**
-    * Returns only the x coordinate of the player
+    * Returns only the x coordinate of the player.
     * @return (int) the player's x coordinate (horizontal) as an int
     */
     public int getXCoordinate() {
@@ -65,7 +65,7 @@ public class Player {
     }
 
     /**
-    * Returns only the y coordinate of the player
+    * Returns only the y coordinate of the player.
     * @return (int) the player's y coordinate (vertical) as an int
     */
     public int getYCoordinate() {
@@ -73,7 +73,7 @@ public class Player {
     }
 
     /**
-    * Moves the player by a specific amount
+    * Moves the player by a specific amount.
     * @param dx the amount to move the player by in x (horizontally)
     * @param dy the amount to move the player by in y (vertically)
     */

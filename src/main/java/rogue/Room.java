@@ -115,7 +115,7 @@ public class Room {
     Point loc = toAdd.getXyLocation();
     int x = (int) loc.getX();
     int y = (int) loc.getY();
-    if (x <= 0 || x >= (width - 1) || y <= 0 || y >= (height - 1)) { // wall exception
+    if (x <= 0 || x > (width - 1) || y <= 0 || y > (height - 1)) { // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     } else if (itemOnTile(x, y) != null || playerOnTile(x, y)) {
       throw new ImpossiblePositionException("Another object is on the tile");
@@ -222,12 +222,12 @@ public class Room {
   */
 
   public boolean openSpotExists(Item anItem) {
-    int y = (int) anItem.getXyLocation().getY();
-    int x = (int) anItem.getXyLocation().getX();
+    int x = anItem.getXCoordinate();
+    int y = anItem.getYCoordinate();
     for (int yNew = (y - 1); yNew <= (y + 1); yNew++) {
       for (int xNew = (x - 1); xNew <= (x + 1); xNew++) {
         if (itemOnTile(xNew, yNew) == null && !(playerOnTile(xNew, yNew))) {
-          if (xNew > 0 &&  yNew > 0 && yNew < width - 1 && xNew < height - 1) {
+          if (xNew > 0 && yNew > 0 && yNew < width && xNew < height) {
             anItem.setXyLocation(new Point(xNew, yNew));
             return true;
           }
