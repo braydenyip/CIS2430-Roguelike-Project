@@ -228,6 +228,7 @@ public class Rogue {
     */
     public String makeMove(char input) throws InvalidMoveException {
       System.out.println(input);
+      if (moveIsIllegal)
       return ("test");
     }
 
@@ -246,13 +247,17 @@ public class Rogue {
       return false;
     }
 
-    private boolean moveIntoDoor(char input) {
+    private Door movingIntoDoor(char input) {
       int x = thePlayer.getXCoordinate();
       int y = thePlayer.getYCoordinate();
       Room theRoom = thePlayer.getCurrentRoom();
       int width = theRoom.getWidth();
       int height = theRoom.getHeight();
-
+      if (x == 1 && input.equals('A')) {
+        if (theRoom.getDoor("W") == y) {
+          return
+        }
+      }
     }
 
     /**
