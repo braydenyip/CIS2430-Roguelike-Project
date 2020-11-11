@@ -118,14 +118,37 @@ public class Room {
     if (x <= 0 || x > (width - 1) || y <= 0 || y > (height - 1)) { // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     } else if (itemOnTile(x, y) != null || playerOnTile(x, y)) {
-      throw new ImpossiblePositionException("Another object is on the tile");
-    } else if (!(rogue.itemExists(id, toAdd.getId()))) {
+      throw new ImpossiblePositionException("Something else is on the tile");
+    } else if (!(rogue.itemExists(toAdd))) {
       throw new NoSuchItemException("No such item exists for this room");
-    } else {
+    } else if (toAdd.getCurrentRoomId() == id) {
       roomItems.add(toAdd);
     }
   }
 
+  /**
+  * Determines if there is an adjacent, open spot next to the coordinates.
+  * Adjacent tiles will be a king's move away.
+  * @param anItem the item to find a spot for
+  * @return (boolean) True if there is an adjacent open spot, otherwise false
+  */
+
+  public boolean openSpotExists(Item anItem) {
+    int x = anItem.getXCoordinate();
+    int y = anItem.getYCoordinate();
+    for (int yNew = (y - 1); yNew <= (y + 1); yNew++) {
+      for (int xNew = (x - 1); xNew <= (x + 1); xNew++) {
+        if (itemOnTile(xNew, yNew) == null && !(playerOnTile(xNew, yNew))) {
+          if (xNew > 0 && yNew > 0 && yNew < width && xNew < height) {
+            System.out.println("Open spot found!");
+            anItem.setXyLocation(new Point(xNew, yNew));
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
  /**
  * Returns the room's Player object.
  * @return (Player) The player associated with the room
@@ -214,28 +237,7 @@ public class Room {
     return false;
   }
 
-  /**
-  * Determines if there is an adjacent, open spot next to the coordinates.
-  * Adjacent tiles will be a king's move away.
-  * @param anItem the item to find a spot for
-  * @return (boolean) True if there is an adjacent open spot, otherwise false
-  */
 
-  public boolean openSpotExists(Item anItem) {
-    int x = anItem.getXCoordinate();
-    int y = anItem.getYCoordinate();
-    for (int yNew = (y - 1); yNew <= (y + 1); yNew++) {
-      for (int xNew = (x - 1); xNew <= (x + 1); xNew++) {
-        if (itemOnTile(xNew, yNew) == null && !(playerOnTile(xNew, yNew))) {
-          if (xNew > 0 && yNew > 0 && yNew < width && xNew < height) {
-            anItem.setXyLocation(new Point(xNew, yNew));
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
 
   // Determines if an item is on the tile.
   private Item itemOnTile(int x, int y) { // Checks for an item on the specified tile

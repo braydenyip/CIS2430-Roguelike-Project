@@ -294,6 +294,10 @@ public class RogueParser {
         item.put("type", itemsJSON.get("type").toString());
         item.put("description", itemsJSON.get("description").toString());
         item.put("displayCharacter", symbols.get(item.get("type").toUpperCase()));
+        // if the item location is not associated with the item
+        item.put("room", "-1"); // if an item has no association it will stay -1
+        item.put("x", "-1");
+        item.put("y", "-1");
         for (Map<String, String> itemLocation : itemLocations) {
             if (itemLocation.get("id").toString().equals(item.get("id"))) {
                 // if the item exists in the room specify the item's coordinates
@@ -301,10 +305,7 @@ public class RogueParser {
                 item.put("x", itemLocation.get("x"));
                 item.put("y", itemLocation.get("y"));
                 break;
-            } else { // if the item location is not associated with the item
-              item.put("room", "-1");
             }
-
         }
         return item;
 

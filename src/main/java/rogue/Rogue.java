@@ -104,18 +104,13 @@ public class Rogue {
       itemLocations = parser.getItemLocations();
     }
     /**
-    * Determines whether an item ID exists in the item list.
-    * @param itemID the target item id
-    * @param roomID the room id
-    * @return (boolean) True if the id is in the list of items, otherwise false
+    * Determines whether an item exists in the list of items.
+    * @param toAdd the item to add to the room
+    * @return (boolean) True if the item is in the list of items, otherwise false
     */
-    public static boolean itemExists(int roomID, int itemID) {
-      for (Map<String, String> locationMap : itemLocations) {
-        if (Integer.valueOf(locationMap.get("room")) == roomID) {
-          if (Integer.valueOf(locationMap.get("id")) == itemID) {
-            return true;
-          }
-        }
+    public static boolean itemExists(Item toAdd) {
+      if (items.contains(toAdd)) {
+        return true;
       }
       return false;
     }
@@ -146,7 +141,9 @@ public class Rogue {
         configurePlayerStart(newRoom);
       }
       for (Item anItem : items) { // add items from parser
-        attemptToAddItem(newRoom, anItem);
+        if (anItem.getCurrentRoomId() != -1) {
+          attemptToAddItem(newRoom, anItem);
+        }
       }
       return newRoom;
     }
@@ -212,9 +209,7 @@ public class Rogue {
       newItem.setDisplayCharacter(itemData.get("displayCharacter"));
       newItem.setDescription(itemData.get("description"));
       newItem.setCurrentRoomId(roomId);
-      if (roomId >= 0) {
-        setItemPosition(newItem, itemData.get("x"), itemData.get("y"));
-      }
+      setItemPosition(newItem, itemData.get("x"), itemData.get("y"));
       items.add(newItem);
     }
 
