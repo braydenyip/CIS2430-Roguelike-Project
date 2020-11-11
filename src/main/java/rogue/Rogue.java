@@ -141,7 +141,7 @@ public class Rogue {
         configurePlayerStart(newRoom);
       }
       for (Item anItem : items) { // add items from parser
-        if (anItem.getCurrentRoomId() != -1) {
+        if (anItem.getCurrentRoomId() > 0) {
           attemptToAddItem(newRoom, anItem);
         }
       }
@@ -232,9 +232,27 @@ public class Rogue {
     }
 
     // Encapsulates illegal move logic
-    private boolean isMoveIllegal(char input) {
-      Point playerLocation = thePlayer.getXyLocation();
+    private boolean moveIsIllegal(char input) {
+      int x = thePlayer.getXCoordinate();
+      int y = thePlayer.getYCoordinate();
+      Room theRoom = thePlayer.getCurrentRoom();
+      int width = theRoom.getWidth();
+      int height = theRoom.getHeight();
+      if (x == 1 && input.equals('A') || x == (width - 1) && input.equals('D')) {
+        return true;
+      } else if (y == 1 && input.equals('W') || y == (height - 1) && input.equals('S')) {
+        return true;
+      }
       return false;
+    }
+
+    private boolean moveIntoDoor(char input) {
+      int x = thePlayer.getXCoordinate();
+      int y = thePlayer.getYCoordinate();
+      Room theRoom = thePlayer.getCurrentRoom();
+      int width = theRoom.getWidth();
+      int height = theRoom.getHeight();
+
     }
 
     /**

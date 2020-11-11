@@ -1,6 +1,8 @@
 package rogue;
+
 //import java.util.ArrayList;
 import java.awt.Point;
+
 /**
  * The player's character.
  */
@@ -9,6 +11,7 @@ public class Player {
     private String name;
     private Point xyLocation;
     private Room currentRoom;
+
     /**
     * The default player constructor.
     */
@@ -21,6 +24,7 @@ public class Player {
     * @param newName the name of the player
     */
     public Player(String newName) {
+      inventory = new ArrayList<>();
       name = newName;
     }
 
