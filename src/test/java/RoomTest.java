@@ -83,8 +83,8 @@ public class RoomTest {
 		room.addDoor(newDoor);
 		newDoor.connectRoom(new Room());
 		Assert.assertTrue(newDoor.getOtherRoom(room).getId() == -1); // should be default
-		Assert.assertTrue(room.getDoor("S") == -1); // should return 4
-		Assert.assertTrue(room.getDoor("E") == POSITION); // returns position
+		Assert.assertTrue(room.getDoorPosition("S") == -1); // should return 4
+		Assert.assertTrue(room.getDoorPosition("E") == POSITION); // returns position
 	}
 
 	/**

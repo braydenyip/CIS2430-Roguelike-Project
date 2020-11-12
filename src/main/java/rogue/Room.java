@@ -180,7 +180,7 @@ public class Room {
   * @param direction The direction of the door
   * @return (int) The position of the door from the upper-left hand corner, or -1 if it is not found
   */
-   public int getDoor(String direction) {
+   public int getDoorPosition(String direction) {
      for (Door door : doors) {
        if (door.getDirection().equals(direction)) {
          return door.getPosition();
@@ -188,6 +188,21 @@ public class Room {
      }
      return -1;
    }
+
+   /**
+   * Get the door object given a direction.
+   * There shall not be more than 1 door per direction.
+   * @param direction The direction of the door
+   * @return (Door) The door object, or null if not found.
+   */
+    public Door getDoor(String direction) {
+      for (Door door : doors) {
+        if (door.getDirection().equals(direction)) {
+          return door;
+        }
+      }
+      return null;
+    }
 
   /**
   * Adds a door to the list of the doors.
@@ -272,13 +287,13 @@ public class Room {
 
   public String displayRoom() {
     String roomString = new String("");
-    int wDoorLoc = this.getDoor("W");
-    int eDoorLoc = this.getDoor("E");
-    roomString = addNSWallLine(this.getDoor("N"), roomString);
+    int wDoorLoc = this.getDoorPosition("W");
+    int eDoorLoc = this.getDoorPosition("E");
+    roomString = addNSWallLine(this.getDoorPosition("N"), roomString);
     for (int y = 1; y < (height - 1); y++) { // for each row in the room that is not the N/S walls
       roomString = addRoomLine(wDoorLoc, eDoorLoc, y, roomString);
     }
-    roomString = addNSWallLine(this.getDoor("S"), roomString);
+    roomString = addNSWallLine(this.getDoorPosition("S"), roomString);
     return roomString;
   }
 

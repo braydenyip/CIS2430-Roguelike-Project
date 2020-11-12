@@ -126,6 +126,7 @@ public class Rogue {
         rooms.add(newRoom);
         theRoomData = (HashMap<String, String>) parser.nextRoom();
       }
+      connectDoors();
     }
 
     // turns a HashMap from the RogueParser into a Room and appends.
@@ -169,7 +170,8 @@ public class Rogue {
 
     // method to add doors to the room
     private void addDoorsToRoom(Room newRoom) {
-      HashMap<String, String> doorData = parser.getDoorPositions(newRoom.getId());
+      int id = newRoom.getId();
+      HashMap<String, String> doorData = parser.getDoorPositions(id);
       for (String direction : doorData.keySet()) {
         Door newDoor = new Door();
         newDoor.setPosition(Integer.parseInt(doorData.get(direction)));
@@ -177,6 +179,14 @@ public class Rogue {
         newRoom.addDoor(newDoor);
       }
     }
+
+    // once all rooms are initialized, this connects the rooms' doors
+    private void connectDoors() {
+      for (Room room: rooms) {
+        
+      }
+    }
+
 
     private void configurePlayerStart(Room newRoom) {
       // set thePlayer's room to the room where you start.
@@ -228,7 +238,6 @@ public class Rogue {
     */
     public String makeMove(char input) throws InvalidMoveException {
       System.out.println(input);
-      if (moveIsIllegal)
       return ("test");
     }
 
@@ -239,25 +248,30 @@ public class Rogue {
       Room theRoom = thePlayer.getCurrentRoom();
       int width = theRoom.getWidth();
       int height = theRoom.getHeight();
-      if (x == 1 && input.equals('A') || x == (width - 1) && input.equals('D')) {
+      if (x == 1 && input == this.LEFT || x == (width - 1) && input == this.RIGHT) {
         return true;
-      } else if (y == 1 && input.equals('W') || y == (height - 1) && input.equals('S')) {
+      } else if (y == 1 && input == this.UP || y == (height - 1) && input == this.DOWN) {
         return true;
       }
       return false;
     }
 
-    private Door movingIntoDoor(char input) {
+    private Room movingIntoDoor(char input) {
       int x = thePlayer.getXCoordinate();
       int y = thePlayer.getYCoordinate();
       Room theRoom = thePlayer.getCurrentRoom();
       int width = theRoom.getWidth();
       int height = theRoom.getHeight();
-      if (x == 1 && input.equals('A')) {
-        if (theRoom.getDoor("W") == y) {
-          return
-        }
+      if (x == 1 && input == this.LEFT && y == theRoom.getDoorPosition("W")) {
+        return theRoom.getDoor("W").getOtherRoom(theRoom);
+      } else if (x == (width - 1) && input == this.RIGHT && y == theRoom.getDoorPosition("E")) {
+        return theRoom.getDoor("E").getOtherRoom(theRoom);
+      } else if (y == 1 && input == this.UP && x == theRoom.getDoorPosition("N")) {
+        return theRoom.getDoor("N").getOtherRoom(theRoom);
+      } else if (y == (height - 1) && input == this.DOWN && x == theRoom.getDoorPosition("S")) {
+        return theRoom.getDoor("S").getOtherRoom(theRoom);
       }
+      return null;
     }
 
     /**

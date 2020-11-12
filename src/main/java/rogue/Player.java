@@ -24,7 +24,6 @@ public class Player {
     * @param newName the name of the player
     */
     public Player(String newName) {
-      inventory = new ArrayList<>();
       name = newName;
     }
 
