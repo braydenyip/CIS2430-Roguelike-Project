@@ -148,6 +148,14 @@ public class Rogue {
       return newRoom;
     }
 
+    private void configurePlayerStart(Room newRoom) {
+      // set thePlayer's room to the room where you start.
+      thePlayer.setCurrentRoom(newRoom);
+      // set thePlayer's location to the average location
+      thePlayer.setXyLocation(new Point(1, 1));
+    }
+
+
     private void attemptToAddItem(Room newRoom, Item anItem) {
       try {
         newRoom.addItem(anItem);
@@ -199,14 +207,7 @@ public class Rogue {
     }
 
 
-    private void configurePlayerStart(Room newRoom) {
-      // set thePlayer's room to the room where you start.
-      thePlayer.setCurrentRoom(newRoom);
-      // set thePlayer's location to the average location
-      int avgHeight = newRoom.getHeight() / 2;
-      int avgWidth = newRoom.getWidth() / 2;
-      thePlayer.setXyLocation(new Point(avgWidth, avgHeight));
-    }
+
 
 
     /**
