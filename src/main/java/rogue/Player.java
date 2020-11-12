@@ -76,7 +76,7 @@ public class Player {
     }
 
     /**
-    * Moves the player by a specific amount.
+    * Moves the player by a specific amount. This function assumes a legal move.
     * @param dx the amount to move the player by in x (horizontally)
     * @param dy the amount to move the player by in y (vertically)
     */

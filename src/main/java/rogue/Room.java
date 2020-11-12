@@ -262,8 +262,13 @@ public class Room {
 
 
 
-  // Determines if an item is on the tile.
-  private Item itemOnTile(int x, int y) { // Checks for an item on the specified tile
+  /**
+  * Determines if there is an item on the tile.
+  * @param x the x coordinate to check
+  * @param y the y coordinate to check
+  * @return (Item) If an item is found, return the item. Otherwise, return null
+  */
+  public Item itemOnTile(int x, int y) { // Checks for an item on the specified tile
     Point tile = new Point(x, y);
     for (Item item : roomItems) {
       if (tile.equals(item.getXyLocation())) {
