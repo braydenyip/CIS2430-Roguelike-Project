@@ -126,7 +126,7 @@ public class Rogue {
         rooms.add(newRoom);
         theRoomData = (HashMap<String, String>) parser.nextRoom();
       }
-      connectDoors();
+      addDoors();
     }
 
     // turns a HashMap from the RogueParser into a Room and appends.
@@ -137,7 +137,6 @@ public class Rogue {
       newRoom.setWidth(Integer.parseInt(roomData.get("width")));
       newRoom.setId(Integer.parseInt(roomData.get("id")));
       newRoom.updateFromRogue();
-      addDoorsToRoom(newRoom);
       if (roomData.get("start").equals("true")) {
         configurePlayerStart(newRoom);
       }
@@ -168,6 +167,13 @@ public class Rogue {
       }
     }
 
+    // once all rooms are initialized, this connects the rooms' doors
+    private void addDoors() {
+      for (Room room: rooms) {
+        addDoorsToRoom(room);
+      }
+    }
+
     // method to add doors to the room
     private void addDoorsToRoom(Room newRoom) {
       int id = newRoom.getId();
@@ -176,14 +182,19 @@ public class Rogue {
         Door newDoor = new Door();
         newDoor.setPosition(Integer.parseInt(doorData.get(direction)));
         newDoor.setDirection(direction);
+        connectDoor(newDoor, direction, id);
         newRoom.addDoor(newDoor);
       }
     }
 
-    // once all rooms are initialized, this connects the rooms' doors
-    private void connectDoors() {
+    private void connectDoor(Door newDoor, String direction, int id) {
+      HashMap<String, String> doorCons = parser.getDoorConnections(id);
+      int roomId = Integer.parseInt(doorCons.get(direction));
       for (Room room: rooms) {
-        
+        if (roomId == room.getId()) {
+          newDoor.connectRoom(room);
+          break;
+        }
       }
     }
 

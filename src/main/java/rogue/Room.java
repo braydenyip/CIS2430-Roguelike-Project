@@ -204,6 +204,14 @@ public class Room {
       return null;
     }
 
+    /**
+    * Returns the whole list of doors...
+    * @return (ArrayList<Door>) the doors of the room.
+    */
+    public ArrayList<Door> getAllDoors() {
+      return doors;
+    }
+
   /**
   * Adds a door to the list of the doors.
   * @param newDoor a new door
