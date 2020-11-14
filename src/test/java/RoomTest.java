@@ -87,18 +87,6 @@ public class RoomTest {
 		Assert.assertTrue(room.getDoorPosition("E") == POSITION); // returns position
 	}
 
-	/**
-	* Tests display method.
-	*/
-	@Test
-	public void testDisplayRoom() {
-		room.setWidth(X1);
-		room.setHeight(Y1);
-		String str = room.displayRoom();
-		// 3x3 room test
-		Assert.assertTrue(room.displayRoom().equals("---\n|.|\n---\n"));
-	}
-
 	//Assert.assertTrue(room.getWidth() == target);
 	//	Assert.assertFalse(false);
 	//	Assert.assertNotNull(room);

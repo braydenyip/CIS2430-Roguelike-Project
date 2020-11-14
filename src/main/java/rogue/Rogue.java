@@ -295,9 +295,9 @@ public class Rogue {
       } else if (input == this.RIGHT) {
         return (new Point(x + 1, y));
       } else if (input == this.UP) {
-        return (new Point(x, y + 1));
-      } else if (input == this.DOWN) {
         return (new Point(x, y - 1));
+      } else if (input == this.DOWN) {
+        return (new Point(x, y + 1));
       } else {
         return (new Point(x, y));
       }
@@ -310,9 +310,9 @@ public class Rogue {
       } else if (input == this.RIGHT) {
         thePlayer.movePlayerBy(1, 0);
       } else if (input == this.UP) {
-        thePlayer.movePlayerBy(0, 1);
-      } else if (input == this.DOWN) {
         thePlayer.movePlayerBy(0, -1);
+      } else if (input == this.DOWN) {
+        thePlayer.movePlayerBy(0, 1);
       }
     }
 
@@ -367,7 +367,7 @@ public class Rogue {
       // not worried about fulfilling rooms that are adjacent or whatever, we're just printing rooms one after another
       for (Room rm: rooms) {
         if (rm.equals(thePlayer.getCurrentRoom())) {
-          displayString += rm.displayRoom();
+          displayString = rm.updateRoomString(displayString);
           break;
         }
       }

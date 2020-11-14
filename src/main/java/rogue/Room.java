@@ -299,19 +299,20 @@ public class Room {
 
 
   /**
-  * Produces a string that can be printed to produce an ascii rendering of the room and all of its contents.
-  * @return (String) String representation of how the room looks
-  * WILL NOT provide extra newlines -- handled by Rogue's class.
+  * Edits a String to display the room.
+  * @param roomString the String to change
+  * @return (String) the updated string
   */
 
-  public String displayRoom() {
-    String roomString = new String("");
+  public String updateRoomString(String roomString) {
     int wDoorLoc = this.getDoorPosition("W");
     int eDoorLoc = this.getDoorPosition("E");
     roomString = addNSWallLine(this.getDoorPosition("N"), roomString);
     for (int y = 1; y < (height - 1); y++) { // for each row in the room that is not the N/S walls
+      roomString += " ";
       roomString = addRoomLine(wDoorLoc, eDoorLoc, y, roomString);
     }
+    roomString += " ";
     roomString = addNSWallLine(this.getDoorPosition("S"), roomString);
     return roomString;
   }
