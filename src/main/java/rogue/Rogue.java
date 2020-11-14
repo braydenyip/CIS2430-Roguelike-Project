@@ -251,7 +251,7 @@ public class Rogue {
     */
     public String makeMove(char input) throws InvalidMoveException {
       Room nextRoom = movingIntoDoor(input);
-      Item toCollect = movingIntoItem(input);;
+      Item toCollect = movingIntoItem(input);
       if (nextRoom != null) {
         moveOverPlayer(nextRoom);
       } else if (moveIsIllegal(input)) {
@@ -282,10 +282,10 @@ public class Rogue {
         thePlayer.setXyLocation(new Point(x, (toMoveTo.getHeight() - 1)));
       } else { // exited south entering north
         x = toMoveTo.getDoorPosition("N");
-        thePlayer.setXyLocation(new Point(x, 1);
+        thePlayer.setXyLocation(new Point(x, 1));
       }
     }
-    
+
     // "shadows" a new move
     private Point getNewCoordinates(char input) {
       int x = thePlayer.getXCoordinate();
