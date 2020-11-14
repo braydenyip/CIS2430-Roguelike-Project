@@ -45,5 +45,5 @@ shadowJar {
 }
 
 application {
-    mainClassName = "rogue.A1Solution"
+    mainClassName = "rogue.TextUI"
 }

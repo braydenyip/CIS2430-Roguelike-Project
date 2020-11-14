@@ -127,6 +127,14 @@ public class Room {
   }
 
   /**
+  * Removes an item from the room
+  * @param
+  */
+  public void removeItem(Item toRemove) {
+    System.out.println("add")
+  }
+
+  /**
   * Determines if there is an adjacent, open spot next to the coordinates.
   * Adjacent tiles will be a king's move away.
   * @param anItem the item to find a spot for

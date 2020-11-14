@@ -371,7 +371,6 @@ public class Rogue {
           break;
         }
       }
-      displayString += "\n";
       return displayString;
     }
 
