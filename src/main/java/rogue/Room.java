@@ -358,4 +358,13 @@ public class Room {
       return null;
   }
 
+  /**
+  * Verifies that the room has correct placements.
+  * @return (boolean) True if the room is valid and correct, otherwise False
+  * @throws NotEnoughDoorsException Thrown if the room does not have a door.
+  */
+  public boolean verifyRoom() throws NotEnoughDoorsException {
+    return true;
+  }
+
 }

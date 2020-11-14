@@ -250,15 +250,17 @@ public class Rogue {
     */
     public String makeMove(char input) throws InvalidMoveException {
       Room nextRoom = movingIntoDoor(input);
+      Item toCollect;
       if (nextRoom != null) {
         // do some teleport stuff
         return "Teleport.";
       } else if (moveIsIllegal(input)) {
         throw new InvalidMoveException("You can't move there!");
       } else { // legal move scenario
-        if (movingIntoItem(input) != null) {
+        toCollect = movingIntoItem(input);
+        if (toCollect != null) {
           // add item to inventory, remove from room
-          System.out.println("tba");
+          thePlayer.collectItem(toCollect);
         }
         setNewCoordinates(input);
       }

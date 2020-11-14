@@ -1,6 +1,6 @@
 package rogue;
 
-//import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.Point;
 
 /**
@@ -11,7 +11,7 @@ public class Player {
     private String name;
     private Point xyLocation;
     private Room currentRoom;
-
+    private HashMap<Integer, Item> inventory;
     /**
     * The default player constructor.
     */
@@ -24,6 +24,7 @@ public class Player {
     * @param newName the name of the player
     */
     public Player(String newName) {
+      inventory = new HashMap<>();
       name = newName;
     }
 
@@ -82,6 +83,40 @@ public class Player {
     */
     public void movePlayerBy(int dx, int dy) {
       xyLocation.translate(dx, dy);
+    }
+
+    /**
+    * Sets a brand new inventory.
+    * @param newInventory the inventory to associate with the player.
+    */
+    public void setInventory(HashMap<Integer, Item> newInventory) {
+      inventory = newInventory;
+    }
+
+    /**
+    * Returns the entire inventory.
+    * @return (HashMap<Integer, Item>) the player's inventory.
+    */
+    public HashMap<Integer, Item> getInventory() {
+      return inventory;
+    }
+
+    /**
+    * Adds the item to the inventory of the player.
+    * @param toAdd the Item to add to the player's inventory.
+    */
+    public void collectItem(Item toAdd) {
+      int id = toAdd.getId();
+      inventory.put(id, toAdd);
+    }
+
+    /**
+    * Returns an item from the inventory of the player.
+    * @param id the id of the item to remove
+    * @return (Item) the Item with that id
+    */
+    public Item getFromInventory(int id) {
+      return (inventory.remove(id));
     }
 
     /**
