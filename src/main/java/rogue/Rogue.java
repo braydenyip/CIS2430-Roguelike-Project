@@ -251,14 +251,12 @@ public class Rogue {
     */
     public String makeMove(char input) throws InvalidMoveException {
       Room nextRoom = movingIntoDoor(input);
-      Item toCollect;
+      Item toCollect = movingIntoItem(input);;
       if (nextRoom != null) {
-        // do some teleport stuff
-        return "Teleport.";
+        moveOverPlayer(nextRoom);
       } else if (moveIsIllegal(input)) {
         throw new InvalidMoveException("You can't move there!");
       } else { // legal move scenario
-        toCollect = movingIntoItem(input);
         if (toCollect != null) {
           // add item to inventory, remove from room
           thePlayer.collectItem(toCollect);
@@ -269,6 +267,25 @@ public class Rogue {
       return getNextDisplay();
     }
 
+    private void moveOverPlayer(Room toMoveTo) {
+      thePlayer.setCurrentRoom(toMoveTo);
+      int x = thePlayer.getXCoordinate();
+      int y = thePlayer.getYCoordinate();
+      if (x == 1) { // Exited west entering east
+        y = toMoveTo.getDoorPosition("E");
+        thePlayer.setXyLocation(new Point((toMoveTo.getWidth() - 1), y));
+      } else if (x == (toMoveTo.getWidth() - 1)) { // exited east entering west
+        y = toMoveTo.getDoorPosition("W");
+        thePlayer.setXyLocation(new Point(1, y));
+      } else if (y == 1) { // exited north entering south
+        x = toMoveTo.getDoorPosition("S");
+        thePlayer.setXyLocation(new Point(x, (toMoveTo.getHeight() - 1)));
+      } else { // exited south entering north
+        x = toMoveTo.getDoorPosition("N");
+        thePlayer.setXyLocation(new Point(x, 1);
+      }
+    }
+    
     // "shadows" a new move
     private Point getNewCoordinates(char input) {
       int x = thePlayer.getXCoordinate();

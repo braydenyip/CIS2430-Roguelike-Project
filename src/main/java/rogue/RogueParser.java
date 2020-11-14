@@ -224,9 +224,6 @@ public class RogueParser {
         room.put("height", roomJSON.get("height").toString());
         room.put("width", roomJSON.get("width").toString());
 
-        // Update the two maps of maps with any doors in the room
-        // The door for each room are put in a Map which is stored in...
-        // another Map, whose key is the room ID!
         JSONArray doorArray = (JSONArray) roomJSON.get("doors");
         HashMap<String, String> newDoors = new HashMap<>();
         HashMap<String, String> newDoorConnects = new HashMap<>();
@@ -240,13 +237,10 @@ public class RogueParser {
             doors.put(idStr, newDoors);
             doorConnections.put(idStr, newDoorConnects);
         }
-
         JSONArray lootArray = (JSONArray) roomJSON.get("loot");
-        // Loop through each item and update the hashmap
         for (int j = 0; j < lootArray.size(); j++) {
             itemLocations.add(itemPosition((JSONObject) lootArray.get(j), roomJSON.get("id").toString()));
         }
-
         return room;
     }
 
@@ -286,18 +280,13 @@ public class RogueParser {
      * @return (Map<String, String>) Contains information about a single item
      */
     private Map<String, String> singleItem(JSONObject itemsJSON) {
-
         HashMap<String, String> item = new HashMap<>();
-
         item.put("id", itemsJSON.get("id").toString());
         item.put("name", itemsJSON.get("name").toString());
         item.put("type", itemsJSON.get("type").toString());
         item.put("description", itemsJSON.get("description").toString());
         item.put("displayCharacter", symbols.get(item.get("type").toUpperCase()));
-        // if the item location is not associated with the item
-        item.put("room", "-1"); // if an item has no association it will stay -1
-        item.put("x", "-1");
-        item.put("y", "-1");
+        initializeItemLoc(item);
         for (Map<String, String> itemLocation : itemLocations) {
             if (itemLocation.get("id").toString().equals(item.get("id"))) {
                 // if the item exists in the room specify the item's coordinates
@@ -308,7 +297,13 @@ public class RogueParser {
             }
         }
         return item;
+    }
 
+    private void initializeItemLoc(HashMap<String, String> item) {
+      // if the item location is not associated with the item
+      item.put("room", "-1"); // if an item has no association it will stay -1
+      item.put("x", "-1");
+      item.put("y", "-1");
     }
 
 }
