@@ -132,7 +132,6 @@ public static void main(String[] args) {
     theGame.initializeGameState();
     message = "Welcome to my Rogue game";
     theGameUI.draw(message, theGame.getNextDisplay());
-    System.out.println("start is" + thePlayer.getXyLocation().toString());
 
     while (userInput != 'q') {
     //get input from the user
@@ -143,8 +142,7 @@ public static void main(String[] args) {
         message = theGame.makeMove(userInput);
         theGameUI.draw(message, theGame.getNextDisplay());
     } catch (InvalidMoveException badMove) {
-        message = "I didn't understand what you meant, please enter a command";
-        theGameUI.setMessage(message);
+        theGameUI.setMessage(badMove.getMessage());
     }
     }
 

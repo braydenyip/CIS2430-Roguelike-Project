@@ -266,7 +266,6 @@ public class Rogue {
           thePlayer.collectItem(toCollect);
         }
       }
-      messageToPrint = thePlayer.getXyLocation().toString() + " ";
       // rerender the room
       return messageToPrint;
     }
