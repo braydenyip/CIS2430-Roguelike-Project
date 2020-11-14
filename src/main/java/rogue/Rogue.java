@@ -251,58 +251,24 @@ public class Rogue {
     * @throws InvalidMoveException when the player makes a move to an invalid location
     */
     public String makeMove(char input) throws InvalidMoveException {
-      Room nextRoom = movingIntoDoor(input);
-      Item toCollect = movingIntoItem(input);
-      messageToPrint = "";
+
+      setNewCoordinates(input);
+      Room nextRoom = movingIntoDoor();
+      Item toCollect = movingIntoItem();
+
       if (nextRoom != null) {
         moveOverPlayer(nextRoom);
-      } else if (moveIsIllegal(input)) {
+      } else if (moveIsIllegal()) {
         throw new InvalidMoveException("You can't move there!");
       } else { // legal move scenario
         if (toCollect != null) { // add item to inventory, remove from room
           messageToPrint = "Picked up " + toCollect.getName() + ".";
           thePlayer.collectItem(toCollect);
         }
-        setNewCoordinates(input);
       }
+      messageToPrint = thePlayer.getXyLocation().toString() + " ";
       // rerender the room
       return messageToPrint;
-    }
-
-    private void moveOverPlayer(Room toMoveTo) {
-      thePlayer.setCurrentRoom(toMoveTo);
-      int x = thePlayer.getXCoordinate();
-      int y = thePlayer.getYCoordinate();
-      if (x == 1) { // Exited west entering east
-        y = toMoveTo.getDoorPosition("E");
-        thePlayer.setXyLocation(new Point((toMoveTo.getWidth() - 1), y));
-      } else if (x == (toMoveTo.getWidth() - 1)) { // exited east entering west
-        y = toMoveTo.getDoorPosition("W");
-        thePlayer.setXyLocation(new Point(1, y));
-      } else if (y == 1) { // exited north entering south
-        x = toMoveTo.getDoorPosition("S");
-        thePlayer.setXyLocation(new Point(x, (toMoveTo.getHeight() - 1)));
-      } else { // exited south entering north
-        x = toMoveTo.getDoorPosition("N");
-        thePlayer.setXyLocation(new Point(x, 1));
-      }
-    }
-
-    // "shadows" a new move
-    private Point getNewCoordinates(char input) {
-      int x = thePlayer.getXCoordinate();
-      int y = thePlayer.getYCoordinate();
-      if (input == this.LEFT) {
-        return (new Point(x - 1, y));
-      } else if (input == this.RIGHT) {
-        return (new Point(x + 1, y));
-      } else if (input == this.UP) {
-        return (new Point(x, y - 1));
-      } else if (input == this.DOWN) {
-        return (new Point(x, y + 1));
-      } else {
-        return (new Point(x, y));
-      }
     }
 
     // Like the above method, but does not allocate new memory
@@ -318,44 +284,75 @@ public class Rogue {
       }
     }
 
-    private Room movingIntoDoor(char input) {
+    //move player to new room (vv broken).
+    private void moveOverPlayer(Room toMoveTo) {
+      thePlayer.setCurrentRoom(toMoveTo);
+      int x = thePlayer.getXCoordinate();
+      int y = thePlayer.getYCoordinate();
+      if (x == 1) { // Exited west entering east
+        y = toMoveTo.getDoorPosition("E");
+        thePlayer.setXyLocation(new Point((toMoveTo.getWidth() - 2), y));
+      } else if (x == (toMoveTo.getWidth() - 1)) { // exited east entering west
+        y = toMoveTo.getDoorPosition("W");
+        thePlayer.setXyLocation(new Point(1, y));
+      } else if (y == 1) { // exited north entering south
+        x = toMoveTo.getDoorPosition("S");
+        thePlayer.setXyLocation(new Point(x, (toMoveTo.getHeight() - 2)));
+      } else { // exited south entering north
+        x = toMoveTo.getDoorPosition("N");
+        thePlayer.setXyLocation(new Point(x, 1));
+      }
+    }
+
+
+
+    private Room movingIntoDoor() {
       Room theRoom = thePlayer.getCurrentRoom();
       int width = theRoom.getWidth();
       int height = theRoom.getHeight();
-      Point nextLocation = getNewCoordinates(input);
-      int newX = (int) nextLocation.getX();
-      int newY = (int) nextLocation.getY();
+      int newX = thePlayer.getXCoordinate();
+      int newY = thePlayer.getYCoordinate();
       if (newX == 0 && newY == theRoom.getDoorPosition("W")) {
         return theRoom.getDoor("W").getOtherRoom(theRoom);
-      } else if (newX == width && newY == theRoom.getDoorPosition("E")) {
+      } else if (newX == (width - 1) && newY == theRoom.getDoorPosition("E")) {
         return theRoom.getDoor("E").getOtherRoom(theRoom);
       } else if (newY == 0 && newX == theRoom.getDoorPosition("N")) {
         return theRoom.getDoor("N").getOtherRoom(theRoom);
-      } else if (newY == height && newX == theRoom.getDoorPosition("S")) {
+      } else if (newY == (height - 1) && newX == theRoom.getDoorPosition("S")) {
         return theRoom.getDoor("S").getOtherRoom(theRoom);
       }
       return null;
     }
 
     // Encapsulates illegal move logic
-    private boolean moveIsIllegal(char input) {
+    private boolean moveIsIllegal() {
       Room theRoom = thePlayer.getCurrentRoom();
       int width = theRoom.getWidth();
       int height = theRoom.getHeight();
-      Point nextLocation = getNewCoordinates(input);
-      int newX = (int) nextLocation.getX();
-      int newY = (int) nextLocation.getY();
-      if (newX < 1 || newX > (width - 1) || newY < 1 || newY > (height - 1)) {
+      int newX = thePlayer.getXCoordinate();
+      int newY = thePlayer.getYCoordinate();
+      if (newX < 1 || newX >= (width - 1) || newY < 1 || newY >= (height - 1)) {
+        resetPlayerPosition(newX, newY, width, height);
         return true;
       }
       return false;
     }
 
+    private void resetPlayerPosition(int x, int y, int width, int height) {
+      if (x == 0) {
+        thePlayer.movePlayerBy(1, 0);
+      } else if (x == (width - 1)) {
+        thePlayer.movePlayerBy(-1, 0);
+      } else if (y == 0) {
+        thePlayer.movePlayerBy(0, 1);
+      } else if (y == (height - 1)) {
+        thePlayer.movePlayerBy(0, -1);
+      }
+    }
     // Returns an Item if the player is about to move on it, null otherwise.
-    private Item movingIntoItem(char input) {
-      Point nextLocation = getNewCoordinates(input);
-      int newX = (int) nextLocation.getX();
-      int newY = (int) nextLocation.getY();
+    private Item movingIntoItem() {
+      int newX = thePlayer.getXCoordinate();
+      int newY = thePlayer.getYCoordinate();
       return (thePlayer.getCurrentRoom().itemOnTile(newX, newY));
     }
 

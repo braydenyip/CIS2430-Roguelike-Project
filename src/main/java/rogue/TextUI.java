@@ -132,7 +132,7 @@ public static void main(String[] args) {
     theGame.initializeGameState();
     message = "Welcome to my Rogue game";
     theGameUI.draw(message, theGame.getNextDisplay());
-
+    System.out.println("start is" + thePlayer.getXyLocation().toString());
 
     while (userInput != 'q') {
     //get input from the user
