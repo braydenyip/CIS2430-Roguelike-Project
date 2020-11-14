@@ -108,6 +108,7 @@ public class Player {
     public void collectItem(Item toAdd) {
       int id = toAdd.getId();
       inventory.put(id, toAdd);
+      currentRoom.removeItem(toAdd); // remove from the room
     }
 
     /**

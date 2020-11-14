@@ -127,11 +127,11 @@ public class Room {
   }
 
   /**
-  * Removes an item from the room
-  * @param
+  * Removes an item from the room.
+  * @param toRemove the Item to remove
   */
   public void removeItem(Item toRemove) {
-    System.out.println("add")
+    roomItems.remove(toRemove);
   }
 
   /**
