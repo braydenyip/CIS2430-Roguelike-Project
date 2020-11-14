@@ -16,6 +16,7 @@ public class Rogue {
     public static final char LEFT = 'a';
     public static final char RIGHT = 'd';
 
+    private String messageToPrint = new String();
     private String displayString = new String();
     private Player thePlayer;
     private static ArrayList<Room> rooms = new ArrayList<Room>();
@@ -252,19 +253,20 @@ public class Rogue {
     public String makeMove(char input) throws InvalidMoveException {
       Room nextRoom = movingIntoDoor(input);
       Item toCollect = movingIntoItem(input);
+      messageToPrint = "";
       if (nextRoom != null) {
         moveOverPlayer(nextRoom);
       } else if (moveIsIllegal(input)) {
         throw new InvalidMoveException("You can't move there!");
       } else { // legal move scenario
-        if (toCollect != null) {
-          // add item to inventory, remove from room
+        if (toCollect != null) { // add item to inventory, remove from room
+          messageToPrint = "Picked up " + toCollect.getName() + ".";
           thePlayer.collectItem(toCollect);
         }
         setNewCoordinates(input);
       }
       // rerender the room
-      return getNextDisplay();
+      return messageToPrint;
     }
 
     private void moveOverPlayer(Room toMoveTo) {
