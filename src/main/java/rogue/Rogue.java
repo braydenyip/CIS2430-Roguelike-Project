@@ -16,6 +16,7 @@ public class Rogue {
     public static final char LEFT = 'a';
     public static final char RIGHT = 'd';
 
+    private String displayString = new String();
     private Player thePlayer;
     private static ArrayList<Room> rooms = new ArrayList<Room>();
     private static ArrayList<Item> items = new ArrayList<Item>();
@@ -265,7 +266,7 @@ public class Rogue {
         setNewCoordinates(input);
       }
       // rerender the room
-      return ("test");
+      return getNextDisplay();
     }
 
     // "shadows" a new move
@@ -340,17 +341,21 @@ public class Rogue {
     }
 
     /**
-    * Returns a string that displays all the rooms in the level.
-    * @return (String) A formatted string that displays all the rooms in the level
+    * Returns the updated string that displays the game.
+    * @return (String) A formatted string that represents the room the player is in
     */
-    public String displayAll() {
-      String displayString = new String();
-        // creates a string that displays all the rooms in the dungeon
-        // not worried about fulfilling rooms that are adjacent or whatever, we're just printing rooms one after another
-        for (Room rm: rooms) {
-          displayString += rm.displayRoom() + "\n\n";
+    public String getNextDisplay() {
+      displayString = "";
+      // creates a string that displays all the rooms in the dungeon
+      // not worried about fulfilling rooms that are adjacent or whatever, we're just printing rooms one after another
+      for (Room rm: rooms) {
+        if (rm.equals(thePlayer.getCurrentRoom())) {
+          displayString += rm.displayRoom();
+          break;
         }
-        return displayString;
+      }
+      displayString += "\n";
+      return displayString;
     }
 
 }

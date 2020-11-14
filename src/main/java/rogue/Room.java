@@ -260,8 +260,6 @@ public class Room {
     return false;
   }
 
-
-
   /**
   * Determines if there is an item on the tile.
   * @param x the x coordinate to check

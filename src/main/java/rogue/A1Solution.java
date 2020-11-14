@@ -18,7 +18,7 @@ public class A1Solution {
         game.setPlayer(thePlayer);
         game.initializeGameState();
         System.out.println("Welcome " + game.getPlayer().getName());
-        System.out.println(game.displayAll());
+        System.out.println(game.getNextDisplay());
     }
 
 
