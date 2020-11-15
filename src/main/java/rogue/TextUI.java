@@ -42,17 +42,17 @@ Prints a string to the screen starting at the indicated column and row.
 @param column the column in which to start the display
 @param row the row in which to start the display
 **/
-        public void putString(String toDisplay, int column, int row) {
+      public void putString(String toDisplay, int column, int row) {
             Terminal t = screen.getTerminal();
-            try {
-                t.setCursorPosition(column, row);
+        try {
+            t.setCursorPosition(column, row);
             for (char ch: toDisplay.toCharArray()) {
                 t.putCharacter(ch);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        }
+      }
 
 /**
 Changes the message at the top of the screen for the user.

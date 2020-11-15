@@ -280,17 +280,16 @@ public class Rogue {
       messageToPrint = "";
       setNewCoordinates(input);
       Room nextRoom = movingIntoDoor();
-      Item toCollect = movingIntoItem();
 
       if (nextRoom != null) {
         moveOverPlayer(nextRoom);
       } else if (moveIsIllegal()) {
         throw new InvalidMoveException("You can't move there!");
-      } else { // legal move scenario
-        if (toCollect != null) { // add item to inventory, remove from room
-          messageToPrint = toCollect.getPickupMessage();
-          thePlayer.collectItem(toCollect);
-        }
+      }
+      Item toCollect = movingIntoItem();
+      if (toCollect != null) { // add item to inventory, remove from room
+        messageToPrint = toCollect.getPickupMessage();
+        thePlayer.collectItem(toCollect);
       }
       // rerender the room
       return messageToPrint;
