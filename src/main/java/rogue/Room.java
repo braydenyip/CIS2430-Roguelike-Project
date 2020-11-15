@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.awt.Point;
 import java.util.HashMap;
-
+import java.util.Random;
 /**
  * A room within the dungeon - contains monsters, treasure,
  * doors out, etc.
@@ -17,6 +17,7 @@ public class Room {
   private ArrayList<Item> roomItems = new ArrayList<Item>();
   private ArrayList<Door> doors = new ArrayList<Door>(); // Stores Door objects
   private Rogue rogue;
+  private Random random = new Random();
 /**
 * Constructs a room with a default ID of -1.
 */
@@ -115,7 +116,7 @@ public class Room {
     Point loc = toAdd.getXyLocation();
     int x = (int) loc.getX();
     int y = (int) loc.getY();
-    if (x <= 0 || x > (width - 1) || y <= 0 || y > (height - 1)) { // wall exception
+    if (x < 1 || x >= (width - 1) || y < 1 || y >= (height - 1)) { // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     } else if (itemOnTile(x, y) != null || playerOnTile(x, y)) {
       throw new ImpossiblePositionException("Something else is on the tile");
@@ -147,8 +148,7 @@ public class Room {
     for (int yNew = (y - 1); yNew <= (y + 1); yNew++) {
       for (int xNew = (x - 1); xNew <= (x + 1); xNew++) {
         if (itemOnTile(xNew, yNew) == null && !(playerOnTile(xNew, yNew))) {
-          if (xNew > 0 && yNew > 0 && yNew < width && xNew < height) {
-            System.out.println("Open spot found!");
+          if (xNew > 0 && yNew > 0 && yNew < (width - 1) && xNew < (height - 1)) {
             anItem.setXyLocation(new Point(xNew, yNew));
             return true;
           }
@@ -365,13 +365,96 @@ public class Room {
       return null;
   }
 
+
   /**
   * Verifies that the room has correct placements.
   * @return (boolean) True if the room is valid and correct, otherwise False
   * @throws NotEnoughDoorsException Thrown if the room does not have a door.
   */
   public boolean verifyRoom() throws NotEnoughDoorsException {
+    try {
+      if (itemsAreValid() && playerIsValid() && doorsAreValid() && id > 0) {
+        return true;
+      }
+      return false;
+    } catch (NotEnoughDoorsException e) {
+      throw e;
+    }
+  }
+
+  private boolean doorsAreValid() throws NotEnoughDoorsException {
+    if (doors.size() == 0) {
+      throw new NotEnoughDoorsException("No doors found!");
+    } else {
+      for (Door door: doors) {
+        if (door.getConnectedRooms().size() != 2) {
+          return false;
+        }
+      }
+    }
     return true;
+  }
+
+  /**
+  * This method is called if there are no doors in the room.
+  * It will attempt to add a door at a random location in the room.
+  * @param otherRoom the other room to connect
+  * @return (boolean) True if successful, otherwise false.
+  */
+  public boolean addRandomDoor(Room otherRoom) {
+    String openSide = getOpenSide();
+    if (openSide.equals("X")) {
+      return false; // no open side -- impossible
+    }
+    Door newDoor = new Door(openSide, (random.nextInt(height - 2) + 1));
+    newDoor.connectRoom(otherRoom);
+    addDoor(newDoor);
+    return true;
+  }
+
+  private String getOpenSide() {
+    ArrayList<String> sidesWithDoors = new ArrayList<>();
+    for (Door door: doors) {
+      sidesWithDoors.add(door.getDirection());
+    }
+    if (!(sidesWithDoors.contains("E"))) {
+      return "E";
+    } else if (!(sidesWithDoors.contains("W"))) {
+      return "W";
+    } else if (!(sidesWithDoors.contains("N"))) {
+      return "N";
+    } else if (!(sidesWithDoors.contains("E"))) {
+      return "S";
+    }
+    return "X";
+  }
+
+  private boolean itemsAreValid() {
+    for (Item item: roomItems) {
+      if (positionIsInvalid(item.getXCoordinate(), item.getYCoordinate())) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private boolean playerIsValid() {
+    if (this.isPlayerInRoom()) {
+      Item toReplace = itemOnTile(thePlayer.getXCoordinate(), thePlayer.getYCoordinate());
+      if (positionIsInvalid(thePlayer.getXCoordinate(), thePlayer.getYCoordinate())) {
+        return false;
+      } else if (toReplace != null) {
+        return openSpotExists(toReplace); // validity hinges on ability to move item
+      }
+    }
+    return true;
+  }
+
+  private boolean positionIsInvalid(int x, int y) {
+    if (x < 1 || x >= (width - 1) || y < 1 || y >= (height - 1)) {
+      return true;
+    }
+    return false;
   }
 
 }

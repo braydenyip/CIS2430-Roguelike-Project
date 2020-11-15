@@ -208,10 +208,36 @@ public class Rogue {
       }
     }
 
+    /**
+    * Verifies all the rooms in the game.
+    * @return (boolean) True if all rooms are valid, otherwise false.
+    */
+    public boolean verifyAllRooms() {
+      for (Room room: rooms) {
+        try {
+          if (!(room.verifyRoom())) {
+            return false;
+          }
+        } catch (NotEnoughDoorsException e) {
+          Room room2 = findOpenRoom();
+          if (room2 == null) {
+            return false;
+          } else if (!(room.addRandomDoor(room2) && room2.addRandomDoor(room))) {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
 
-
-
-
+    private Room findOpenRoom() {
+      for (Room room: rooms) {
+        if (room.getAllDoors().size() < 4) {
+          return room;
+        }
+      }
+      return null;
+    }
     /**
     * Fills the item array in the same way as the rooms.
     */

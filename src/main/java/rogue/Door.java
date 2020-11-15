@@ -15,6 +15,17 @@ public class Door {
   }
 
   /**
+  * Two parameter door constructor.
+  * @param newDirection the direction to set for the door
+  * @param newPosition the position of the door.
+  */
+
+  public Door(String newDirection, int newPosition) {
+    setDirection(newDirection);
+    setPosition(newPosition);
+    connectedRooms = new ArrayList<Room>();
+  }
+  /**
   * Returns the pair of connected rooms.
   * @return (ArrayList<Room>) the pair of rooms that are connected
   */
@@ -76,7 +87,7 @@ public class Door {
   /**
   * Given a room, this function returns the other room connected by the Door.
   * @param currentRoom one of the rooms in the pair
-  * @return (Room) the other room in the pair
+  * @return (Room) the other room in the pair, or null if none exists
   */
   public Room getOtherRoom(Room currentRoom) {
     if (connectedRooms.get(0) == currentRoom) {
