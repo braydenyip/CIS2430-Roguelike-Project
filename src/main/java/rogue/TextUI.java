@@ -127,23 +127,23 @@ public static void main(String[] args) {
     // allocate memory for the game and set it up
     Rogue theGame = new Rogue(parser);
    //set up the initial game display
-    Player thePlayer = new Player("Judi");
+    Player thePlayer = new Player("Brayden");
     theGame.setPlayer(thePlayer);
     theGame.initializeGameState();
     message = "Welcome to my Rogue game";
     theGameUI.draw(message, theGame.getNextDisplay());
 
     while (userInput != 'q') {
-    //get input from the user
-    userInput = theGameUI.getInput();
+      //get input from the user
+      userInput = theGameUI.getInput();
 
-    //ask the game if the user can move there
-    try {
-        message = theGame.makeMove(userInput);
-        theGameUI.draw(message, theGame.getNextDisplay());
-    } catch (InvalidMoveException badMove) {
-        theGameUI.setMessage(badMove.getMessage());
-    }
+      //ask the game if the user can move there
+      try {
+          message = theGame.makeMove(userInput);
+          theGameUI.draw(message, theGame.getNextDisplay());
+      } catch (InvalidMoveException badMove) {
+          theGameUI.setMessage(badMove.getMessage());
+      }
     }
 
     // do something here to say goodbye to the user
