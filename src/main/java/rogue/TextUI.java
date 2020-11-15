@@ -139,8 +139,12 @@ public static void main(String[] args) {
 
       //ask the game if the user can move there
       try {
+        if (userInput == 'i') {
+          message = theGame.showInventory();
+        } else {
           message = theGame.makeMove(userInput);
-          theGameUI.draw(message, theGame.getNextDisplay());
+        }
+        theGameUI.draw(message, theGame.getNextDisplay());
       } catch (InvalidMoveException badMove) {
           theGameUI.setMessage(badMove.getMessage());
       }

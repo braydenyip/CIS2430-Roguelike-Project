@@ -280,7 +280,6 @@ public class Rogue {
       messageToPrint = "";
       setNewCoordinates(input);
       Room nextRoom = movingIntoDoor();
-
       if (nextRoom != null) {
         moveOverPlayer(nextRoom);
       } else if (moveIsIllegal()) {
@@ -293,6 +292,14 @@ public class Rogue {
       }
       // rerender the room
       return messageToPrint;
+    }
+
+    /**
+    * returns the inventory as a message.
+    * @return (String) the string that shows the inventory.
+    */
+    public String showInventory() {
+      return (thePlayer.getInventory().toString());
     }
 
     // Like the above method, but does not allocate new memory
