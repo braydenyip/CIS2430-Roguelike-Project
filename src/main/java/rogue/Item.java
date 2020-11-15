@@ -178,4 +178,14 @@ public class Item  {
     public void setCurrentRoomId(int newCurrentRoomId) {
       currentRoomId = newCurrentRoomId;
     }
+
+    /**
+    * Returns a message that the game should display on item pickup.
+    * @return (String) A string which indicates the user picked up the item
+    */
+    public String getPickupMessage() {
+      String message = new String();
+      message += ("Picked up " + name + ".");
+      return message;
+    }
 }

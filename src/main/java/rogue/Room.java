@@ -116,7 +116,7 @@ public class Room {
     Point loc = toAdd.getXyLocation();
     int x = (int) loc.getX();
     int y = (int) loc.getY();
-    if (x < 1 || x >= (width - 1) || y < 1 || y >= (height - 1)) { // wall exception
+    if (positionIsInvalid(x, y)) { // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     } else if (itemOnTile(x, y) != null || playerOnTile(x, y)) {
       throw new ImpossiblePositionException("Something else is on the tile");
@@ -148,7 +148,7 @@ public class Room {
     for (int yNew = (y - 1); yNew <= (y + 1); yNew++) {
       for (int xNew = (x - 1); xNew <= (x + 1); xNew++) {
         if (itemOnTile(xNew, yNew) == null && !(playerOnTile(xNew, yNew))) {
-          if (xNew > 0 && yNew > 0 && yNew < (width - 1) && xNew < (height - 1)) {
+          if (!(positionIsInvalid(xNew, yNew))) {
             anItem.setXyLocation(new Point(xNew, yNew));
             return true;
           }
@@ -287,9 +287,8 @@ public class Room {
   // Determines if the player is on the tile.
   private boolean playerOnTile(int x, int y) {
     if (this.isPlayerInRoom()) { // Of course the player must be in the room
-      Point pt = thePlayer.getXyLocation();
-      int px = (int) pt.getX();
-      int py = (int) pt.getY();
+      int px = thePlayer.getXCoordinate();
+      int py = thePlayer.getYCoordinate();
       if (x == px && y == py) { // if the x and y coordinates given and the player's current coords match return true.
         return true;
       }

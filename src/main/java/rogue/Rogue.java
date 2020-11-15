@@ -277,7 +277,7 @@ public class Rogue {
     * @throws InvalidMoveException when the player makes a move to an invalid location
     */
     public String makeMove(char input) throws InvalidMoveException {
-
+      messageToPrint = "";
       setNewCoordinates(input);
       Room nextRoom = movingIntoDoor();
       Item toCollect = movingIntoItem();
@@ -288,7 +288,7 @@ public class Rogue {
         throw new InvalidMoveException("You can't move there!");
       } else { // legal move scenario
         if (toCollect != null) { // add item to inventory, remove from room
-          messageToPrint = "Picked up " + toCollect.getName() + ".";
+          messageToPrint = toCollect.getPickupMessage();
           thePlayer.collectItem(toCollect);
         }
       }
