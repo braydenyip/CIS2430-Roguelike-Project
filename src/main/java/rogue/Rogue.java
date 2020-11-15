@@ -312,21 +312,9 @@ public class Rogue {
     //move player to new room (vv broken).
     private void moveOverPlayer(Room toMoveTo) {
       thePlayer.setCurrentRoom(toMoveTo);
-      int x = thePlayer.getXCoordinate();
-      int y = thePlayer.getYCoordinate();
-      if (x == 1) { // Exited west entering east
-        y = toMoveTo.getDoorPosition("E");
-        thePlayer.setXyLocation(new Point((toMoveTo.getWidth() - 2), y));
-      } else if (x == (toMoveTo.getWidth() - 1)) { // exited east entering west
-        y = toMoveTo.getDoorPosition("W");
-        thePlayer.setXyLocation(new Point(1, y));
-      } else if (y == 1) { // exited north entering south
-        x = toMoveTo.getDoorPosition("S");
-        thePlayer.setXyLocation(new Point(x, (toMoveTo.getHeight() - 2)));
-      } else { // exited south entering north
-        x = toMoveTo.getDoorPosition("N");
-        thePlayer.setXyLocation(new Point(x, 1));
-      }
+      int x = toMoveTo.getWidth() / 2;
+      int y = toMoveTo.getHeight() / 2;
+      thePlayer.setXyLocation(new Point(x, y));
     }
 
 
@@ -386,7 +374,6 @@ public class Rogue {
     * @return (String) A formatted string that represents the room the player is in
     */
     public String getNextDisplay() {
-      displayString = "";
       // creates a string that displays all the rooms in the dungeon
       // not worried about fulfilling rooms that are adjacent or whatever, we're just printing rooms one after another
       for (Room rm: rooms) {

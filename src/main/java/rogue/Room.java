@@ -304,6 +304,7 @@ public class Room {
   */
 
   public String updateRoomString(String roomString) {
+    roomString = "";
     int wDoorLoc = this.getDoorPosition("W");
     int eDoorLoc = this.getDoorPosition("E");
     roomString = addNSWallLine(this.getDoorPosition("N"), roomString);
