@@ -57,6 +57,14 @@ public class Room {
   }
 
   /**
+  * Manually sets the maximum width to render a room to.
+  * @param newMax the new maximum render width.
+  */
+  public void setMaxWidth(int newMax) {
+    maxWidth = newMax;
+  }
+
+  /**
   * Returns the height of the room, including the walls.
   * @return (int) Height of the room.
   */
@@ -81,6 +89,14 @@ public class Room {
  */
   public int getMaxHeight() {
     return maxHeight;
+  }
+
+  /**
+  * Manually sets the maximum height to render a room to.
+  * @param newMax the new maximum render height.
+  */
+  public void setMaxHeight(int newMax) {
+    maxHeight = newMax;
   }
 
  /**
@@ -331,7 +347,7 @@ public class Room {
     int wDoorLoc = this.getDoorPosition("W");
     int eDoorLoc = this.getDoorPosition("E");
     roomString = addNSWallLine(this.getDoorPosition("N"), roomString);
-    for (int y = 1; y < maxHeight; y++) {
+    for (int y = 1; y <= (maxHeight - 1); y++) {
       if (y < (height - 1)) { // for each row in the room that is not the N/S walls
         roomString += " ";
         roomString = addRoomLine(wDoorLoc, eDoorLoc, y, roomString);
