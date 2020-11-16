@@ -334,12 +334,27 @@ public class Room {
     int wDoorLoc = this.getDoorPosition("W");
     int eDoorLoc = this.getDoorPosition("E");
     roomString = addNSWallLine(this.getDoorPosition("N"), roomString);
-    for (int y = 1; y < (height - 1); y++) { // for each row in the room that is not the N/S walls
-      roomString += " ";
-      roomString = addRoomLine(wDoorLoc, eDoorLoc, y, roomString);
+    for (int y = 1; y <= (maxHeight - 1); y++) {
+      if (y < (height - 1)) { // for each row in the room that is not the N/S walls
+        roomString += " ";
+        roomString = addRoomLine(wDoorLoc, eDoorLoc, y, roomString);
+      } else if (y == (height - 1)) {
+        roomString += " ";
+        roomString = addNSWallLine(this.getDoorPosition("S"), roomString);
+      } else {
+        roomString = addJustSpaces(roomString);
+      }
     }
-    roomString += " ";
-    roomString = addNSWallLine(this.getDoorPosition("S"), roomString);
+
+    return roomString;
+  }
+
+  // add a padding line of spaces
+  private String addJustSpaces(String roomString) {
+    for (int x = 0; x <= maxWidth; x++) {
+      roomString += " ";
+    }
+    roomString += "\n";
     return roomString;
   }
 
