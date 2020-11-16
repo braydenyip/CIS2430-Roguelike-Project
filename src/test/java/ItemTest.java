@@ -10,12 +10,15 @@ import java.awt.Point;
 public class ItemTest {
   private Item item;
   private static final int ID_CONST = 11;
+
   /**
   * Sets up an item.
   */
   @Before
   public void setUp() {
     item = new Item(6, "Golden Apple", "Consumable", new Point(3, 3));
+
+
   }
 
   /**
@@ -73,5 +76,17 @@ public class ItemTest {
   @Test
   public void testPickupMessage() {
     Assert.assertEquals(item.getPickupMessage(), "Picked up Golden Apple.");
+  }
+
+  /**
+  * Tests room id setting.
+  */
+  @Test
+  public void testRoomId() {
+    Room room;
+    room = new Room();
+    room.setId(8);
+    item.setCurrentRoomId(room.getId());
+    Assert.assertEquals(room.getId(), item.getCurrentRoomId());
   }
 }

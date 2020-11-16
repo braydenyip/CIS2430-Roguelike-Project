@@ -105,6 +105,22 @@ public class RoomTest {
 		Assert.assertTrue(str.equals("---\n |.|\n ---\n"));
 	}
 
+ /**
+ * Tests maximum methods.
+ */
+ @Test
+ public void testMaxHeightAndWidth() {
+	 room.setMaxWidth(0);
+	 room.setMaxHeight(0);
+	 room.setHeight(2);
+	 room.setWidth(4);
+	 room.setHeight(20);
+	 room.setWidth(8);
+	 room.setWidth(2);
+	 room.setHeight(5);
+	 Assert.assertEquals(room.getMaxWidth(), 8);
+	 Assert.assertEquals(room.getMaxHeight(), 20);
+ }
 	//Assert.assertTrue(room.getWidth() == target);
 	//	Assert.assertFalse(false);
 	//	Assert.assertNotNull(room);
