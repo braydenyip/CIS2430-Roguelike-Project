@@ -360,8 +360,12 @@ public class Room {
 
   // Creates a line that is an NS wall
   private String addNSWallLine(int doorLoc, String roomString) { // Add a north-south wall
-    for (int x = 0; x < width; x++) {
-      roomString += getDoorOrWall(doorLoc, x, "NS");
+    for (int x = 0; x < maxWidth; x++) {
+      if (x < width) {
+        roomString += getDoorOrWall(doorLoc, x, "NS");
+      } else {
+        roomString += " ";
+      }
     }
     roomString += "\n";
     return roomString;
@@ -371,19 +375,23 @@ public class Room {
   private String addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString) {
     Item tileItem;
     roomString += getDoorOrWall(wDoorLoc, y, "EW");
-    for (int x = 1; x < (width - 1); x++) { // rendering all internal tiles
-      tileItem = itemOnTile(x, y);
-      if (this.playerOnTile(x, y)) {
-        roomString += defaultSymbols.get("PLAYER");
-      } else if (tileItem != null) {
-        roomString += tileItem.getDisplayCharacter();
+    for (int x = 1; x < maxWidth; x++) {
+      if (x < (width - 1)) { // rendering all internal tiles
+        tileItem = itemOnTile(x, y);
+        if (this.playerOnTile(x, y)) {
+          roomString += defaultSymbols.get("PLAYER");
+        } else if (tileItem != null) {
+          roomString += tileItem.getDisplayCharacter();
+        } else {
+          roomString += defaultSymbols.get("FLOOR");
+        }
+      } else if (x == (width - 1)) {
+        roomString += getDoorOrWall(eDoorLoc, y, "EW");
       } else {
-        roomString += defaultSymbols.get("FLOOR");
+        roomString += " ";
       }
     }
-    roomString += getDoorOrWall(eDoorLoc, y, "EW");
-    roomString += "\n";
-    return roomString;
+    return (roomString + "\n");
   }
 
   // Logic to determine if an edge tile is a wall or a door.
