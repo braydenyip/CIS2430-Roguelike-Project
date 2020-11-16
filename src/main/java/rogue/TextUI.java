@@ -130,8 +130,14 @@ public static void main(String[] args) {
     Player thePlayer = new Player("Brayden");
     theGame.setPlayer(thePlayer);
     theGame.initializeGameState();
-    message = "Welcome to my Rogue game";
-    theGameUI.draw(message, theGame.getNextDisplay());
+
+    if (theGame.verifyAllRooms()) {
+      message = "Welcome to my Rogue game";
+      theGameUI.draw(message, theGame.getNextDisplay());
+    } else {
+      message = "The rooms file could not be used.\n";
+      theGameUI.draw(message, "Press 'q' to quit\n");
+    }
 
     while (userInput != 'q') {
       //get input from the user

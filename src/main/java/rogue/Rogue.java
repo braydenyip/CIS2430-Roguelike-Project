@@ -171,7 +171,7 @@ public class Rogue {
         if (newRoom.openSpotExists(anItem)) {
           attemptToAddItem(newRoom, anItem);
         } else {
-          System.out.println(e);
+          System.err.println(e);
         }
       }
     }
