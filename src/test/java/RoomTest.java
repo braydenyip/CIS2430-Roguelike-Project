@@ -122,8 +122,4 @@ public class RoomTest {
 	 Assert.assertEquals(room.getMaxHeight(), 20);
  }
 
-	//Assert.assertTrue(room.getWidth() == target);
-	//	Assert.assertFalse(false);
-	//	Assert.assertNotNull(room);
-	//	Assert.assertNull(null);
 }
