@@ -14,6 +14,8 @@ public class Room {
   private int width;
   private int height;
   private int id;
+  private static int maxWidth;
+  private static int maxHeight;
   private ArrayList<Item> roomItems = new ArrayList<Item>();
   private ArrayList<Door> doors = new ArrayList<Door>(); // Stores Door objects
   private Rogue rogue;
@@ -23,6 +25,8 @@ public class Room {
 */
  public Room() {
    this.setId(-1);
+   maxWidth = 0;
+   maxHeight = 0;
  }
 
    // Required getter and setters below
@@ -41,15 +45,26 @@ public class Room {
 */
  public void setWidth(int newWidth) {
    width = newWidth;
+   if (newWidth > maxWidth) {
+     maxWidth = newWidth;
+   }
  }
 
-/**
-* Returns the height of the room, including the walls.
-* @return (int) Height of the room.
-*/
- public int getHeight() {
-   return height;
- }
+ /**
+ * Returns the width of the widest room.
+ * @return (int) Width of the widest room.
+ */
+  public int getMaxWidth() {
+    return maxWidth;
+  }
+
+  /**
+  * Returns the height of the room, including the walls.
+  * @return (int) Height of the room.
+  */
+   public int getHeight() {
+     return height;
+   }
 
  /**
  * Sets the height of the room, including the walls.
@@ -57,7 +72,18 @@ public class Room {
  */
  public void setHeight(int newHeight) {
    height = newHeight;
+   if (newHeight > maxHeight) {
+     maxHeight = newHeight;
+   }
  }
+
+ /**
+ * Returns the height of the highest room.
+ * @return (int) Height of the room.
+ */
+  public int getMaxHeight() {
+    return maxHeight;
+  }
 
  /**
  * Returns the ID number of the room.
