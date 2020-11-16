@@ -6,7 +6,6 @@ import java.util.Map;
 
 import java.awt.Point;
 
-
 /**
 * The class that stores the game state and links other classes together.
 */
@@ -281,7 +280,7 @@ public class Rogue {
       setNewCoordinates(input);
       Room nextRoom = movingIntoDoor();
       if (nextRoom != null) {
-        moveOverPlayer(nextRoom);
+        moveOverPlayer(nextRoom, input);
       } else if (moveIsIllegal()) {
         throw new InvalidMoveException("You can't move there!");
       }
@@ -316,14 +315,31 @@ public class Rogue {
     }
 
     //move player to new room (vv broken).
-    private void moveOverPlayer(Room toMoveTo) {
+    private void moveOverPlayer(Room toMoveTo, char input) {
       thePlayer.setCurrentRoom(toMoveTo);
-      int x = toMoveTo.getWidth() / 2;
-      int y = toMoveTo.getHeight() / 2;
+      int x = 0;
+      int y = 0;
+      if (input == this.LEFT) { // out the west door in east side
+        x = toMoveTo.getWidth() - 2;
+        y = newPositionAgainstDoor(toMoveTo, "E");
+      } else if (input == this.RIGHT) { // out east door in west side
+        x = 1;
+        y = newPositionAgainstDoor(toMoveTo, "W");
+      } else if (input == this.UP) {
+        y = toMoveTo.getHeight() - 2;
+        x = newPositionAgainstDoor(toMoveTo, "S");
+      } else if (input == this.DOWN) {
+        y = 1;
+        x = newPositionAgainstDoor(toMoveTo, "N");
+      }
       thePlayer.setXyLocation(new Point(x, y));
     }
 
-
+    private int newPositionAgainstDoor(Room toMoveTo, String direction) {
+      int l = toMoveTo.getDoorPosition(direction);
+      int m = Math.max(l, 1);
+      return m;
+    }
 
     private Room movingIntoDoor() {
       Room theRoom = thePlayer.getCurrentRoom();
