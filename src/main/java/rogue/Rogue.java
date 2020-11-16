@@ -170,8 +170,6 @@ public class Rogue {
       } catch (ImpossiblePositionException e) {
         if (newRoom.openSpotExists(anItem)) {
           attemptToAddItem(newRoom, anItem);
-        } else {
-          System.err.println(e);
         }
       }
     }
@@ -187,12 +185,14 @@ public class Rogue {
     private void addDoorsToRoom(Room newRoom) {
       int id = newRoom.getId();
       HashMap<String, String> doorData = parser.getDoorPositions(id);
-      for (String direction : doorData.keySet()) {
-        Door newDoor = new Door();
-        newDoor.setPosition(Integer.parseInt(doorData.get(direction)));
-        newDoor.setDirection(direction);
-        connectDoor(newDoor, direction, id);
-        newRoom.addDoor(newDoor);
+      if (doorData != null) {
+        for (String direction : doorData.keySet()) {
+          Door newDoor = new Door();
+          newDoor.setPosition(Integer.parseInt(doorData.get(direction)));
+          newDoor.setDirection(direction);
+          connectDoor(newDoor, direction, id);
+          newRoom.addDoor(newDoor);
+        }
       }
     }
 

@@ -14,8 +14,8 @@ public class Room {
   private int width;
   private int height;
   private int id;
-  private static int maxWidth;
-  private static int maxHeight;
+  private static int maxWidth = 0;
+  private static int maxHeight = 0;
   private ArrayList<Item> roomItems = new ArrayList<Item>();
   private ArrayList<Door> doors = new ArrayList<Door>(); // Stores Door objects
   private Rogue rogue;
@@ -25,8 +25,6 @@ public class Room {
 */
  public Room() {
    this.setId(-1);
-   maxWidth = 0;
-   maxHeight = 0;
  }
 
    // Required getter and setters below
@@ -162,8 +160,7 @@ public class Room {
   }
 
   /**
-  * Determines if there is an adjacent, open spot next to the coordinates.
-  * Adjacent tiles will be a king's move away.
+  * Determines if there is an open spot on the map to place an item.
   * @param anItem the item to find a spot for
   * @return (boolean) True if there is an adjacent open spot, otherwise false
   */
@@ -171,8 +168,8 @@ public class Room {
   public boolean openSpotExists(Item anItem) {
     int x = anItem.getXCoordinate();
     int y = anItem.getYCoordinate();
-    for (int yNew = (y - 1); yNew <= (y + 1); yNew++) {
-      for (int xNew = (x - 1); xNew <= (x + 1); xNew++) {
+    for (int yNew = 1; yNew < (height - 1); yNew++) {
+      for (int xNew = 1; xNew < (width - 1); xNew++) {
         if (itemOnTile(xNew, yNew) == null && !(playerOnTile(xNew, yNew))) {
           if (!(positionIsInvalid(xNew, yNew))) {
             anItem.setXyLocation(new Point(xNew, yNew));
@@ -334,7 +331,7 @@ public class Room {
     int wDoorLoc = this.getDoorPosition("W");
     int eDoorLoc = this.getDoorPosition("E");
     roomString = addNSWallLine(this.getDoorPosition("N"), roomString);
-    for (int y = 1; y <= (maxHeight - 1); y++) {
+    for (int y = 1; y < maxHeight; y++) {
       if (y < (height - 1)) { // for each row in the room that is not the N/S walls
         roomString += " ";
         roomString = addRoomLine(wDoorLoc, eDoorLoc, y, roomString);
