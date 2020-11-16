@@ -67,4 +67,11 @@ public class ItemTest {
     Assert.assertEquals(item.getDescription(), "You feel a lot better.");
   }
 
+  /**
+  * Tests pickup message.
+  */
+  @Test
+  public void testPickupMessage() {
+    Assert.assertEquals(item.getPickupMessage(), "Picked up Golden Apple.");
+  }
 }
