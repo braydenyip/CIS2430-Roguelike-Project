@@ -175,27 +175,7 @@ public class Room {
     roomItems.remove(toRemove);
   }
 
-  /**
-  * Determines if there is an open spot on the map to place an item.
-  * @param anItem the item to find a spot for
-  * @return (boolean) True if there is an adjacent open spot, otherwise false
-  */
 
-  public boolean openSpotExists(Item anItem) {
-    int x = anItem.getXCoordinate();
-    int y = anItem.getYCoordinate();
-    for (int yNew = 1; yNew < (height - 1); yNew++) {
-      for (int xNew = 1; xNew < (width - 1); xNew++) {
-        if (itemOnTile(xNew, yNew) == null && !(playerOnTile(xNew, yNew))) {
-          if (!(positionIsInvalid(xNew, yNew))) {
-            anItem.setXyLocation(new Point(xNew, yNew));
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
  /**
  * Returns the room's Player object.
  * @return (Player) The player associated with the room
