@@ -17,8 +17,6 @@ public class ItemTest {
   @Before
   public void setUp() {
     item = new Item(6, "Golden Apple", "Consumable", new Point(3, 3));
-
-
   }
 
   /**

@@ -22,7 +22,7 @@ public class Rogue {
     private static ArrayList<Item> items = new ArrayList<Item>();
     private static ArrayList<Map<String, String>> itemLocations;
     private static HashMap<String, String> defaultSymbols = new HashMap<String, String>();
-    private RogueParser parser;
+    transient private RogueParser parser;
 
     /**
     * One parameter constructor.
