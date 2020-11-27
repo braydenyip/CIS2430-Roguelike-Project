@@ -22,7 +22,8 @@ public class Rogue {
     private static ArrayList<Item> items = new ArrayList<Item>();
     private static ArrayList<Map<String, String>> itemLocations;
     private static HashMap<String, String> defaultSymbols = new HashMap<String, String>();
-    transient private RogueParser parser;
+    // make transient
+    private RogueParser parser;
 
     /**
     * One parameter constructor.
@@ -168,7 +169,7 @@ public class Rogue {
           }
         }
       } catch (ImpossiblePositionException e) {
-        if (newRoom.openSpotExists(anItem)) {
+        if (anItem.openSpotExists(newRoom)) {
           attemptToAddItem(newRoom, anItem);
         }
       }

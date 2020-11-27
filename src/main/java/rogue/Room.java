@@ -307,6 +307,8 @@ public class Room {
     return false;
   }
 
+  // "Eligibility Detector" classes
+
   /**
   * Determines if there is an item on the tile.
   * @param x the x coordinate to check
@@ -323,8 +325,13 @@ public class Room {
     return null;
   }
 
-  // Determines if the player is on the tile.
-  private boolean playerOnTile(int x, int y) {
+  /**
+  * Determines if the player is on a tile.
+  * @param x the x coordinate
+  * @param y the y coordinate
+  * @return (boolean) Returns true if the player is on the tile, otherwise false
+  */
+  public boolean playerOnTile(int x, int y) {
     if (this.isPlayerInRoom()) { // Of course the player must be in the room
       int px = thePlayer.getXCoordinate();
       int py = thePlayer.getYCoordinate();
@@ -335,6 +342,18 @@ public class Room {
     return false;
   }
 
+  /**
+  * Determines if a position is out of bounds.
+  * @param x the x coordinate
+  * @param y the y coordinate
+  * @return (boolean) True if the location is in bounds, otherwise return False
+  */
+  public boolean positionIsInvalid(int x, int y) {
+    if (x < 1 || x >= (width - 1) || y < 1 || y >= (height - 1)) {
+      return true;
+    }
+    return false;
+  }
 
   /**
   * Edits a String to display the room.
@@ -506,17 +525,12 @@ public class Room {
       if (positionIsInvalid(thePlayer.getXCoordinate(), thePlayer.getYCoordinate())) {
         return false;
       } else if (toReplace != null) {
-        return openSpotExists(toReplace); // validity hinges on ability to move item
+        return toReplace.openSpotExists(this); // validity hinges on ability to move item
       }
     }
     return true;
   }
 
-  private boolean positionIsInvalid(int x, int y) {
-    if (x < 1 || x >= (width - 1) || y < 1 || y >= (height - 1)) {
-      return true;
-    }
-    return false;
-  }
+
 
 }

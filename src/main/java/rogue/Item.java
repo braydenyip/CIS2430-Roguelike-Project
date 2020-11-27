@@ -180,6 +180,28 @@ public class Item  {
     }
 
     /**
+    * Determines if there is an open spot on the map to place an item.
+    * @param room the room to check if a spot exists in
+    * @return (boolean) True if there is an adjacent open spot, otherwise false
+    */
+
+    public boolean openSpotExists(Room room) {
+      int height = room.getHeight();
+      int width = room.getWidth();
+      for (int yNew = 1; yNew < (height - 1); yNew++) {
+        for (int xNew = 1; xNew < (width - 1); xNew++) {
+          if (room.itemOnTile(xNew, yNew) == null && !(room.playerOnTile(xNew, yNew))) {
+            if (!(room.positionIsInvalid(xNew, yNew))) {
+              setXyLocation(new Point(xNew, yNew));
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    /**
     * Returns a message that the game should display on item pickup.
     * @return (String) A string which indicates the user picked up the item
     */
