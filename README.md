@@ -1,4 +1,4 @@
-**CIS2430 Assignment 2 -- F20**
+**CIS2430 Final Assignment (A3) -- F20**
 
 Brayden Yip
 ID# 1107544
@@ -13,7 +13,7 @@ How to run the program:
 - Ensure that you have a correctly formatted "fileLocations.json" file available, and that two more JSON files with names specified in the "fileLocations" file also exist.
 - In the main folder, type:
 `gradle build` , then
-`java -jar build/libs/A2.jar`
+`java -jar build/libs/A3.jar`
 
 - This will show the rooms as defined in the "Rooms" file, with each room numbered by the id tag.
 - The adventurers name will default to "Brayden".
