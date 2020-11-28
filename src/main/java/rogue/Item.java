@@ -1,5 +1,6 @@
 package rogue;
 import java.awt.Point;
+import java.util.Random;
 /**
  * A basic Item class; basic functionality for both consumables and equipment.
  */

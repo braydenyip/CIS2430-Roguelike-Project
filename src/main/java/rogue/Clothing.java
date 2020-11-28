@@ -24,7 +24,7 @@ public class Clothing extends Item implements Wearable {
 
   /**
   * Returns the amount of protection the clothing provides.
-  * @param armourPoints the amount of protection the item provides
+  * @param newArmourPoints the amount of protection the item provides
   */
   public void setArmourPoints(int newArmourPoints) {
     armourPoints = newArmourPoints;
