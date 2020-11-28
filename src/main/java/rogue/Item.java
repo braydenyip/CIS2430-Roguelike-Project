@@ -1,6 +1,5 @@
 package rogue;
 import java.awt.Point;
-
 /**
  * A basic Item class; basic functionality for both consumables and equipment.
  */
@@ -14,13 +13,24 @@ public class Item  {
     private String displayCharacter;
     private int currentRoomId;
     private String description;
-
+    private Random random = new Random();
     /**
     * Constructs a blank Item.
     * Sets a blank "scroll" at the origin
     */
     public Item() {
-        this(-1, "Void Scroll", "default", new Point(-1, -1));
+      this(-1, "Void Scroll", "default", new Point(-1, -1));
+    }
+
+    /**
+    * Constructs an item with just type
+    * @param newType the item's type
+    */
+    public Item(String newType) {
+      setType(newType);
+      setName("unknown");
+      setId(-1);
+      setXyLocation(new Point(-1, -1));
     }
     /**
     * Constructs an item with the given properties.
