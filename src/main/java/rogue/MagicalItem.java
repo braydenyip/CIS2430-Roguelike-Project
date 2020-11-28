@@ -2,7 +2,7 @@ package rogue;
 
 public class MagicalItem extends Item {
 
-  public String effect;
+  private String effect;
 
   /**
   * The default constructor.

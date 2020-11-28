@@ -15,7 +15,7 @@ public class Scroll extends MagicalItem {
   * @return (String) the string to print when scroll is used.
   */
   public String useScroll() {
-    return("You gain " + this.getDescription());
+    return ("You gain " + this.getDescription());
   }
 
 }

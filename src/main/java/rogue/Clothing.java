@@ -40,7 +40,7 @@ public class Clothing extends Item implements Wearable {
   }
 
   /**
-  * Generates the message to print when the player takes off the item
+  * Generates the message to print when the player takes off the item.
   * @return (String) a message that indicates the item has been taken off
   */
   @Override

@@ -7,7 +7,7 @@ public class Food extends Item implements Consumable {
   private int heal; // how much this item heals you for
   private Random random = new Random();
   /**
-  * The default constructor.
+  * The default constructor. Sets healing level randomly.
   */
   public Food() {
     super();

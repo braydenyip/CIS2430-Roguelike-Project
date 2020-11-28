@@ -15,6 +15,7 @@ public class Item  {
     private int currentRoomId;
     private String description;
     private Random random = new Random();
+
     /**
     * Constructs a blank Item.
     * Sets a blank "scroll" at the origin
@@ -24,7 +25,7 @@ public class Item  {
     }
 
     /**
-    * Constructs an item with just type
+    * Constructs an item by specifying only the type.
     * @param newType the item's type
     */
     public Item(String newType) {
