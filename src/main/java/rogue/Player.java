@@ -12,6 +12,9 @@ public class Player {
     private Point xyLocation;
     private Room currentRoom;
     private HashMap<Integer, Item> inventory;
+    private int hp;
+    private static final int MAXHP = 200;
+
     /**
     * The default player constructor.
     */
@@ -26,6 +29,7 @@ public class Player {
     public Player(String newName) {
       inventory = new HashMap<>();
       name = newName;
+      hp = 100;
     }
 
     /**
@@ -83,6 +87,37 @@ public class Player {
     */
     public void movePlayerBy(int dx, int dy) {
       xyLocation.translate(dx, dy);
+    }
+
+    /**
+    * Get the player's health points.
+    * @return (int) the players health
+    */
+    private int getHp() {
+      return hp;
+    }
+
+    /**
+    * Sets the player's health points.
+    * @param newHp the player's new health number
+    */
+    private void setHp(int newHp) {
+      hp = newHp;
+    }
+
+    /**
+    * Adds or subtracts a number to the player health points.
+    * @param deltaHp the change in player health, where a negative value reflects damage
+    */
+    private void addHp(int deltaHp) {
+      int newHp = hp + deltaHp;
+      if (newHp <= 0) {
+        hp = 0;
+      } else if (newHp >= MAXHP) {
+        hp = MAXHP;
+      } else {
+        hp = newHp;
+      }
     }
 
     /**
