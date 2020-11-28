@@ -11,7 +11,7 @@ public class Potion extends MagicalItem implements Consumable, Tossable {
   * The default constructor.
   */
   public Potion() {
-    super();
+    super("Potion");
     setPotency(random.nextInt(101));
   }
 

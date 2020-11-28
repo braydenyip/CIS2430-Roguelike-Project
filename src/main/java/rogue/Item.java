@@ -34,6 +34,7 @@ public class Item  {
       setId(-1);
       setXyLocation(new Point(-1, -1));
     }
+
     /**
     * Constructs an item with the given properties.
     * @param newId the Id number of the item.

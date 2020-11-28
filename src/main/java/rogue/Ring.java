@@ -6,7 +6,7 @@ public class Ring extends MagicalItem implements Wearable {
   * The default constructor.
   */
   public Ring() {
-    super();
+    super("Ring");
   }
 
   /**

@@ -7,7 +7,7 @@ public class Scroll extends MagicalItem {
   */
 
   public Scroll() {
-    super();
+    super("Scroll");
   }
 
   /**

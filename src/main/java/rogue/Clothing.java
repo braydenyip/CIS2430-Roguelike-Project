@@ -10,7 +10,7 @@ public class Clothing extends Item implements Wearable {
   * The default constructor.
   */
   public Clothing() {
-    super();
+    super("Clothing");
     setArmourPoints(random.nextInt(100));
   }
 

@@ -10,7 +10,7 @@ public class Food extends Item implements Consumable {
   * The default constructor. Sets healing level randomly.
   */
   public Food() {
-    super();
+    super("Food");
     setHeal(random.nextInt(26) * 2);
   }
 

@@ -8,7 +8,16 @@ public class MagicalItem extends Item {
   * The default constructor.
   */
   public MagicalItem() {
-    super();
+    super("MagicalItem");
+    setEffect("Fire");
+  }
+
+  /**
+  * The one parameter constructor.
+  * @param subtype the subtype of magical item
+  */
+  public MagicalItem(String subtype) {
+    super(subtype);
     setEffect("Fire");
   }
 

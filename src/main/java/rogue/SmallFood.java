@@ -7,6 +7,7 @@ public class SmallFood extends Food implements Tossable {
   */
   public SmallFood() {
     super();
+    setType("SmallFood");
   }
 
   /**
