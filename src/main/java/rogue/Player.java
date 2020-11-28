@@ -121,6 +121,17 @@ public class Player {
     }
 
     /**
+    * Detects if the player has died.
+    * @return (boolean) True if the player has 0 HP, otherwise return False.
+    */
+    private boolean playerIsDead() {
+      if (hp == 0) {
+        return true;
+      }
+      return false;
+    }
+
+    /**
     * Sets a brand new inventory.
     * @param newInventory the inventory to associate with the player.
     */
