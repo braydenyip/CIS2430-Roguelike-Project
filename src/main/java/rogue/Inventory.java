@@ -52,11 +52,16 @@ public class Inventory {
   }
 
   /**
-  * Sets the amount of items that can be held in the inventory.
-  *
+  * Sets the amount of items that can be held in the inventory, if possible
+  * @param newCapacity the new maximum of items that can be stored in the inventory.
+  * @return (boolean) False only if the number of items in the inventory exceeds the newCapacity
   */
-  public void setCapacity(int newCapacity) {
+  public boolean setCapacity(int newCapacity) {
+    if (getNumberOfItems() > newCapacity) {
+      return false;
+    }
     capacity = newCapacity;
+    return true;
   }
 
   /**
