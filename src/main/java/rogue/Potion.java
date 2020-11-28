@@ -2,7 +2,7 @@ package rogue;
 
 import java.util.Random;
 
-public class Potion extends Magic implements Consumable, Tossable {
+public class Potion extends MagicalItem implements Consumable, Tossable {
 
   private Random random = new Random();
   private int potency;
@@ -30,7 +30,7 @@ public class Potion extends Magic implements Consumable, Tossable {
   public void setPotency(int newPotency) {
     potency = newPotency;
   }
-  
+
   /**
   * Generates a message for when you drinl the potion.
   * @return (String) the message to print when the potion is consumed.
