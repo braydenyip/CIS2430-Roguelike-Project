@@ -60,12 +60,20 @@ public class Inventory {
   }
 
   /**
+  * Returns the number of items currently in the inventory.
+  * @return (int) the number of items that are in the inventory right now.
+  */
+  public int getNumberOfItems() {
+    return inventory.size();
+  }
+
+  /**
   * Adds an item to the inventory if possible.
   * @param toAdd the Item to add
   * @return (boolean) True if the item was successfully added, otherwise False
   */
   public boolean add(Item toAdd) {
-    if (inventory.size() >= capacity) {
+    if (getNumberOfItems() >= capacity) {
       return false;
     }
     inventory.put(toAdd.getId(), toAdd);
@@ -105,12 +113,11 @@ public class Inventory {
   }
 
   /**
-  * Dumps the entire inventory.
+  * Deletes the entire inventory.
+  * The items will not be dumped to the floor but deleted entirely!
   */
-  public void dumpAll() {
+  public void trashAll() {
     inventory.clear();
   }
-
-
 
 }
