@@ -90,7 +90,7 @@ public class Player {
 
     /**
     * Get the player's health points.
-    * @return (int) the players health
+    * @return (int) the players current hp
     */
     private int getHp() {
       return hp;
@@ -98,7 +98,7 @@ public class Player {
 
     /**
     * Sets the player's health points.
-    * @param newHp the player's new health number
+    * @param newHp the player's new hp value
     */
     private void setHp(int newHp) {
       hp = newHp;
@@ -145,7 +145,7 @@ public class Player {
     public void setCurrentRoom(Room newRoom) {
       currentRoom = newRoom;
     }
-    
+
     /**
     * Returns the entire inventory.
     * @return (Inventory) the player's whole inventory.
@@ -161,8 +161,6 @@ public class Player {
     public void setInventory(Inventory newInventory) {
       inventory = newInventory;
     }
-
-
 
     /**
     * Adds the item to the inventory of the player.
@@ -181,7 +179,5 @@ public class Player {
     public Item getFromInventory(int id) {
       return (inventory.remove(id));
     }
-
-
 
 }
