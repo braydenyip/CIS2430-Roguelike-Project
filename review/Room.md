@@ -34,4 +34,8 @@
 | addRoomLine(int wDoorLoc, int eDoorLoc, int y, String roomString) | makes a line that could have any type of object, as well as the EW walls | width, maxWidth, defaultSymbols | playerOnTile(), itemOnTile(), getDoorOrWall() | HashMap, Item | 17
 | getDoorOrWall(int, int, String) | Decides whether to display a wall or door for the room edge | defaultSymbols | none | HashMap | 7
 | verifyRoom() | Verifies the room has playable characteristics | id | itemsAreValid(), playerIsValid(), doorsAreValid() | NotEnoughDoorsException | 8
-
+| doorsAreValid() | Verifies the room is properly connected to other rooms | doors | none | Door.getConnectedRooms(), ArrayList | 8
+| addRandomDoor(Room) | Adds a random door to the room | height, random | getOpenSide(), addDoor() | Random, Door | 8
+| getOpenSide() | Finds an open side on which a new door can be added | doors | none | Door, ArrayList | 14
+| itemsAreValid() | Determines if all the items have valid position | roomItems | positionIsInvalid | Item (coordinate getters) | 5
+| playerIsValid() | Determines whether or not the player is valid, clearing items to do so | thePlayer | isPlayerInRoom(), itemOnTile(), positionIsInvalid() | Player, Item, this | 8
