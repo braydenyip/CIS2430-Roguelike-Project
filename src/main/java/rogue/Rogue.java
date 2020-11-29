@@ -357,7 +357,7 @@ public class Rogue {
       }
     }
 
-    //move player to new room 
+    //move player to new room  based on door positions
     private void moveOverPlayer(Room toMoveTo, char input) {
       thePlayer.setCurrentRoom(toMoveTo);
       int x = 0;
@@ -427,6 +427,7 @@ public class Rogue {
         thePlayer.movePlayerBy(0, -1);
       }
     }
+    
     // Returns an Item if the player is about to move on it, null otherwise.
     private Item movingIntoItem() {
       int newX = thePlayer.getXCoordinate();
@@ -439,8 +440,6 @@ public class Rogue {
     * @return (String) A formatted string that represents the room the player is in
     */
     public String getNextDisplay() {
-      // creates a string that displays all the rooms in the dungeon
-      // not worried about fulfilling rooms that are adjacent or whatever, we're just printing rooms one after another
       for (Room rm: rooms) {
         if (rm.equals(thePlayer.getCurrentRoom())) {
           displayString = rm.updateRoomString(displayString);
