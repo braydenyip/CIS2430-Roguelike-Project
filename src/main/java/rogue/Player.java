@@ -177,7 +177,7 @@ public class Player {
     * @return (Item) the Item with that id
     */
     public Item getFromInventory(int id) {
-      return (inventory.remove(id));
+      return (inventory.get(id));
     }
 
 }
