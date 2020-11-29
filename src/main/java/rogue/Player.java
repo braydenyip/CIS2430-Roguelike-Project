@@ -11,7 +11,7 @@ public class Player {
     private String name;
     private Point xyLocation;
     private Room currentRoom;
-    private HashMap<Integer, Item> inventory;
+    private Inventory inventory;
     private int hp;
     private static final int MAXHP = 200;
 
@@ -27,7 +27,7 @@ public class Player {
     * @param newName the name of the player
     */
     public Player(String newName) {
-      inventory = new HashMap<>();
+      inventory = new Inventory();
       name = newName;
       hp = 100;
     }
@@ -135,15 +135,15 @@ public class Player {
     * Sets a brand new inventory.
     * @param newInventory the inventory to associate with the player.
     */
-    public void setInventory(HashMap<Integer, Item> newInventory) {
+    public void setInventory(Inventory newInventory) {
       inventory = newInventory;
     }
 
     /**
     * Returns the entire inventory.
-    * @return (HashMap<Integer, Item>) the player's inventory.
+    * @return (Inventory) the player's whole inventory.
     */
-    public HashMap<Integer, Item> getInventory() {
+    public Inventory getInventory() {
       return inventory;
     }
 
@@ -152,8 +152,7 @@ public class Player {
     * @param toAdd the Item to add to the player's inventory.
     */
     public void collectItem(Item toAdd) {
-      int id = toAdd.getId();
-      inventory.put(id, toAdd);
+      inventory.add(toAdd);
       currentRoom.removeItem(toAdd); // remove from the room
     }
 
