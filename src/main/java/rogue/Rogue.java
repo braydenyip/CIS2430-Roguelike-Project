@@ -341,7 +341,7 @@ public class Rogue {
     * @return (String) the string that shows the inventory.
     */
     public String showInventory() {
-      return (thePlayer.getInventory().toString());
+      return (thePlayer.getInventory().getInventory().toString());
     }
 
     // Like the above method, but does not allocate new memory
