@@ -118,6 +118,14 @@ public class Inventory {
   }
 
   /**
+  * Trashes (remove without return) an item from inventory.
+  * @param id the unique item id.
+  */
+  public void trash(int id) {
+    Item temp = remove(id);
+  }
+
+  /**
   * Deletes the entire inventory.
   * The items will not be dumped to the floor but deleted entirely!
   */
