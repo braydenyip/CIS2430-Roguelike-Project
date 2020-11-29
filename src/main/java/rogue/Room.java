@@ -153,9 +153,8 @@ public class Room {
   */
 
   public void addItem(Item toAdd) throws ImpossiblePositionException, NoSuchItemException {
-    Point loc = toAdd.getXyLocation();
-    int x = (int) loc.getX();
-    int y = (int) loc.getY();
+    int x = toAdd.getXCoordinate();
+    int y = toAdd.getYCoordinate();
     if (positionIsInvalid(x, y)) { // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     } else if (itemOnTile(x, y) != null || playerOnTile(x, y)) {
