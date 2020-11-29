@@ -207,10 +207,9 @@ public class Room {
   * @return (int) The position of the door from the upper-left hand corner, or -1 if it is not found
   */
    public int getDoorPosition(String direction) {
-     for (Door door : doors) {
-       if (door.getDirection().equals(direction)) {
-         return door.getPosition();
-       }
+     Door door = getDoor(direction);
+     if (door != null) {
+       return (door.getPosition());
      }
      return -1;
    }
