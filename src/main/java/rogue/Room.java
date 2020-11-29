@@ -278,8 +278,7 @@ public class Room {
   public boolean isPlayerInRoom() {
     if (thePlayer == null) {
       return false;
-    }
-    if (thePlayer.getCurrentRoom().getId() == id) {
+    } else if (thePlayer.getCurrentRoom().getId() == id) {
       return true;
     }
     return false;
@@ -313,7 +312,7 @@ public class Room {
     if (this.isPlayerInRoom()) { // Of course the player must be in the room
       int px = thePlayer.getXCoordinate();
       int py = thePlayer.getYCoordinate();
-      if (x == px && y == py) { // if the x and y coordinates given and the player's current coords match return true.
+      if (x == px && y == py) { // if the x and y coordinates given and the player's current coords match return true
         return true;
       }
     }
@@ -355,7 +354,6 @@ public class Room {
         roomString = addJustSpaces(roomString);
       }
     }
-
     return roomString;
   }
 
