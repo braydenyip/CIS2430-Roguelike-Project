@@ -14,6 +14,9 @@ public class Rogue {
     public static final char DOWN = 's';
     public static final char LEFT = 'a';
     public static final char RIGHT = 'd';
+    public static final char CONSUME = 'e';
+    public static final char TOSS = 't';
+    public static final char WEAR = 'y';
 
     private String messageToPrint = new String();
     private String displayString = new String();
@@ -320,7 +323,7 @@ public class Rogue {
     */
     public String makeMove(char input) throws InvalidMoveException {
       messageToPrint = "";
-      setNewCoordinates(input);
+      messageToPrint = makeInputDecision(input);
       Room nextRoom = movingIntoDoor();
       if (nextRoom != null) {
         moveOverPlayer(nextRoom, input);
@@ -332,16 +335,20 @@ public class Rogue {
         messageToPrint = toCollect.getPickupMessage();
         thePlayer.collectItem(toCollect);
       }
-      // rerender the room
-      return messageToPrint;
+      return messageToPrint; // return the pickup message.
     }
 
-    /**
-    * returns the inventory as a message.
-    * @return (String) the string that shows the inventory.
-    */
-    public String showInventory() {
-      return (thePlayer.getInventory().getInventory().toString());
+    private String makeInputDecision(char input) {
+      if (input == this.CONSUME) {
+        return "You eat...";
+      } else if (input == this.TOSS) {
+        return "You throw...";
+      } else if (input == this.WEAR) {
+        return "You wear...";
+      } else {
+        setNewCoordinates(input);
+        return "";
+      }
     }
 
     // changes a player's location
@@ -355,6 +362,14 @@ public class Rogue {
       } else if (input == this.DOWN) {
         thePlayer.movePlayerBy(0, 1);
       }
+    }
+
+    /**
+    * returns the inventory as a message.
+    * @return (String) the string that shows the inventory.
+    */
+    public String showInventory() {
+      return (thePlayer.getInventory().getInventory().toString());
     }
 
     //move player to new room  based on door positions
@@ -416,6 +431,7 @@ public class Rogue {
       return false;
     }
 
+    // "Rebounds" a player after a move that was not legal.
     private void resetPlayerPosition(int x, int y, int width, int height) {
       if (x == 0) {
         thePlayer.movePlayerBy(1, 0);
@@ -427,7 +443,7 @@ public class Rogue {
         thePlayer.movePlayerBy(0, -1);
       }
     }
-    
+
     // Returns an Item if the player is about to move on it, null otherwise.
     private Item movingIntoItem() {
       int newX = thePlayer.getXCoordinate();
