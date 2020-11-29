@@ -173,11 +173,21 @@ public class Player {
 
     /**
     * Returns an item from the inventory of the player.
-    * @param id the id of the item to remove
+    * @param id the id of the item to get
     * @return (Item) the Item with that id
     */
     public Item getFromInventory(int id) {
       return (inventory.get(id));
     }
+
+    /**
+    * Returns an item from the inventory of the player, removing it in the process
+    * @param id the id of the item to remove
+    * @return (Item) the Item with that id
+    */
+    public Item removeFromInventory(int id) {
+      return (inventory.remove(id));
+    }
+
 
 }
