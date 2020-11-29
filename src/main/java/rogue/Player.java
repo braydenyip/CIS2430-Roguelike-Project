@@ -1,6 +1,5 @@
 package rogue;
 
-import java.util.HashMap;
 import java.awt.Point;
 
 /**
