@@ -251,7 +251,7 @@ public class Rogue {
 
     // adds an item to the list of items
     private void addItem(HashMap<String, String> itemData) {
-      Item newItem = new Item();
+      Item newItem = chooseItemSubtype(itemData);
       int roomId = Integer.parseInt(itemData.get("room"));
       newItem.setId(Integer.parseInt(itemData.get("id")));
       newItem.setName(itemData.get("name"));
@@ -261,6 +261,48 @@ public class Rogue {
       newItem.setCurrentRoomId(roomId);
       setItemPosition(newItem, itemData.get("x"), itemData.get("y"));
       items.add(newItem);
+    }
+
+    // Picks an item subtype to apply to appropriate methods to
+    private Item chooseItemSubtype(HashMap<String, String> itemData) {
+      String type = itemData.get("type");
+      if (type.equals("Food") || type.equals("SmallFood") || type.equals("Potion")) {
+        return handleConsumable(itemData);
+      } else if (type.equals("Clothing") || type.equals("Ring")) {
+        return handleWearable(itemData);
+      } else if (type.equals("Scroll")) {
+        return handleOtherMagical(itemData);
+      }
+      return new Item();
+    }
+
+    private Item handleConsumable(HashMap<String, String> itemData) {
+      String type = itemData.get("type");
+      if (type.equals("Food")) {
+        return new Food();
+      } else if (type.equals("SmallFood")) {
+        return new SmallFood();
+      } else {
+        return new Potion();
+      }
+    }
+
+    private Item handleWearable(HashMap<String, String> itemData) {
+      String type = itemData.get("type");
+      if (type.equals("Clothing")) {
+        return new Clothing();
+      } else {
+        return new Ring();
+      }
+    }
+
+    private Item handleOtherMagical(HashMap<String, String> itemData) {
+      String type = itemData.get("type");
+      if (type.equals("Scroll")) {
+        return new Scroll();
+      } else {
+        return new MagicalItem();
+      }
     }
 
     // Converts strings to ints and sets newItem's position to a new Point.
