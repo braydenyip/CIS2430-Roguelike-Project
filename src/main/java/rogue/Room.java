@@ -413,16 +413,6 @@ public class Room {
     }
   }
 
-  private String getSymbol(String symbolName) {
-
-      if (defaultSymbols.containsKey(symbolName)) {
-          return defaultSymbols.get(symbolName);
-      }
-      // Does not contain the key
-      return null;
-  }
-
-
   /**
   * Verifies that the room has correct placements.
   * @return (boolean) True if the room is valid and correct, otherwise False
@@ -506,7 +496,5 @@ public class Room {
     }
     return true;
   }
-
-
 
 }
