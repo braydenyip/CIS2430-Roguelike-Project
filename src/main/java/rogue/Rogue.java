@@ -344,7 +344,7 @@ public class Rogue {
       return (thePlayer.getInventory().getInventory().toString());
     }
 
-    // Like the above method, but does not allocate new memory
+    // changes a player's location
     private void setNewCoordinates(char input) {
       if (input == this.LEFT) {
         thePlayer.movePlayerBy(-1, 0);
@@ -357,7 +357,7 @@ public class Rogue {
       }
     }
 
-    //move player to new room (vv broken).
+    //move player to new room 
     private void moveOverPlayer(Room toMoveTo, char input) {
       thePlayer.setCurrentRoom(toMoveTo);
       int x = 0;
