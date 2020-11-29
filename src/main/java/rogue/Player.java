@@ -181,7 +181,7 @@ public class Player {
     }
 
     /**
-    * Returns an item from the inventory of the player, removing it in the process
+    * Returns an item from the inventory of the player, removing it in the process.
     * @param id the id of the item to remove
     * @return (Item) the Item with that id
     */

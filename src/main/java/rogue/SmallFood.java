@@ -16,7 +16,7 @@ public class SmallFood extends Food implements Tossable {
   */
   @Override
   public String toss() {
-    return ("You throw the " + this.getName());
+    return (this.getDescription().split(":"))[1];
   }
 
 }

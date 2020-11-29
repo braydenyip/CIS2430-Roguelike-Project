@@ -20,7 +20,7 @@ public class Food extends Item implements Consumable {
   */
   @Override
   public String consume() {
-    return ("You eat the " + this.getName());
+    return ((this.getDescription().split(":"))[0]);
   }
 
   /**

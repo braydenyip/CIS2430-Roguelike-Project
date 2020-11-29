@@ -36,7 +36,7 @@ public class Clothing extends Item implements Wearable {
   */
   @Override
   public String wear() {
-    return ("You put on the " + this.getName());
+    return (this.getDescription());
   }
 
   /**

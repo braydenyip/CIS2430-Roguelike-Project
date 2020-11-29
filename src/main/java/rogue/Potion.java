@@ -37,7 +37,7 @@ public class Potion extends MagicalItem implements Consumable, Tossable {
   */
   @Override
   public String consume() {
-    return ("You drink the " + getName());
+    return (this.getDescription().split(":"))[0];
   }
 
   /**
@@ -46,6 +46,6 @@ public class Potion extends MagicalItem implements Consumable, Tossable {
   */
   @Override
   public String toss() {
-    return ("You throw the" + getName() + " and it breaks.");
+    return (this.getDescription().split(":"))[1];
   }
 }
