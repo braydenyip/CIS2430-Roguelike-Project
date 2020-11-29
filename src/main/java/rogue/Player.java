@@ -131,13 +131,21 @@ public class Player {
     }
 
     /**
-    * Sets a brand new inventory.
-    * @param newInventory the inventory to associate with the player.
+    * Returns the Room which the player is in.
+    * @return (Room) The room the player is currently in.
     */
-    public void setInventory(Inventory newInventory) {
-      inventory = newInventory;
+    public Room getCurrentRoom() {
+      return currentRoom;
     }
 
+    /**
+    * Changes the room which the player is in.
+    * @param newRoom The new Room object of the player. Don't forget to change the room state.
+    */
+    public void setCurrentRoom(Room newRoom) {
+      currentRoom = newRoom;
+    }
+    
     /**
     * Returns the entire inventory.
     * @return (Inventory) the player's whole inventory.
@@ -145,6 +153,16 @@ public class Player {
     public Inventory getInventory() {
       return inventory;
     }
+
+    /**
+    * Sets a brand new inventory.
+    * @param newInventory the inventory to associate with the player.
+    */
+    public void setInventory(Inventory newInventory) {
+      inventory = newInventory;
+    }
+
+
 
     /**
     * Adds the item to the inventory of the player.
@@ -164,20 +182,6 @@ public class Player {
       return (inventory.remove(id));
     }
 
-    /**
-    * Returns the Room which the player is in.
-    * @return (Room) The room the player is currently in.
-    */
-    public Room getCurrentRoom() {
-      return currentRoom;
-    }
 
-    /**
-    * Changes the room which the player is in.
-    * @param newRoom The new Room object of the player. Don't forget to change the room state.
-    */
-    public void setCurrentRoom(Room newRoom) {
-      currentRoom = newRoom;
-    }
 
 }
