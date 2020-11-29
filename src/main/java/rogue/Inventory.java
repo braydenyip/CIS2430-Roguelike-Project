@@ -1,9 +1,9 @@
 package rogue;
 
 import java.util.HashMap;
-
+import java.util.Map;
 /**
-* Provides inventory functionality with two ways to access the inventory
+* Provides inventory functionality with two ways to access the inventory.
 */
 public class Inventory {
 
@@ -20,7 +20,7 @@ public class Inventory {
 
   /**
   * A constructor that sets the inventory size of the player.
-  * @param inventory the size of the player inventory.
+  * @param inventorySize the size of the player inventory.
   */
   public Inventory(int inventorySize) {
     this();
@@ -52,7 +52,7 @@ public class Inventory {
   }
 
   /**
-  * Sets the amount of items that can be held in the inventory, if possible
+  * Sets the amount of items that can be held in the inventory, if possible.
   * @param newCapacity the new maximum of items that can be stored in the inventory.
   * @return (boolean) False only if the number of items in the inventory exceeds the newCapacity
   */
