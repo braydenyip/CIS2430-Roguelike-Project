@@ -164,7 +164,9 @@ public class Rogue {
 
     private void attemptToAddItem(Room newRoom, Item anItem) {
       try {
-        newRoom.addItem(anItem);
+        if (anItem.getCurrentRoomId() == newRoom.getId()) {
+          newRoom.addItem(anItem);
+        }
       } catch (NoSuchItemException e) {
         for (Map<String, String> location : itemLocations) {
           if (Integer.parseInt(location.get("id")) == anItem.getId()) {

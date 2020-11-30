@@ -155,13 +155,13 @@ public class Room {
   public void addItem(Item toAdd) throws ImpossiblePositionException, NoSuchItemException {
     int x = toAdd.getXCoordinate();
     int y = toAdd.getYCoordinate();
-    if (positionIsInvalid(x, y)) { // wall exception
+    if (!(rogue.itemExists(toAdd))) {
+      throw new NoSuchItemException("No such item exists for this room");
+    } else if (positionIsInvalid(x, y)) { // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
     } else if (itemOnTile(x, y) != null || playerOnTile(x, y)) {
       throw new ImpossiblePositionException("Something else is on the tile");
-    } else if (!(rogue.itemExists(toAdd))) {
-      throw new NoSuchItemException("No such item exists for this room");
-    } else if (toAdd.getCurrentRoomId() == id) {
+    } else {
       roomItems.add(toAdd);
     }
   }
