@@ -17,6 +17,7 @@ public class Rogue {
     public static final char CONSUME = 'e';
     public static final char TOSS = 't';
     public static final char WEAR = 'y';
+    public static final char INV = 'i';
 
     private String messageToPrint = new String();
     private String displayString = new String();
@@ -345,6 +346,8 @@ public class Rogue {
         return "You throw...";
       } else if (input == this.WEAR) {
         return "You wear...";
+      } else if (input == this.INV) {
+        return showInventory();
       } else {
         setNewCoordinates(input);
         return "";
@@ -369,7 +372,18 @@ public class Rogue {
     * @return (String) the string that shows the inventory.
     */
     public String showInventory() {
-      return (thePlayer.getInventory().getInventory().toString());
+      int i = 1;
+      String invString = new String("");
+      Map<Integer, Item> invMap = getInventoryMap();
+      for (Item item : invMap.values()) {
+        invString += i + ". " + item.getName() + " | ";
+        i++;
+      }
+      return invString;
+    }
+
+    private Map<Integer, Item> getInventoryMap() {
+      return thePlayer.getInventory().getInventory();
     }
 
     //move player to new room  based on door positions
