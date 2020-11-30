@@ -145,21 +145,14 @@ public static void main(String[] args) {
 
       //ask the game if the user can move there
       try {
-        if (userInput == 'i') {
-          message = theGame.showInventory();
-        } else {
-          message = theGame.makeMove(userInput);
-        }
+        message = theGame.makeMove(userInput);
         theGameUI.draw(message, theGame.getNextDisplay());
       } catch (InvalidMoveException badMove) {
           theGameUI.setMessage(badMove.getMessage());
       }
     }
-
     // do something here to say goodbye to the user
     System.out.println("Thanks for playing!");
-
-
 
 }
 
