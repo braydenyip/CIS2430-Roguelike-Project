@@ -167,8 +167,9 @@ public class Player {
     * @param toAdd the Item to add to the player's inventory.
     */
     public void collectItem(Item toAdd) {
-      inventory.add(toAdd);
-      currentRoom.removeItem(toAdd); // remove from the room
+      if (inventory.add(toAdd)) {
+        currentRoom.removeItem(toAdd); // remove from the room
+      }
     }
 
     /**
