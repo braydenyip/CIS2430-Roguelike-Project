@@ -6,6 +6,8 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.ansi.UnixTerminal;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.terminal.swing.SwingTerminal;
+
 
 import java.io.IOException;
 
@@ -35,6 +37,17 @@ public class TextUI {
            }
        }
 
+       public TextUI(SwingTerminal newTerminal) {
+           super();
+           try {
+               screen = new TerminalScreen(newTerminal);
+               screen.setCursorPosition(TerminalPosition.TOP_LEFT_CORNER);
+               screen.startScreen();
+               screen.refresh();
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+       }
     /**
     * Returns the TerminalScreen.
     * @return (TerminalScreen) the terminal where the game is played.
