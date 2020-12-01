@@ -18,22 +18,29 @@ public class TextUI {
 
 
 
-/**
-Constructor for TextUI class.  Creates the screens, sets
-cursor to top left corner and does nothing else.
-**/
-    public TextUI() {
-        super();
-            try {
-            screen = new TerminalScreen(new UnixTerminal());
-            screen.setCursorPosition(TerminalPosition.TOP_LEFT_CORNER);
-            screen.startScreen();
 
+   /**
+   Constructor for TextUI class.  Creates the screens, sets
+   cursor to top left corner and does nothing else.
+   **/
+       public TextUI() {
+           super();
+           try {
+               screen = new TerminalScreen(new UnixTerminal());
+               screen.setCursorPosition(TerminalPosition.TOP_LEFT_CORNER);
+               screen.startScreen();
+               screen.refresh();
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+       }
 
-            screen.refresh();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+    * Returns the TerminalScreen.
+    * @return (TerminalScreen) the terminal where the game is played.
+    */
+    public TerminalScreen getScreen() {
+      return screen;
     }
 
 /**
