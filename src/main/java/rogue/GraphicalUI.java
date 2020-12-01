@@ -191,7 +191,7 @@ The controller method for making the game logic work.
     Player thePlayer = new Player("Brayden");
     theGame.setPlayer(thePlayer);
     theGame.initializeGameState();
-
+    theGameUI.setVisible(true);
     if (theGame.verifyAllRooms()) {
       message = "Welcome to my Rogue game";
       theGameUI.draw(message, theGame.getNextDisplay());
@@ -199,7 +199,6 @@ The controller method for making the game logic work.
       message = "The rooms file could not be used.\n";
       theGameUI.draw(message, "Press 'q' to quit\n");
     }
-    theGameUI.setVisible(true);
 
     while (userInput != 'q') {
       //get input from the user
@@ -215,6 +214,8 @@ The controller method for making the game logic work.
     }
 
     System.out.println("Thanks for playing");
+    theGameUI.setVisible(false);
+    System.exit(0);
   }
 
 }
