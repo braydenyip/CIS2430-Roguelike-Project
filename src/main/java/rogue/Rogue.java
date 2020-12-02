@@ -361,8 +361,6 @@ public class Rogue {
         return "You throw...";
       } else if (input == this.WEAR) {
         return "You wear...";
-      } else if (input == this.INV) {
-        return showInventory();
       } else {
         setNewCoordinates(input);
         return "";
@@ -382,20 +380,6 @@ public class Rogue {
       }
     }
 
-    /**
-    * returns the inventory as a message.
-    * @return (String) the string that shows the inventory.
-    */
-    public String showInventory() {
-      int i = 1;
-      String invString = new String("");
-      Map<Integer, Item> invMap = getInventoryMap();
-      for (Item item : invMap.values()) {
-        invString += i + ". " + item.getName() + " | ";
-        i++;
-      }
-      return invString;
-    }
 
     private Map<Integer, Item> getInventoryMap() {
       return thePlayer.getInventory().getInventory();

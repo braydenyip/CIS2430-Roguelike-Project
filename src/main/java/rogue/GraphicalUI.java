@@ -93,8 +93,10 @@ Constructor.
      */
     private void setSaveGameItems(JMenu menu) {
         saveGame = new JMenuItem("Save");
+        saveGame.addActionListener(ev -> new JFileChooser());
         menu.add(saveGame);
         loadGame = new JMenuItem("Load Saved Game");
+        loadGame.addActionListener(ev -> new JFileChooser());
         menu.add(loadGame);
     }
 
@@ -108,7 +110,6 @@ Constructor.
         loadSymbols = new JMenuItem("Load Symbols File");
         menu.add(loadSymbols);
     }
-
     private void setTerminal() {
         JPanel terminalPanel = new JPanel();
         terminal = new SwingTerminal();
@@ -119,6 +120,7 @@ Constructor.
     private void setPanels() {
         setInfoPanel();
         setInventoryPanel();
+        updateInventoryPanelBlank();
         setDescriptivePanel();
         setTerminal();
     }
@@ -178,21 +180,28 @@ Constructor.
     }
 
     private void updateInventoryPanel() {
-        Inventory anInventory = thePlayer.getInventory();
         inventoryPanel.removeAll();
+        Inventory anInventory = thePlayer.getInventory();
         if (anInventory.getNumberOfItems() < 1) {
-            JButton b1 = new JButton();
-            b1.setText("Your backpack is empty...");
-            inventoryPanel.add(b1);
+            updateInventoryPanelBlank();
         } else {
             for (Item item : anInventory.getInventory().values()) {
-                JButton b1 = new JButton();
-                b1.setText(item.getName());
+                JButton b1 = makeInvButton(item.getName());
                 b1.addActionListener(ev -> setDescriptive(item.getDescription()));
                 inventoryPanel.add(b1);
             }
         }
-        pack();
+    }
+
+    private void updateInventoryPanelBlank() {
+        inventoryPanel.add(makeInvButton("Your backpack is empty..."));
+    }
+
+    private JButton makeInvButton(String buttonName) {
+        JButton b1 = new JButton();
+        b1.setText(buttonName);
+        b1.setPreferredSize(new Dimension(200,50));
+        return b1;
     }
 
 /**
@@ -246,7 +255,7 @@ The controller method for making the game logic work.
             gui.updateInventoryPanel();
         }
       } catch (InvalidMoveException badMove) {
-          gui.setDescriptive(badMove.getLocalizedMessage());
+          gui.setDescriptive(badMove.getMessage());
       }
     }
 
