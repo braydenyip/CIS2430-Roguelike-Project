@@ -120,13 +120,16 @@ Constructor.
 
     private void setInventoryPanel() {
         inventoryPanel = new JPanel();
+        inventoryPanel.setLayout(new BoxLayout(inventoryPanel, BoxLayout.Y_AXIS));
         scrollableInventory = new JScrollPane(inventoryPanel);
         scrollableInventory.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollableInventory.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        JButton b1 = new JButton();
-        b1.setText("Press me");
-        b1.addActionListener(ev -> System.exit(0));
-        inventoryPanel.add(b1);
+        for (int i = 0; i < 24; i++) {
+            JButton b1 = new JButton();
+            b1.setText("Press me");
+            b1.addActionListener(ev -> System.exit(0));
+            inventoryPanel.add(b1);
+        }
         contentPane.add(scrollableInventory, BorderLayout.LINE_START);
     }
 
