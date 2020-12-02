@@ -26,6 +26,7 @@ public class GraphicalUI extends JFrame {
 
     private JLabel playerNameLabel;
     private JLabel playerHpLabel;
+    private JLabel playerInvCapLabel;
 /**
 Constructor.
 **/
@@ -43,7 +44,6 @@ Constructor.
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         contentPane.setLayout(new BorderLayout());
-
     }
 
     private void setTerminal() {
@@ -61,16 +61,19 @@ Constructor.
 
     private void setInventoryPanel() {
         inventoryPanel = new JPanel();
-        inventoryPanel.setLayout(new BoxLayout(inventoryPanel, BoxLayout.Y_AXIS));
-        contentPane.add(inventoryPanel, BorderLayout.WEST);
+        inventoryPanel.setLayout(new GridLayout(0,1));
+        inventoryPanel.add(new JLabel("Nothing here yet..."));
+        contentPane.add(inventoryPanel, BorderLayout.LINE_START);
     }
 
     private void setInfoPanel() {
         infoPanel = new JPanel(new FlowLayout());
         playerNameLabel = new JLabel("DefaultName");
         playerHpLabel = new JLabel("HP: " + 0);
+        playerInvCapLabel = new JLabel("Items: " + 0 + "/" + 0);
         infoPanel.add(playerNameLabel);
         infoPanel.add(playerHpLabel);
+        infoPanel.add(playerInvCapLabel);
         contentPane.add(infoPanel, BorderLayout.PAGE_START);
     }
 
@@ -82,11 +85,14 @@ Constructor.
     private void updateStats(Player thePlayer) {
         playerHpLabel.setText("HP: " + thePlayer.getHp());
         playerNameLabel.setText(thePlayer.getName());
+        int numItems = thePlayer.getInventory().getNumberOfItems();
+        int cap = thePlayer.getInventory().getCapacity();
+        playerInvCapLabel.setText("Items: " + numItems + "/" + cap);
     }
 
     private void updateInventory(Player thePlayer) {
         inventoryPanel.removeAll();
-        for (Item item : thePlayer.getInventoryMap().values()) {
+        for (Item item : thePlayer.getInventoryMap().values()){
             inventoryPanel.add(new JLabel(item.getId() + ". " + item.getName()));
         }
     }
@@ -111,7 +117,6 @@ The controller method for making the game logic work.
     theGame.setPlayer(thePlayer);
     theGame.initializeGameState();
     gui.setVisible(true);
-    gui.providePlayerUpdates(thePlayer);
     if (theGame.verifyAllRooms()) {
       message = "Welcome to my Rogue game";
       tui.draw(message, theGame.getNextDisplay());
@@ -119,17 +124,20 @@ The controller method for making the game logic work.
       message = "The rooms file could not be used.\n";
       tui.draw(message, "Press 'q' to quit\n");
     }
+    gui.providePlayerUpdates(thePlayer);
     while (userInput != 'q' && !(thePlayer.playerIsDead())) {
+
       //get input from the user
       userInput = tui.getInput();
       //ask the game if the user can move there
       try {
         message = theGame.makeMove(userInput);
         tui.draw(message, theGame.getNextDisplay());
+        gui.providePlayerUpdates(thePlayer);
       } catch (InvalidMoveException badMove) {
           tui.setMessage(badMove.getMessage());
       }
-      gui.providePlayerUpdates(thePlayer);
+
     }
     if (thePlayer.playerIsDead()) {
         while (userInput != 'q') {
