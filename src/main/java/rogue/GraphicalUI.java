@@ -5,6 +5,7 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class GraphicalUI extends JFrame {
 
@@ -110,12 +111,13 @@ Constructor.
      */
     private void setFileLoadingItems(JMenu menu) {
         loadFile = new JMenuItem("Load Map File");
-        loadFile.addActionListener(ev -> fileChooser.showOpenDialog(this));
+        loadFile.addActionListener(ev -> loadGameFileDialog());
         menu.add(loadFile);
         loadSymbols = new JMenuItem("Load Symbols File");
-        loadSymbols.addActionListener(ev -> fileChooser.showOpenDialog(this));
+        loadSymbols.addActionListener(ev -> loadSymbolsFileDialog());
         menu.add(loadSymbols);
     }
+
     private void setTerminal() {
         JPanel terminalPanel = new JPanel();
         terminal = new SwingTerminal();
@@ -162,6 +164,34 @@ Constructor.
 
     private void setDescriptive(String toDisplay) {
         descriptiveText.setText(toDisplay);
+    }
+
+    private void loadGameFileDialog() {
+        int retval = fileChooser.showOpenDialog(this);
+        if (retval == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+                theGame.refreshGameState(null, file);
+            } catch (Exception e) {
+                System.exit(0);
+            }
+        } else {
+            descriptiveText.setText("Loading cancelled.");
+        }
+    }
+
+    private void loadSymbolsFileDialog() {
+        int retval = fileChooser.showOpenDialog(this);
+        if (retval == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+                theGame.refreshGameState(file, null);
+            } catch (Exception e) {
+                System.exit(0);
+            }
+        } else {
+            descriptiveText.setText("Loading cancelled.");
+        }
     }
 
     private void getNewName() {

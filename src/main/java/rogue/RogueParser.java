@@ -1,4 +1,5 @@
 package rogue;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -205,6 +206,56 @@ public class RogueParser {
             throw pe;
         }
     }
+
+    /**
+     * Parses a .json file object.
+     * @param symbolsFile the file
+     * @throws FileNotFoundException if file is not found
+     * @throws IOException if there is an error with file io
+     * @throws ParseException if there is an error parsing the file
+     */
+    public void parseSymbols(File symbolsFile) throws FileNotFoundException, IOException, ParseException {
+        try {
+            JSONParser parser = new JSONParser();
+            Object symbolsObj = parser.parse(new FileReader(symbolsFile));
+            JSONObject symbolsJSON = (JSONObject) symbolsObj;
+            extractSymbolInfo(symbolsJSON);
+        } catch (FileNotFoundException fe) {
+            throw fe;
+        } catch (IOException ioe) {
+            throw ioe;
+        } catch (ParseException pe) {
+            throw pe;
+        }
+    }
+
+    /**
+     * Parses a .json file object for the rooms.
+     * @param roomsFile the rooms file
+     * @throws FileNotFoundException if the file is not found
+     * @throws IOException if there is an error with io
+     * @throws ParseException if there is an error parsing the file
+     */
+    public void parseRooms(File roomsFile) throws FileNotFoundException, IOException, ParseException {
+        try {
+            JSONParser parser = new JSONParser();
+            Object roomsObj = parser.parse(new FileReader(roomsFile));
+            JSONObject roomsJSON = (JSONObject) roomsObj;
+
+            extractRoomInfo(roomsJSON);
+            extractItemInfo(roomsJSON);
+
+            roomIterator = rooms.iterator();
+            itemIterator = items.iterator();
+        } catch (FileNotFoundException fe) {
+            throw fe;
+        } catch (IOException ioe) {
+            throw ioe;
+        } catch (ParseException pe) {
+            throw pe;
+        }
+    }
+
     /**
      * Get the symbol information.
      * @param symbolsJSON  (JSONObject) Contains information about the symbols

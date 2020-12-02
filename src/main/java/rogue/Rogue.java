@@ -1,5 +1,10 @@
 package rogue;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +51,28 @@ public class Rogue {
       setItemLocations();
       createItems();
       createRooms();
+    }
+
+    /**
+     * Refreshes the game based on file inputs.
+     * @param symbols a Symbols file, or null to keep symbols constant.
+     * @param rooms a Rooms file, or null to keep rooms constant.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ParseException
+     */
+    public void refreshGameState(File symbols, File rooms) throws FileNotFoundException, IOException, ParseException {
+        if (symbols != null && rooms != null) { // both files
+            parser.parseSymbols(symbols);
+            parser.parseRooms(rooms);
+        } if (rooms == null && symbols != null) { // just symbols
+            parser.parseSymbols(symbols);
+        } if (symbols == null && rooms != null) { // just rooms
+            parser.parseRooms(rooms);
+        }
+        if (symbols != null || rooms != null) { // refresh the game state if something was changed.
+            initializeGameState();
+        }
     }
 
     /**
