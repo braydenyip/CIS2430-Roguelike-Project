@@ -61,6 +61,9 @@ Constructor.
         fileMenu.add(loadFile);
         JMenuItem changeName = new JMenuItem("Change Player Name");
         fileMenu.add(changeName);
+        JMenuItem quitGame = new JMenuItem("Quit");
+        quitGame.addActionListener(ev -> System.exit(0));
+        fileMenu.add(quitGame);
     }
 
     private void setTerminal() {
