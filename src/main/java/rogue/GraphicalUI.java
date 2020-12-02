@@ -19,6 +19,10 @@ public class GraphicalUI extends JFrame {
     private final char startCol = 0;
     private final char msgRow = 1;
     private final char roomRow = 3;
+
+    private Rogue theGame;
+    private Player thePlayer;
+
     private String inputField;
     private Container contentPane;
 
@@ -26,7 +30,7 @@ public class GraphicalUI extends JFrame {
     private JPanel inventoryPanel;
     private JScrollPane scrollableInventory;
     private JPanel descriptivePanel;
-    private JTextArea descriptiveTextArea;
+    private JLabel descriptiveText;
 
     private JMenuItem loadFile;
     private JMenuItem loadSymbols;
@@ -49,6 +53,15 @@ Constructor.
         pack();
     }
 
+    /**
+     * Sets game variables.
+     * @param game the Rogue game
+     * @param player the Player class
+     */
+    public void setGame(Rogue game, Player player) {
+        theGame = game;
+        thePlayer = player;
+    }
     private void setWindowDefaults() {
         setTitle("Brayden's Rogue Game!");
         setSize(WIDTH, HEIGHT);
@@ -127,36 +140,35 @@ Constructor.
         scrollableInventory = new JScrollPane(inventoryPanel);
         scrollableInventory.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollableInventory.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        contentPane.add(scrollableInventory, BorderLayout.LINE_START);
+        contentPane.add(scrollableInventory, BorderLayout.LINE_END);
     }
 
     private void setDescriptivePanel() {
         descriptivePanel = new JPanel();
-        descriptiveTextArea = new JTextArea();
-        descriptiveTextArea.setFont(new Font(Font.SERIF, Font.PLAIN,12 ));
-        descriptivePanel.add(descriptiveTextArea);
+        descriptiveText = new JLabel();
+        descriptivePanel.add(descriptiveText);
         contentPane.add(descriptivePanel, BorderLayout.PAGE_END);
     }
 
     private void setDescriptive(String toDisplay) {
-        descriptiveTextArea.setText(toDisplay);
+        descriptiveText.setText(toDisplay);
     }
 
     private void getNewName() {
         inputField = JOptionPane.showInputDialog("What do you want to name your character?");
         playerNameLabel.setText(inputField);
+        thePlayer.setName(inputField);
     }
 
     private void gameOverDialog() {
         JOptionPane.showMessageDialog(this, "GAME OVER! Restart to try again.");
     }
 
-    private void providePlayerUpdates(Player thePlayer) {
-        updateStats(thePlayer);
-        updateInventoryPanel(thePlayer.getInventory());
+    private void providePlayerUpdates() {
+        updateStats();
     }
 
-    private void updateStats(Player thePlayer) {
+    private void updateStats() {
         thePlayer.setName(inputField);
         playerNameLabel.setText(thePlayer.getName());
         playerHpLabel.setText("HP: " + thePlayer.getHp());
@@ -165,14 +177,22 @@ Constructor.
         playerInvCapLabel.setText("Items: " + numItems + "/" + cap);
     }
 
-    private void updateInventoryPanel(Inventory anInventory) {
+    private void updateInventoryPanel() {
+        Inventory anInventory = thePlayer.getInventory();
         inventoryPanel.removeAll();
-        for (Item item : anInventory.getInventory().values()) {
+        if (anInventory.getNumberOfItems() < 1) {
             JButton b1 = new JButton();
-            b1.setText(item.getName());
-            b1.addActionListener(ev -> setDescriptive(item.getDescription()));
+            b1.setText("Your backpack is empty...");
             inventoryPanel.add(b1);
+        } else {
+            for (Item item : anInventory.getInventory().values()) {
+                JButton b1 = new JButton();
+                b1.setText(item.getName());
+                b1.addActionListener(ev -> setDescriptive(item.getDescription()));
+                inventoryPanel.add(b1);
+            }
         }
+        pack();
     }
 
 /**
@@ -196,7 +216,7 @@ The controller method for making the game logic work.
     Player thePlayer = new Player("Brayden");
     theGame.setPlayer(thePlayer);
     theGame.initializeGameState();
-
+    gui.setGame(theGame, thePlayer);
     //set up the initial game display
     gui.setVisible(true);
 
@@ -210,21 +230,23 @@ The controller method for making the game logic work.
 
     // ask the player for name before starting.
     gui.getNewName();
-    gui.providePlayerUpdates(thePlayer);
+    gui.providePlayerUpdates();
+    gui.updateInventoryPanel();
 
     while (userInput != 'q' && !(thePlayer.playerIsDead())) {
-      gui.providePlayerUpdates(thePlayer);
+      gui.providePlayerUpdates();
       //get input from the user
       userInput = tui.getInput();
       //ask the game if the user can move there
       try {
         message = theGame.makeMove(userInput);
-        tui.draw(message, theGame.getNextDisplay());
+        tui.draw("", theGame.getNextDisplay());
+        gui.setDescriptive(message);
         if (theGame.isItemPickedUp()) {
-            gui.updateInventoryPanel(thePlayer.getInventory());
+            gui.updateInventoryPanel();
         }
       } catch (InvalidMoveException badMove) {
-          tui.setMessage(badMove.getMessage());
+          gui.setDescriptive(badMove.getLocalizedMessage());
       }
     }
 
