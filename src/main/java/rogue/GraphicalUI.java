@@ -24,11 +24,12 @@ public class GraphicalUI extends JFrame {
 
     private JPanel infoPanel;
     private JPanel inventoryPanel;
+    private JScrollPane scrollableInventory;
 
-    JMenuItem loadFile;
-    JMenuItem loadSymbols;
-    JMenuItem loadGame;
-    JMenuItem saveGame;
+    private JMenuItem loadFile;
+    private JMenuItem loadSymbols;
+    private JMenuItem loadGame;
+    private JMenuItem saveGame;
 
     private JLabel playerNameLabel;
     private JLabel playerHpLabel;
@@ -102,6 +103,7 @@ Constructor.
 
     private void setPanels() {
         setInfoPanel();
+        setInventoryPanel();
         setTerminal();
     }
 
@@ -114,6 +116,18 @@ Constructor.
         infoPanel.add(playerHpLabel);
         infoPanel.add(playerInvCapLabel);
         contentPane.add(infoPanel, BorderLayout.PAGE_START);
+    }
+
+    private void setInventoryPanel() {
+        inventoryPanel = new JPanel();
+        scrollableInventory = new JScrollPane(inventoryPanel);
+        scrollableInventory.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollableInventory.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        JButton b1 = new JButton();
+        b1.setText("Press me");
+        b1.addActionListener(ev -> System.exit(0));
+        inventoryPanel.add(b1);
+        contentPane.add(scrollableInventory, BorderLayout.LINE_START);
     }
 
     private void getNewName() {
@@ -146,19 +160,23 @@ The controller method for making the game logic work.
     char userInput = 'h';
     String message;
     String configurationFileLocation = "fileLocations.json";
-    //Parse the json files
+
+    // Parse the json files
     RogueParser parser = new RogueParser(configurationFileLocation);
-    //allocate memory for the GUI
+
+    //allocate memory for the GUI and Terminal UI
     GraphicalUI gui = new GraphicalUI();
-    // allocate memory for the TextUI -- mostly a set of instructions relating to Lanterna UI
     TextUI tui = new TextUI(gui.terminal);
+
     // allocate memory for the game and set it up
     Rogue theGame = new Rogue(parser);
-   //set up the initial game display
     Player thePlayer = new Player("Brayden");
     theGame.setPlayer(thePlayer);
     theGame.initializeGameState();
+
+    //set up the initial game display
     gui.setVisible(true);
+
     if (theGame.verifyAllRooms()) {
       message = "Welcome to my Rogue game";
       tui.draw(message, theGame.getNextDisplay());
@@ -166,8 +184,11 @@ The controller method for making the game logic work.
       message = "The rooms file could not be used.\n";
       tui.draw(message, "Press 'q' to quit\n");
     }
+
+    // ask the player for name before starting.
     gui.getNewName();
     gui.providePlayerUpdates(thePlayer);
+
     while (userInput != 'q' && !(thePlayer.playerIsDead())) {
       gui.providePlayerUpdates(thePlayer);
       //get input from the user
@@ -181,9 +202,11 @@ The controller method for making the game logic work.
       }
       gui.providePlayerUpdates(thePlayer);
     }
+
     if (thePlayer.playerIsDead()) {
         gui.gameOverDialog();
     }
+
     System.exit(0);
   }
 
