@@ -19,6 +19,7 @@ public class GraphicalUI extends JFrame {
     private final char startCol = 0;
     private final char msgRow = 1;
     private final char roomRow = 3;
+    private String inputField;
     private Container contentPane;
 
     private JPanel infoPanel;
@@ -42,7 +43,7 @@ Constructor.
     }
 
     private void setWindowDefaults() {
-        setTitle("Rogue!");
+        setTitle("Brayden's Rogue Game!");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         contentPane.setLayout(new BorderLayout());
@@ -61,6 +62,7 @@ Constructor.
         fileMenu.add(loadFile);
         JMenuItem changeName = new JMenuItem("Change Player Name");
         fileMenu.add(changeName);
+        changeName.addActionListener(ev -> getNewName());
         JMenuItem quitGame = new JMenuItem("Quit");
         quitGame.addActionListener(ev -> System.exit(0));
         fileMenu.add(quitGame);
@@ -80,7 +82,7 @@ Constructor.
 
     private void setInfoPanel() {
         infoPanel = new JPanel(new FlowLayout());
-        playerNameLabel = new JLabel("DefaultName");
+        playerNameLabel = new JLabel("-");
         playerHpLabel = new JLabel("HP: " + 0);
         playerInvCapLabel = new JLabel("Items: " + 0 + "/" + 0);
         infoPanel.add(playerNameLabel);
@@ -89,13 +91,18 @@ Constructor.
         contentPane.add(infoPanel, BorderLayout.PAGE_START);
     }
 
+    private void getNewName() {
+        inputField = JOptionPane.showInputDialog("What do you want to name your character?");
+    }
+
     private void providePlayerUpdates(Player thePlayer) {
         updateStats(thePlayer);
     }
 
     private void updateStats(Player thePlayer) {
-        playerHpLabel.setText("HP: " + thePlayer.getHp());
+        thePlayer.setName(inputField);
         playerNameLabel.setText(thePlayer.getName());
+        playerHpLabel.setText("HP: " + thePlayer.getHp());
         int numItems = thePlayer.getInventory().getNumberOfItems();
         int cap = thePlayer.getInventory().getCapacity();
         playerInvCapLabel.setText("Items: " + numItems + "/" + cap);
@@ -129,9 +136,10 @@ The controller method for making the game logic work.
       message = "The rooms file could not be used.\n";
       tui.draw(message, "Press 'q' to quit\n");
     }
+    gui.getNewName();
     gui.providePlayerUpdates(thePlayer);
     while (userInput != 'q' && !(thePlayer.playerIsDead())) {
-
+      gui.providePlayerUpdates(thePlayer);
       //get input from the user
       userInput = tui.getInput();
       //ask the game if the user can move there
@@ -142,7 +150,6 @@ The controller method for making the game logic work.
           tui.setMessage(badMove.getMessage());
       }
       gui.providePlayerUpdates(thePlayer);
-
     }
     if (thePlayer.playerIsDead()) {
         while (userInput != 'q') {
