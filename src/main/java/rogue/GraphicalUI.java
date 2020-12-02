@@ -95,6 +95,10 @@ Constructor.
         inputField = JOptionPane.showInputDialog("What do you want to name your character?");
     }
 
+    private void gameOverDialog() {
+        JOptionPane.showMessageDialog(this, "GAME OVER! Restart to try again.");
+    }
+
     private void providePlayerUpdates(Player thePlayer) {
         updateStats(thePlayer);
     }
@@ -152,10 +156,7 @@ The controller method for making the game logic work.
       gui.providePlayerUpdates(thePlayer);
     }
     if (thePlayer.playerIsDead()) {
-        while (userInput != 'q') {
-            userInput = tui.getInput();
-            tui.draw(message, "GAME OVER\n Restart the game to try again; press q to quit.");
-        }
+        gui.gameOverDialog();
     }
     System.exit(0);
   }
