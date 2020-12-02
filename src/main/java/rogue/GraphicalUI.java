@@ -1,29 +1,10 @@
 package rogue;
 
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.swing.SwingTerminal;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.TerminalPosition;
 
-import javax.swing.JFrame;
-import java.awt.Container;
-import javax.swing.WindowConstants;
-import java.awt.BorderLayout;
-import java.io.IOException;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.border.Border;
-import javax.swing.BorderFactory;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 
 public class GraphicalUI extends JFrame {
 
@@ -40,6 +21,11 @@ public class GraphicalUI extends JFrame {
     private final char roomRow = 3;
     private Container contentPane;
 
+    private JPanel infoPanel;
+    private JPanel inventoryPanel;
+
+    private JLabel playerNameLabel;
+    private JLabel playerHpLabel;
 /**
 Constructor.
 **/
@@ -48,7 +34,7 @@ Constructor.
         super("rogue game");
         contentPane = getContentPane();
         setWindowDefaults();
-        setTerminal();
+        setPanels();
         pack();
     }
 
@@ -68,10 +54,42 @@ Constructor.
     }
 
     private void setPanels() {
-        JLabel playerInfo = new JLabel();
+        setInfoPanel();
+        setInventoryPanel();
+        setTerminal();
     }
 
+    private void setInventoryPanel() {
+        inventoryPanel = new JPanel();
+        inventoryPanel.setLayout(new BoxLayout(inventoryPanel, BoxLayout.Y_AXIS));
+        contentPane.add(inventoryPanel, BorderLayout.WEST);
+    }
 
+    private void setInfoPanel() {
+        infoPanel = new JPanel(new FlowLayout());
+        playerNameLabel = new JLabel("DefaultName");
+        playerHpLabel = new JLabel("HP: " + 0);
+        infoPanel.add(playerNameLabel);
+        infoPanel.add(playerHpLabel);
+        contentPane.add(infoPanel, BorderLayout.PAGE_START);
+    }
+
+    private void providePlayerUpdates(Player thePlayer) {
+        updateStats(thePlayer);
+        updateInventory(thePlayer);
+    }
+
+    private void updateStats(Player thePlayer) {
+        playerHpLabel.setText("HP: " + thePlayer.getHp());
+        playerNameLabel.setText(thePlayer.getName());
+    }
+
+    private void updateInventory(Player thePlayer) {
+        inventoryPanel.removeAll();
+        for (Item item : thePlayer.getInventoryMap().values()) {
+            inventoryPanel.add(new JLabel(item.getId() + ". " + item.getName()));
+        }
+    }
 /**
 The controller method for making the game logic work.
 @param args command line parameters
@@ -93,7 +111,7 @@ The controller method for making the game logic work.
     theGame.setPlayer(thePlayer);
     theGame.initializeGameState();
     gui.setVisible(true);
-
+    gui.providePlayerUpdates(thePlayer);
     if (theGame.verifyAllRooms()) {
       message = "Welcome to my Rogue game";
       tui.draw(message, theGame.getNextDisplay());
@@ -101,8 +119,7 @@ The controller method for making the game logic work.
       message = "The rooms file could not be used.\n";
       tui.draw(message, "Press 'q' to quit\n");
     }
-
-    while (userInput != 'q') {
+    while (userInput != 'q' && !(thePlayer.playerIsDead())) {
       //get input from the user
       userInput = tui.getInput();
       //ask the game if the user can move there
@@ -110,8 +127,15 @@ The controller method for making the game logic work.
         message = theGame.makeMove(userInput);
         tui.draw(message, theGame.getNextDisplay());
       } catch (InvalidMoveException badMove) {
-        tui.setMessage(badMove.getMessage());
+          tui.setMessage(badMove.getMessage());
       }
+      gui.providePlayerUpdates(thePlayer);
+    }
+    if (thePlayer.playerIsDead()) {
+        while (userInput != 'q') {
+            userInput = tui.getInput();
+            tui.draw(message, "GAME OVER\n Restart the game to try again; press q to quit.");
+        }
     }
     System.exit(0);
   }

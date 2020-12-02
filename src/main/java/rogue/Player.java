@@ -1,7 +1,8 @@
 package rogue;
 
 import java.awt.Point;
-
+import java.util.HashMap;
+import java.util.Map;
 /**
  * The player's character.
  */
@@ -92,7 +93,7 @@ public class Player {
     * Get the player's health points.
     * @return (int) the players current hp
     */
-    private int getHp() {
+    public int getHp() {
       return hp;
     }
 
@@ -100,7 +101,7 @@ public class Player {
     * Sets the player's health points.
     * @param newHp the player's new hp value
     */
-    private void setHp(int newHp) {
+    public void setHp(int newHp) {
       hp = newHp;
     }
 
@@ -108,7 +109,7 @@ public class Player {
     * Adds or subtracts a number to the player health points.
     * @param deltaHp the change in player health, where a negative value reflects damage
     */
-    private void addHp(int deltaHp) {
+    public void addHp(int deltaHp) {
       int newHp = hp + deltaHp;
       if (newHp <= 0) {
         hp = 0;
@@ -123,7 +124,7 @@ public class Player {
     * Detects if the player has died.
     * @return (boolean) True if the player has 0 HP, otherwise return False.
     */
-    private boolean playerIsDead() {
+    public boolean playerIsDead() {
       if (hp == 0) {
         return true;
       }
@@ -160,6 +161,14 @@ public class Player {
     */
     public void setInventory(Inventory newInventory) {
       inventory = newInventory;
+    }
+
+    /**
+     * Returns the mapping of the inventory of the player.
+     * @return (HashMap<Integer, Item>) the inventory as a Map
+     */
+    public Map<Integer, Item> getInventoryMap() {
+        return inventory.getInventory();
     }
 
     /**
