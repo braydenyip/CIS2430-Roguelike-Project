@@ -25,6 +25,8 @@ public class GraphicalUI extends JFrame {
     private JPanel infoPanel;
     private JPanel inventoryPanel;
     private JScrollPane scrollableInventory;
+    private JPanel descriptivePanel;
+    private JTextArea descriptiveTextArea;
 
     private JMenuItem loadFile;
     private JMenuItem loadSymbols;
@@ -104,6 +106,7 @@ Constructor.
     private void setPanels() {
         setInfoPanel();
         setInventoryPanel();
+        setDescriptivePanel();
         setTerminal();
     }
 
@@ -124,13 +127,19 @@ Constructor.
         scrollableInventory = new JScrollPane(inventoryPanel);
         scrollableInventory.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollableInventory.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        for (int i = 0; i < 24; i++) {
-            JButton b1 = new JButton();
-            b1.setText("Press me");
-            b1.addActionListener(ev -> System.exit(0));
-            inventoryPanel.add(b1);
-        }
         contentPane.add(scrollableInventory, BorderLayout.LINE_START);
+    }
+
+    private void setDescriptivePanel() {
+        descriptivePanel = new JPanel();
+        descriptiveTextArea = new JTextArea();
+        descriptiveTextArea.setFont(new Font(Font.SERIF, Font.PLAIN,12 ));
+        descriptivePanel.add(descriptiveTextArea);
+        contentPane.add(descriptivePanel, BorderLayout.PAGE_END);
+    }
+
+    private void setDescriptive(String toDisplay) {
+        descriptiveTextArea.setText(toDisplay);
     }
 
     private void getNewName() {
@@ -144,6 +153,7 @@ Constructor.
 
     private void providePlayerUpdates(Player thePlayer) {
         updateStats(thePlayer);
+        updateInventoryPanel(thePlayer.getInventory());
     }
 
     private void updateStats(Player thePlayer) {
@@ -153,6 +163,16 @@ Constructor.
         int numItems = thePlayer.getInventory().getNumberOfItems();
         int cap = thePlayer.getInventory().getCapacity();
         playerInvCapLabel.setText("Items: " + numItems + "/" + cap);
+    }
+
+    private void updateInventoryPanel(Inventory anInventory) {
+        inventoryPanel.removeAll();
+        for (Item item : anInventory.getInventory().values()) {
+            JButton b1 = new JButton();
+            b1.setText(item.getName());
+            b1.addActionListener(ev -> setDescriptive(item.getDescription()));
+            inventoryPanel.add(b1);
+        }
     }
 
 /**
@@ -200,10 +220,12 @@ The controller method for making the game logic work.
       try {
         message = theGame.makeMove(userInput);
         tui.draw(message, theGame.getNextDisplay());
+        if (theGame.isItemPickedUp()) {
+            gui.updateInventoryPanel(thePlayer.getInventory());
+        }
       } catch (InvalidMoveException badMove) {
           tui.setMessage(badMove.getMessage());
       }
-      gui.providePlayerUpdates(thePlayer);
     }
 
     if (thePlayer.playerIsDead()) {

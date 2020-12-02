@@ -19,6 +19,7 @@ public class Rogue {
     public static final char WEAR = 'y';
     public static final char INV = 'i';
 
+    private boolean itemPickedUp;
     private String messageToPrint = new String();
     private String displayString = new String();
     private Player thePlayer;
@@ -95,6 +96,15 @@ public class Rogue {
         return items;
 
     }
+
+    /**
+     * Detects if an item was picked up on last turn.
+     * @return True only if the item was picked up on the last move.
+     */
+    public boolean isItemPickedUp() {
+        return itemPickedUp;
+    }
+
     /**
     * Returns the Player in its current state in the game.
     * @return (Player) the Player object containing its state and attributes
@@ -337,6 +347,9 @@ public class Rogue {
       if (toCollect != null) { // add item to inventory, remove from room
         messageToPrint = toCollect.getPickupMessage();
         thePlayer.collectItem(toCollect);
+        itemPickedUp = true;
+      } else {
+          itemPickedUp = false;
       }
       return messageToPrint; // return the pickup message.
     }
