@@ -37,8 +37,11 @@ public class GraphicalUI extends JFrame {
     private JMenuItem loadGame;
     private JMenuItem saveGame;
 
+    private JFileChooser fileChooser;
+
     private JLabel playerNameLabel;
     private JLabel playerHpLabel;
+    private JLabel playerWealthLabel;
     private JLabel playerInvCapLabel;
 /**
 Constructor.
@@ -67,6 +70,7 @@ Constructor.
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         contentPane.setLayout(new BorderLayout());
+        fileChooser = new JFileChooser();
     }
 
     /**
@@ -93,10 +97,10 @@ Constructor.
      */
     private void setSaveGameItems(JMenu menu) {
         saveGame = new JMenuItem("Save");
-        saveGame.addActionListener(ev -> new JFileChooser());
+        saveGame.addActionListener(ev -> fileChooser.showSaveDialog(this));
         menu.add(saveGame);
         loadGame = new JMenuItem("Load Saved Game");
-        loadGame.addActionListener(ev -> new JFileChooser());
+        loadGame.addActionListener(ev -> fileChooser.showOpenDialog(this));
         menu.add(loadGame);
     }
 
@@ -106,8 +110,10 @@ Constructor.
      */
     private void setFileLoadingItems(JMenu menu) {
         loadFile = new JMenuItem("Load Map File");
+        loadFile.addActionListener(ev -> fileChooser.showOpenDialog(this));
         menu.add(loadFile);
         loadSymbols = new JMenuItem("Load Symbols File");
+        loadSymbols.addActionListener(ev -> fileChooser.showOpenDialog(this));
         menu.add(loadSymbols);
     }
     private void setTerminal() {
@@ -130,8 +136,10 @@ Constructor.
         playerNameLabel = new JLabel("-");
         playerHpLabel = new JLabel("HP: " + 0);
         playerInvCapLabel = new JLabel("Items: " + 0 + "/" + 0);
+        playerWealthLabel = new JLabel("Gold: " + 0);
         infoPanel.add(playerNameLabel);
         infoPanel.add(playerHpLabel);
+        infoPanel.add(playerWealthLabel);
         infoPanel.add(playerInvCapLabel);
         contentPane.add(infoPanel, BorderLayout.PAGE_START);
     }
