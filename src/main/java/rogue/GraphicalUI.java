@@ -24,6 +24,7 @@ public class GraphicalUI extends JFrame {
     private JPanel infoPanel;
     private JPanel inventoryPanel;
 
+
     private JLabel playerNameLabel;
     private JLabel playerHpLabel;
     private JLabel playerInvCapLabel;
@@ -33,6 +34,7 @@ Constructor.
 
     public GraphicalUI() {
         super("rogue game");
+        setWindowMenu();
         contentPane = getContentPane();
         setWindowDefaults();
         setPanels();
@@ -46,6 +48,21 @@ Constructor.
         contentPane.setLayout(new BorderLayout());
     }
 
+    private void setWindowMenu() {
+        JMenuBar optionsMenuBar = new JMenuBar();
+        setJMenuBar(optionsMenuBar);
+        JMenu fileMenu = new JMenu("File");
+        optionsMenuBar.add(fileMenu);
+        JMenuItem saveGame = new JMenuItem("Save");
+        fileMenu.add(saveGame);
+        JMenuItem loadGame = new JMenuItem("Load Saved Game");
+        fileMenu.add(loadGame);
+        JMenuItem loadFile = new JMenuItem("Load Map File");
+        fileMenu.add(loadFile);
+        JMenuItem changeName = new JMenuItem("Change Player Name");
+        fileMenu.add(changeName);
+    }
+
     private void setTerminal() {
         JPanel terminalPanel = new JPanel();
         terminal = new SwingTerminal();
@@ -55,15 +72,7 @@ Constructor.
 
     private void setPanels() {
         setInfoPanel();
-        setInventoryPanel();
         setTerminal();
-    }
-
-    private void setInventoryPanel() {
-        inventoryPanel = new JPanel();
-        inventoryPanel.setLayout(new GridLayout(0,1));
-        inventoryPanel.add(new JLabel("Nothing here yet..."));
-        contentPane.add(inventoryPanel, BorderLayout.LINE_START);
     }
 
     private void setInfoPanel() {
@@ -79,7 +88,6 @@ Constructor.
 
     private void providePlayerUpdates(Player thePlayer) {
         updateStats(thePlayer);
-        updateInventory(thePlayer);
     }
 
     private void updateStats(Player thePlayer) {
@@ -90,12 +98,6 @@ Constructor.
         playerInvCapLabel.setText("Items: " + numItems + "/" + cap);
     }
 
-    private void updateInventory(Player thePlayer) {
-        inventoryPanel.removeAll();
-        for (Item item : thePlayer.getInventoryMap().values()){
-            inventoryPanel.add(new JLabel(item.getId() + ". " + item.getName()));
-        }
-    }
 /**
 The controller method for making the game logic work.
 @param args command line parameters
@@ -133,10 +135,10 @@ The controller method for making the game logic work.
       try {
         message = theGame.makeMove(userInput);
         tui.draw(message, theGame.getNextDisplay());
-        gui.providePlayerUpdates(thePlayer);
       } catch (InvalidMoveException badMove) {
           tui.setMessage(badMove.getMessage());
       }
+      gui.providePlayerUpdates(thePlayer);
 
     }
     if (thePlayer.playerIsDead()) {
