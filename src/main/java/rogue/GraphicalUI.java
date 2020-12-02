@@ -114,6 +114,7 @@ Constructor.
 
     private void getNewName() {
         inputField = JOptionPane.showInputDialog("What do you want to name your character?");
+        playerNameLabel.setText(inputField);
     }
 
     private void gameOverDialog() {
