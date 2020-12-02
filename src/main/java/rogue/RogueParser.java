@@ -142,8 +142,6 @@ public class RogueParser {
     private void parse(String filename) {
 
         JSONParser parser = new JSONParser();
-        JSONObject roomsJSON;
-        JSONObject symbolsJSON;
 
         try {
             Object obj = parser.parse(new FileReader(filename));
@@ -155,18 +153,9 @@ public class RogueParser {
             // Extract the Symbols value from the file to get the file location for symbols-map
             String symbolsFileLocation = (String) configurationJSON.get("Symbols");
 
-            Object roomsObj = parser.parse(new FileReader(roomsFileLocation));
-            roomsJSON = (JSONObject) roomsObj;
+            parseSymbols(symbolsFileLocation);
+            parseRooms(roomsFileLocation);
 
-            Object symbolsObj = parser.parse(new FileReader(symbolsFileLocation));
-            symbolsJSON = (JSONObject) symbolsObj;
-
-            extractSymbolInfo(symbolsJSON);
-            extractRoomInfo(roomsJSON);
-            extractItemInfo(roomsJSON);
-
-            roomIterator = rooms.iterator();
-            itemIterator = items.iterator();
 
         } catch (FileNotFoundException e) {
             System.out.println("Cannot find file named: " + filename);
@@ -178,6 +167,44 @@ public class RogueParser {
 
     }
 
+    /**
+     * Parses just a symbols file.
+     * @param symbolsFilename the filename of the symbols file.
+     */
+    private void parseSymbols(String symbolsFilename) throws FileNotFoundException, IOException, ParseException {
+        try {
+            JSONParser parser = new JSONParser();
+            Object symbolsObj = parser.parse(new FileReader(symbolsFilename));
+            JSONObject symbolsJSON = (JSONObject) symbolsObj;
+            extractSymbolInfo(symbolsJSON);
+        } catch (FileNotFoundException fe) {
+            throw fe;
+        } catch (IOException ioe) {
+            throw ioe;
+        } catch (ParseException pe) {
+            throw pe;
+        }
+    }
+
+    private void parseRooms(String roomsFilename) throws FileNotFoundException, IOException, ParseException {
+        try {
+            JSONParser parser = new JSONParser();
+            Object roomsObj = parser.parse(new FileReader(roomsFilename));
+            JSONObject roomsJSON = (JSONObject) roomsObj;
+
+            extractRoomInfo(roomsJSON);
+            extractItemInfo(roomsJSON);
+
+            roomIterator = rooms.iterator();
+            itemIterator = items.iterator();
+        } catch (FileNotFoundException fe) {
+            throw fe;
+        } catch (IOException ioe) {
+            throw ioe;
+        } catch (ParseException pe) {
+            throw pe;
+        }
+    }
     /**
      * Get the symbol information.
      * @param symbolsJSON  (JSONObject) Contains information about the symbols

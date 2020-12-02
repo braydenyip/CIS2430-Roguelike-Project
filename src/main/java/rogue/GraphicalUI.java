@@ -25,6 +25,10 @@ public class GraphicalUI extends JFrame {
     private JPanel infoPanel;
     private JPanel inventoryPanel;
 
+    JMenuItem loadFile;
+    JMenuItem loadSymbols;
+    JMenuItem loadGame;
+    JMenuItem saveGame;
 
     private JLabel playerNameLabel;
     private JLabel playerHpLabel;
@@ -72,9 +76,9 @@ Constructor.
      * @param menu the menu to add the items to.
      */
     private void setSaveGameItems(JMenu menu) {
-        JMenuItem saveGame = new JMenuItem("Save");
+        saveGame = new JMenuItem("Save");
         menu.add(saveGame);
-        JMenuItem loadGame = new JMenuItem("Load Saved Game");
+        loadGame = new JMenuItem("Load Saved Game");
         menu.add(loadGame);
     }
 
@@ -83,9 +87,9 @@ Constructor.
      * @param menu the menu to add the items to.
      */
     private void setFileLoadingItems(JMenu menu) {
-        JMenuItem loadFile = new JMenuItem("Load Map File");
+        loadFile = new JMenuItem("Load Map File");
         menu.add(loadFile);
-        JMenuItem loadSymbols = new JMenuItem("Load Symbols File");
+        loadSymbols = new JMenuItem("Load Symbols File");
         menu.add(loadSymbols);
     }
 
