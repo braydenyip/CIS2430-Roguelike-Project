@@ -49,23 +49,44 @@ Constructor.
         contentPane.setLayout(new BorderLayout());
     }
 
+    /**
+     * Adds a menu bar to the window.
+     */
     private void setWindowMenu() {
         JMenuBar optionsMenuBar = new JMenuBar();
         setJMenuBar(optionsMenuBar);
         JMenu fileMenu = new JMenu("File");
         optionsMenuBar.add(fileMenu);
-        JMenuItem saveGame = new JMenuItem("Save");
-        fileMenu.add(saveGame);
-        JMenuItem loadGame = new JMenuItem("Load Saved Game");
-        fileMenu.add(loadGame);
-        JMenuItem loadFile = new JMenuItem("Load Map File");
-        fileMenu.add(loadFile);
+        setSaveGameItems(fileMenu);
+        setFileLoadingItems(fileMenu);
         JMenuItem changeName = new JMenuItem("Change Player Name");
         fileMenu.add(changeName);
         changeName.addActionListener(ev -> getNewName());
         JMenuItem quitGame = new JMenuItem("Quit");
         quitGame.addActionListener(ev -> System.exit(0));
         fileMenu.add(quitGame);
+    }
+
+    /**
+     * Adds saving and loading methods to the menu.
+     * @param menu the menu to add the items to.
+     */
+    private void setSaveGameItems(JMenu menu) {
+        JMenuItem saveGame = new JMenuItem("Save");
+        menu.add(saveGame);
+        JMenuItem loadGame = new JMenuItem("Load Saved Game");
+        menu.add(loadGame);
+    }
+
+    /**
+     * Adds file loading items to the menu.
+     * @param menu the menu to add the items to.
+     */
+    private void setFileLoadingItems(JMenu menu) {
+        JMenuItem loadFile = new JMenuItem("Load Map File");
+        menu.add(loadFile);
+        JMenuItem loadSymbols = new JMenuItem("Load Symbols File");
+        menu.add(loadSymbols);
     }
 
     private void setTerminal() {
