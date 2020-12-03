@@ -94,16 +94,19 @@ public class Player {
     /**
      * Takes the item with the given id off the player.
      * @param toStrip the id of the item to strip.
-     * @return the Item that was stripped, or null if the item was not found.
+     * @return a String indicating the item was stripped
      */
-    public Item stripItem(int toStrip) {
+    public String stripItem(int toStrip) {
         Item stripped = wearables.remove(toStrip);
         if (stripped == null) {
-            return null;
-        } else if (stripped instanceof Clothing) {
-            addAp(((Clothing) stripped).getArmourPoints() * -1);
+            return "not removed";
+        } else {
+            inventory.add(stripped);
+            if (stripped instanceof Clothing) {
+                addAp(((Clothing) stripped).getArmourPoints() * -1);
+            }
         }
-        return stripped;
+        return (((Wearable) stripped).strip());
     }
 
     /**

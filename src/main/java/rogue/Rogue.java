@@ -394,6 +394,27 @@ public class Rogue {
     }
 
     /**
+     * Decides how to act given an item action.
+     * @param toUse the item to use
+     * @param input the control option the player selected
+     * @return (String) the message that results
+     */
+    public String decideHowToUse(Item toUse, char input) {
+        if (toUse == null) {
+            return "Canceled.";
+        }
+        if (toUse instanceof Wearable) {
+            if (input == WEAR) {
+                return thePlayer.wearItem((Wearable) toUse);
+            }
+            return thePlayer.stripItem(toUse.getId());
+        } else if (toUse instanceof Consumable) {
+            return "You eat...";
+        } else {
+            return "You toss...";
+        }
+    }
+    /**
      * Checks if the player did an inventory action
      * @param input the character input
      * @return True only if the input was mapped to wear, toss, or consume.

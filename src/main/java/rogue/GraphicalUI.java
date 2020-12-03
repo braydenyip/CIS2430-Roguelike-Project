@@ -239,11 +239,14 @@ Constructor.
     }
 
     private Item selectWearableDialog(Inventory inventory) {
-        String result;
+        String result = "h";
         String msg = "What item would you like to wear?";
         String title = "What to wear?";
         while (true) {
             result = JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
+            if (result == null) {
+                return null;
+            }
             try {
                 Item item = inventory.get(Integer.parseInt(result));
                 if (item == null) {
@@ -349,7 +352,7 @@ The controller method for making the game logic work.
         message = theGame.makeMove(userInput);
         if (theGame.playerDoesInventoryAction(userInput)) {
             Item toUse = gui.itemSelectDialog(userInput, thePlayer.getInventory());
-            message = thePlayer.wearItem((Wearable) toUse);
+            message = theGame.decideHowToUse(toUse, userInput);
         }
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);
