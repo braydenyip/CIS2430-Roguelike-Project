@@ -14,12 +14,6 @@ public class GraphicalUI extends JFrame {
     private TerminalScreen screen;
     public static final int WIDTH = 1200;
     public static final int HEIGHT = 800;
-    // Screen buffer dimensions are different than terminal dimensions
-    public static final int COLS = 80;
-    public static final int ROWS = 24;
-    private final char startCol = 0;
-    private final char msgRow = 1;
-    private final char roomRow = 3;
 
     private Rogue theGame;
     private Player thePlayer;
@@ -68,6 +62,7 @@ Constructor.
         theGame = game;
         thePlayer = player;
     }
+
     private void setWindowDefaults() {
         setTitle("Brayden's Rogue Game!");
         setSize(WIDTH, HEIGHT);
@@ -232,12 +227,13 @@ Constructor.
     }
 
     private String itemSelectDialog(char input) {
+        String result = "";
         if (input == Rogue.WEAR) {
             String msg = "What item would you like to wear?";
             String title = "What to wear?";
-            return JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
+            result = JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
         }
-        return "";
+        return result;
     }
 
     private void providePlayerUpdates() {
