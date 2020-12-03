@@ -329,7 +329,7 @@ The controller method for making the game logic work.
         }
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);
-        if (theGame.isItemPickedUp() || theGame.isItemUsed()) {
+        if (theGame.isItemPickedUp()) {
             gui.updateInventoryPanel();
         }
       } catch (InvalidMoveException badMove) {
