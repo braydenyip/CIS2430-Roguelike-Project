@@ -394,11 +394,15 @@ public class Rogue {
       }
     }
 
-    /*
+    /**
+     * Checks if the player did an inventory action
+     * @param input the character input
+     * @return True only if the input was mapped to wear, toss, or consume.
+     */
     public boolean playerDoesInventoryAction(char input) {
         return input == CONSUME || input == WEAR || input == TOSS;
     }
-     */
+
     // changes a player's location
     private void setNewCoordinates(char input) {
       if (input == LEFT) {
@@ -411,7 +415,6 @@ public class Rogue {
         thePlayer.movePlayerBy(0, 1);
       }
     }
-
 
     private Map<Integer, Item> getInventoryMap() {
       return thePlayer.getInventory().getInventory();

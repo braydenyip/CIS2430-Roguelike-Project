@@ -216,6 +216,15 @@ Constructor.
         String msg = "This file could not be used.\n" + "Try another file?\n";
         return JOptionPane.showConfirmDialog(this,msg, "Error!", JOptionPane.YES_NO_OPTION);
     }
+
+    private int itemSelectDialog(char input) {
+        JOptionPane.showMessageDialog(this,"Test");
+        if (input == Rogue.CONSUME) {
+            return 1;
+        }
+        return 0;
+    }
+
     private void providePlayerUpdates() {
         updateStats();
     }
@@ -299,7 +308,9 @@ The controller method for making the game logic work.
       //ask the game if the user can move there
       try {
         message = theGame.makeMove(userInput);
-
+        if (theGame.playerDoesInventoryAction(userInput)) {
+            int id = gui.itemSelectDialog(userInput);
+        }
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);
         if (theGame.isItemPickedUp()) {
