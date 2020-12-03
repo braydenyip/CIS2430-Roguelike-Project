@@ -243,8 +243,14 @@ Constructor.
         while (isInvalid) {
             result = JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
             try {
-                id = Integer.valueOf(result);
-                isInvalid = false;
+                Item item = inventory.get(Integer.valueOf(result));
+                if (item == null) {
+                    msg = "You don't have this item.";
+                } else if (!(item instanceof Wearable)) {
+                    msg = "This item isn't wearable.";
+                } else {
+                    isInvalid = false;
+                }
             } catch (NumberFormatException e) {
                 msg = "I'm sorry, that isn't a valid number.";
             }
@@ -277,7 +283,7 @@ Constructor.
             updateInventoryPanelBlank();
         } else {
             for (Item item : anInventory.getInventory().values()) {
-                JButton b1 = makeInvButton(item.getName());
+                JButton b1 = makeInvButton(item.toString());
                 b1.addActionListener(ev -> setDescriptive(item.getDescription()));
                 inventoryPanel.add(b1);
             }

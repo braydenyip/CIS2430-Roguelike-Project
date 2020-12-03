@@ -223,4 +223,13 @@ public class Item  {
       message += ("Picked up " + name + ".");
       return message;
     }
+
+    /**
+     * Converts the Item into a displayable string.
+     * @return a String which indicates the id and name of the item.
+     */
+    @Override
+    public String toString() {
+        return id + ". " + name;
+    }
 }

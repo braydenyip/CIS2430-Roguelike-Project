@@ -72,6 +72,7 @@ public class Inventory {
     return inventory.size();
   }
 
+
   /**
   * Adds an item to the inventory if possible.
   * @param toAdd the Item to add
