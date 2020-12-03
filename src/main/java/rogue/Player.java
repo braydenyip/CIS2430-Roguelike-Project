@@ -31,7 +31,7 @@ public class Player {
     */
     public Player(String newName) {
       inventory = new Inventory();
-      wearables = new Inventory(12);
+      wearables = new Inventory(0);
       name = newName;
       hp = 100;
       ap = 0;
@@ -67,6 +67,14 @@ public class Player {
      */
     public void setWearables(Inventory wearables) {
         this.wearables = wearables;
+    }
+
+    /**
+     * Determines if the wearables are full.
+     * @return True if the player has the max num of wearables
+     */
+    public boolean hasFullWearables() {
+        return wearables.isFull();
     }
 
     /**

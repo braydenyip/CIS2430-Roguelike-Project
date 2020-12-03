@@ -226,36 +226,37 @@ Constructor.
         return JOptionPane.showConfirmDialog(this,msg, "Error!", JOptionPane.YES_NO_OPTION);
     }
 
-    private String itemSelectDialog(char input, Inventory inventory) {
-        String result = "";
+    private Item itemSelectDialog(char input, Inventory inventory) {
+        Item resultItem = null;
         if (input == Rogue.WEAR) {
-            result = selectWearableDialog(inventory);
+            if (thePlayer.hasFullWearables()) {
+                JOptionPane.showMessageDialog(this, "You can't wear any more stuff!");
+            } else {
+                resultItem = selectWearableDialog(inventory);
+            }
         }
-        return result;
+        return resultItem;
     }
 
-    private String selectWearableDialog(Inventory inventory) {
-        boolean isInvalid = true;
+    private Item selectWearableDialog(Inventory inventory) {
         String result;
-        int id = -1;
         String msg = "What item would you like to wear?";
         String title = "What to wear?";
-        while (isInvalid) {
+        while (true) {
             result = JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
             try {
-                Item item = inventory.get(Integer.valueOf(result));
+                Item item = inventory.get(Integer.parseInt(result));
                 if (item == null) {
                     msg = "You don't have this item.";
                 } else if (!(item instanceof Wearable)) {
                     msg = "This item isn't wearable.";
                 } else {
-                    isInvalid = false;
+                    return item;
                 }
             } catch (NumberFormatException e) {
                 msg = "I'm sorry, that isn't a valid number.";
             }
         }
-        return String.valueOf(id);
     }
 
     private void providePlayerUpdates() {
@@ -347,7 +348,7 @@ The controller method for making the game logic work.
       try {
         message = theGame.makeMove(userInput);
         if (theGame.playerDoesInventoryAction(userInput)) {
-            String id = gui.itemSelectDialog(userInput, thePlayer.getInventory());
+            Item toUse = gui.itemSelectDialog(userInput, thePlayer.getInventory());
         }
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);

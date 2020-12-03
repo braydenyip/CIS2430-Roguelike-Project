@@ -72,6 +72,16 @@ public class Inventory {
     return inventory.size();
   }
 
+  /**
+   * Determines if the inventory is full.
+   * @return True if the number of items equals the capacity, otherwise False.
+   */
+  public boolean isFull() {
+    if (getNumberOfItems() == capacity) {
+      return true;
+    }
+    return false;
+  }
 
   /**
   * Adds an item to the inventory if possible.
