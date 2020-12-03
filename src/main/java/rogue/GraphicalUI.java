@@ -236,6 +236,8 @@ Constructor.
             }
         } else if (input == Rogue.CONSUME) {
             resultItem = selectConsumableDialog(inventory);
+        } else if (input == Rogue.TOSS) {
+            resultItem = selectTossableDialog(inventory);
         }
         return resultItem;
     }
@@ -279,6 +281,30 @@ Constructor.
                     msg = "You don't have this item.";
                 } else if (!(item instanceof Consumable)) {
                     msg = "This item isn't edible.";
+                } else {
+                    return item;
+                }
+            } catch (NumberFormatException e) {
+                msg = "I'm sorry, that isn't a valid number.";
+            }
+        }
+    }
+
+    private Item selectTossableDialog(Inventory inventory) {
+        String result = "h";
+        String msg = "What item do you want to toss?";
+        String title = "Throw?";
+        while (true) {
+            result = JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
+            if (result == null) {
+                return null;
+            }
+            try {
+                Item item = inventory.get(Integer.parseInt(result));
+                if (item == null) {
+                    msg = "You don't have this item.";
+                } else if (!(item instanceof Tossable)) {
+                    msg = "You can't throw this item.";
                 } else {
                     return item;
                 }
