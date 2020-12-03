@@ -155,7 +155,7 @@ public class Room {
   public void addItem(Item toAdd) throws ImpossiblePositionException, NoSuchItemException {
     int x = toAdd.getXCoordinate();
     int y = toAdd.getYCoordinate();
-    if (!(rogue.itemExists(toAdd))) {
+    if (!(Rogue.itemExists(toAdd))) {
       throw new NoSuchItemException("No such item exists for this room");
     } else if (positionIsInvalid(x, y)) { // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");
@@ -174,6 +174,30 @@ public class Room {
     roomItems.remove(toRemove);
   }
 
+    /**
+     * Replaces (puts back) an item that was tossed.
+     * If there is no spot in the room, the item will be destroyed.
+     * @param y y coordinate
+     * @param x x coordinate
+     * @param toReplace the item to replace.
+     */
+  public boolean replaceItem(Item toReplace, int x, int y) {
+      if (height <= 3 && width <= 3) {
+          return false;
+      }
+      int newX, newY;
+      for (newY = (y - 1); newY <= (y + 1); newY++) {
+          for (newX = (x - 1); newX <= (x + 1); newX++) {
+              if ((itemOnTile(newX, newY) == null) && !(playerOnTile(newX, newY)) && !(positionIsInvalid(newX, newY))) {
+                  toReplace.setXyLocation(new Point(newX, newY));
+                  toReplace.setCurrentRoomId(id);
+                  roomItems.add(toReplace);
+                  return true;
+              }
+          }
+      }
+      return false;
+  }
 
  /**
  * Returns the room's Player object.
@@ -334,12 +358,11 @@ public class Room {
 
   /**
   * Edits a String to display the room.
-  * @param roomString the String to change
   * @return (String) the updated string
   */
 
-  public String updateRoomString(String roomString) {
-    roomString = "";
+  public String updateRoomString() {
+    String roomString = "";
     int wDoorLoc = this.getDoorPosition("W");
     int eDoorLoc = this.getDoorPosition("E");
     roomString = addNSWallLine(this.getDoorPosition("N"), roomString);
@@ -404,9 +427,9 @@ public class Room {
 
   // Logic to determine if an edge tile is a wall or a door.
   private String getDoorOrWall(int doorLoc, int coord, String direction) {
-    if (direction == "NS" && doorLoc != coord) {
+    if (direction.equals("NS") && doorLoc != coord) {
       return (defaultSymbols.get("NS_WALL"));
-    } else if (direction == "EW" && doorLoc != coord) {
+    } else if (direction.equals("EW") && doorLoc != coord) {
       return (defaultSymbols.get("EW_WALL"));
     } else {
       return (defaultSymbols.get("DOOR"));
@@ -470,7 +493,7 @@ public class Room {
       return "W";
     } else if (!(sidesWithDoors.contains("N"))) {
       return "N";
-    } else if (!(sidesWithDoors.contains("E"))) {
+    } else if (!(sidesWithDoors.contains("S"))) {
       return "S";
     }
     return "X";

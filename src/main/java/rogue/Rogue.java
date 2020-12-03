@@ -24,8 +24,8 @@ public class Rogue {
     public static final char WEAR = 'y';
 
     private boolean itemPickedUp;
-    private String messageToPrint = new String();
-    private String displayString = new String();
+    private String messageToPrint = "";
+    private String displayString = "";
     private Player thePlayer;
     private static ArrayList<Room> rooms = new ArrayList<Room>();
     private static ArrayList<Item> items = new ArrayList<Item>();
@@ -403,15 +403,17 @@ public class Rogue {
         if (toUse == null) {
             return "Canceled.";
         }
-        if (toUse instanceof Wearable) {
+        if (toUse instanceof Wearable ) {
             if (input == WEAR) {
                 return thePlayer.wearItem((Wearable) toUse);
             }
             return thePlayer.stripItem(toUse.getId());
-        } else if (toUse instanceof Consumable) {
+        } else if (toUse instanceof Consumable && input == CONSUME) {
             return thePlayer.consumeItem((Consumable) toUse);
+        } else if (toUse instanceof Tossable && input == TOSS) {
+            return thePlayer.tossItem((Tossable) toUse);
         } else {
-            return "You toss...";
+            return "not used";
         }
     }
     /**
@@ -525,11 +527,10 @@ public class Rogue {
     public String getNextDisplay() {
       for (Room rm: rooms) {
         if (rm.equals(thePlayer.getCurrentRoom())) {
-          displayString = rm.updateRoomString(displayString);
-          break;
+          return rm.updateRoomString();
         }
       }
-      return displayString;
+      return "";
     }
 
 }

@@ -46,6 +46,6 @@ public class Potion extends MagicalItem implements Consumable, Tossable {
   */
   @Override
   public String toss() {
-    return (this.getDescription().split(":"))[1];
+    return (this.getDescription().split(":")[1]);
   }
 }

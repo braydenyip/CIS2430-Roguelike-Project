@@ -175,7 +175,7 @@
 			"id": 1,
 			"name": "Health Potion",
 			"type": "Potion",
-			"description": "you feel better"
+			"description": "You feel better. : You set the empty bottle on the ground."
 		},
 		{
 			"id": 2,
@@ -259,7 +259,7 @@
 			"id": 15,
 			"name": "Golden Apple",
 			"type": "SmallFood",
-			"description": "yummy apple thats shiny: You've thrown the apple away"
+			"description": "A weighty, shiny apple. : You've thrown the apple away."
 		}
 
 	]

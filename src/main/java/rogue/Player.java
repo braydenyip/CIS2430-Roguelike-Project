@@ -220,6 +220,20 @@ public class Player {
     }
 
     /**
+     * Tosses an item from the player inventory.
+     * @param toToss the item to toss
+     * @return (string) a string that indicates the item has been tossed
+     */
+    public String tossItem(Tossable toToss) {
+        Item removed = inventory.remove(((Item) toToss).getId());
+        if (!(currentRoom.replaceItem(removed, getXCoordinate(), getYCoordinate()))) {
+            inventory.add(removed);
+            return "There was no space to toss the item.";
+        }
+        return toToss.toss();
+    }
+
+    /**
     * Detects if the player has died.
     * @return (boolean) True if the player has 0 HP, otherwise return False.
     */
