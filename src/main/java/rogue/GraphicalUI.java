@@ -173,7 +173,11 @@ Constructor.
             try {
                 theGame.refreshGameState(null, file);
             } catch (Exception e) {
-                System.exit(0);
+                if (fileErrorDialog() == JOptionPane.YES_OPTION) {
+                    loadGameFileDialog();
+                } else {
+                    System.exit(0);
+                }
             }
         } else {
             descriptiveText.setText("Loading cancelled.");
@@ -187,7 +191,11 @@ Constructor.
             try {
                 theGame.refreshGameState(file, null);
             } catch (Exception e) {
-                System.exit(0);
+                if (fileErrorDialog() == JOptionPane.YES_OPTION) {
+                    loadSymbolsFileDialog();
+                } else {
+                    System.exit(0);
+                }
             }
         } else {
             descriptiveText.setText("Loading cancelled.");
@@ -204,6 +212,10 @@ Constructor.
         JOptionPane.showMessageDialog(this, "GAME OVER! Restart to try again.");
     }
 
+    private int fileErrorDialog() {
+        String msg = "This file could not be used.\n" + "Try another file?\n";
+        return JOptionPane.showConfirmDialog(this,msg, "Error!", JOptionPane.YES_NO_OPTION);
+    }
     private void providePlayerUpdates() {
         updateStats();
     }
