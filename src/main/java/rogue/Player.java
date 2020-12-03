@@ -207,6 +207,19 @@ public class Player {
     }
 
     /**
+     * Consumes an item from the inventory.
+     * @param toConsume the item to consume
+     * @return a message indicating the item has been consumed.
+     */
+    public String consumeItem(Consumable toConsume) {
+        if (toConsume instanceof Food) {
+            addHp(((Food) toConsume).getHeal());
+        }
+        Item removed = inventory.remove(((Item) toConsume).getId());
+        return removed.getDescription();
+    }
+
+    /**
     * Detects if the player has died.
     * @return (boolean) True if the player has 0 HP, otherwise return False.
     */

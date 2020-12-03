@@ -234,6 +234,8 @@ Constructor.
             } else {
                 resultItem = selectWearableDialog(inventory);
             }
+        } else if (input == Rogue.CONSUME) {
+            resultItem = selectConsumableDialog(inventory);
         }
         return resultItem;
     }
@@ -253,6 +255,30 @@ Constructor.
                     msg = "You don't have this item.";
                 } else if (!(item instanceof Wearable)) {
                     msg = "This item isn't wearable.";
+                } else {
+                    return item;
+                }
+            } catch (NumberFormatException e) {
+                msg = "I'm sorry, that isn't a valid number.";
+            }
+        }
+    }
+
+    private Item selectConsumableDialog(Inventory inventory) {
+        String result = "h";
+        String msg = "What do you want to eat/drink?";
+        String title = "Consume?";
+        while (true) {
+            result = JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
+            if (result == null) {
+                return null;
+            }
+            try {
+                Item item = inventory.get(Integer.parseInt(result));
+                if (item == null) {
+                    msg = "You don't have this item.";
+                } else if (!(item instanceof Consumable)) {
+                    msg = "This item isn't edible.";
                 } else {
                     return item;
                 }
@@ -353,6 +379,7 @@ The controller method for making the game logic work.
         if (theGame.playerDoesInventoryAction(userInput)) {
             Item toUse = gui.itemSelectDialog(userInput, thePlayer.getInventory());
             message = theGame.decideHowToUse(toUse, userInput);
+            gui.updateInventoryPanel();
         }
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);

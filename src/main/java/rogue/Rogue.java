@@ -409,7 +409,7 @@ public class Rogue {
             }
             return thePlayer.stripItem(toUse.getId());
         } else if (toUse instanceof Consumable) {
-            return "You eat...";
+            return thePlayer.consumeItem((Consumable) toUse);
         } else {
             return "You toss...";
         }

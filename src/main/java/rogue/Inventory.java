@@ -128,13 +128,6 @@ public class Inventory {
     return (inventory.get(id));
   }
 
-  /**
-  * Trashes (remove without return) an item from inventory.
-  * @param id the unique item id.
-  */
-  public void trash(int id) {
-    Item temp = remove(id);
-  }
 
   /**
   * Deletes the entire inventory.
