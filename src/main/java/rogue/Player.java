@@ -12,8 +12,11 @@ public class Player {
     private Point xyLocation;
     private Room currentRoom;
     private Inventory inventory;
+    private Inventory wearables;
+
     private int hp;
     private static final int MAXHP = 200;
+    private int ap;
 
     /**
     * The default player constructor.
@@ -28,6 +31,7 @@ public class Player {
     */
     public Player(String newName) {
       inventory = new Inventory();
+      wearables = new Inventory(12);
       name = newName;
       hp = 100;
     }
@@ -47,6 +51,75 @@ public class Player {
     public void setName(String newName) {
       name = newName;
     }
+
+    /**
+     * Gets all the items being worn by the player.
+     * @return (Inventory) an Inventory object containing the items worn by the player
+     */
+    public Inventory getWearables() {
+        return wearables;
+    }
+
+    /**
+     * Sets the inventory of worn items on the player.
+     * @param wearables the wearable items to put on the player.
+     */
+    public void setWearables(Inventory wearables) {
+        this.wearables = wearables;
+    }
+
+    /**
+     * Puts the wearable item on the player.
+     * @param toWear the Wearable item to add
+     * @return (String) A message indicating the item was worn.
+     */
+    public String wearItem(Wearable toWear) {
+        wearables.add((Item) toWear);
+        if (toWear instanceof Clothing) {
+            addAp(((Clothing) toWear).getArmourPoints());
+        }
+        return toWear.wear();
+    }
+
+    /**
+     * Takes the item with the given id off the player.
+     * @param toStrip the id of the item to strip.
+     * @return the Item that was stripped, or null if the item was not found.
+     */
+    public Item stripItem(int toStrip) {
+        Item stripped = wearables.remove(toStrip);
+        if (stripped == null) {
+            return null;
+        } else if (stripped instanceof Clothing) {
+            addAp(((Clothing) stripped).getArmourPoints() * -1);
+        }
+        return stripped;
+    }
+
+    /**
+     * Gets the armour level of the player.
+     * @return (int) the armour level
+     */
+    public int getAp() {
+        return ap;
+    }
+
+    /**
+     * Sets the armour level of the player.
+     * @param ap the armour level
+     */
+    public void setAp(int ap) {
+        this.ap = ap;
+    }
+
+    /**
+     * Adds or subtracts a number to the player's armour.
+     * @param deltaAp the amount to change the player's armour.
+     */
+    public void addAp(int deltaAp) {
+        setAp(this.ap + deltaAp);
+    }
+
 
     /**
     * Returns a Point with the player's location.
