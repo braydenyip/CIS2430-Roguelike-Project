@@ -231,12 +231,13 @@ Constructor.
         return JOptionPane.showConfirmDialog(this,msg, "Error!", JOptionPane.YES_NO_OPTION);
     }
 
-    private int itemSelectDialog(char input) {
-        JOptionPane.showMessageDialog(this,"Test");
+    private String itemSelectDialog(char input) {
         if (input == Rogue.WEAR) {
-            return 1;
+            String msg = "What item would you like to wear?";
+            String title = "What to wear?";
+            return JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
         }
-        return 0;
+        return "";
     }
 
     private void providePlayerUpdates() {
@@ -328,7 +329,7 @@ The controller method for making the game logic work.
       try {
         message = theGame.makeMove(userInput);
         if (theGame.playerDoesInventoryAction(userInput)) {
-            int id = gui.itemSelectDialog(userInput);
+            String id = gui.itemSelectDialog(userInput);
         }
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);
