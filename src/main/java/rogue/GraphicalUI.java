@@ -299,6 +299,7 @@ The controller method for making the game logic work.
       //ask the game if the user can move there
       try {
         message = theGame.makeMove(userInput);
+
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);
         if (theGame.isItemPickedUp()) {

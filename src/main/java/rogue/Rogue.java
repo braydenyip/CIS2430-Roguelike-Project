@@ -382,27 +382,32 @@ public class Rogue {
     }
 
     private String makeInputDecision(char input) {
-      if (input == this.CONSUME) {
-        return "You eat...";
-      } else if (input == this.TOSS) {
-        return "You throw...";
-      } else if (input == this.WEAR) {
-        return "You wear...";
+      if (input == CONSUME) {
+        return "You eat";
+      } else if (input == TOSS) {
+        return "You throw";
+      } else if (input == WEAR) {
+        return "You wear";
       } else {
         setNewCoordinates(input);
         return "";
       }
     }
 
+    /*
+    public boolean playerDoesInventoryAction(char input) {
+        return input == CONSUME || input == WEAR || input == TOSS;
+    }
+     */
     // changes a player's location
     private void setNewCoordinates(char input) {
-      if (input == this.LEFT) {
+      if (input == LEFT) {
         thePlayer.movePlayerBy(-1, 0);
-      } else if (input == this.RIGHT) {
+      } else if (input == RIGHT) {
         thePlayer.movePlayerBy(1, 0);
-      } else if (input == this.UP) {
+      } else if (input == UP) {
         thePlayer.movePlayerBy(0, -1);
-      } else if (input == this.DOWN) {
+      } else if (input == DOWN) {
         thePlayer.movePlayerBy(0, 1);
       }
     }
@@ -417,16 +422,16 @@ public class Rogue {
       thePlayer.setCurrentRoom(toMoveTo);
       int x = 0;
       int y = 0;
-      if (input == this.LEFT) { // out the west door in east side
+      if (input == LEFT) { // out the west door in east side
         x = toMoveTo.getWidth() - 2;
         y = newPositionAgainstDoor(toMoveTo, "E");
-      } else if (input == this.RIGHT) { // out east door in west side
+      } else if (input == RIGHT) { // out east door in west side
         x = 1;
         y = newPositionAgainstDoor(toMoveTo, "W");
-      } else if (input == this.UP) {
+      } else if (input == UP) {
         y = toMoveTo.getHeight() - 2;
         x = newPositionAgainstDoor(toMoveTo, "S");
-      } else if (input == this.DOWN) {
+      } else if (input == DOWN) {
         y = 1;
         x = newPositionAgainstDoor(toMoveTo, "N");
       }
@@ -435,8 +440,7 @@ public class Rogue {
 
     private int newPositionAgainstDoor(Room toMoveTo, String direction) {
       int l = toMoveTo.getDoorPosition(direction);
-      int m = Math.max(l, 1);
-      return m;
+      return Math.max(l, 1);
     }
 
     private Room movingIntoDoor() {
