@@ -226,14 +226,30 @@ Constructor.
         return JOptionPane.showConfirmDialog(this,msg, "Error!", JOptionPane.YES_NO_OPTION);
     }
 
-    private String itemSelectDialog(char input) {
+    private String itemSelectDialog(char input, Inventory inventory) {
         String result = "";
         if (input == Rogue.WEAR) {
-            String msg = "What item would you like to wear?";
-            String title = "What to wear?";
-            result = JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
+            result = selectWearableDialog(inventory);
         }
         return result;
+    }
+
+    private String selectWearableDialog(Inventory inventory) {
+        boolean isInvalid = true;
+        String result;
+        int id = -1;
+        String msg = "What item would you like to wear?";
+        String title = "What to wear?";
+        while (isInvalid) {
+            result = JOptionPane.showInputDialog(this, msg, title, JOptionPane.PLAIN_MESSAGE);
+            try {
+                id = Integer.valueOf(result);
+                isInvalid = false;
+            } catch (NumberFormatException e) {
+                msg = "I'm sorry, that isn't a valid number.";
+            }
+        }
+        return String.valueOf(id);
     }
 
     private void providePlayerUpdates() {
@@ -325,7 +341,7 @@ The controller method for making the game logic work.
       try {
         message = theGame.makeMove(userInput);
         if (theGame.playerDoesInventoryAction(userInput)) {
-            String id = gui.itemSelectDialog(userInput);
+            String id = gui.itemSelectDialog(userInput, thePlayer.getInventory());
         }
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);
