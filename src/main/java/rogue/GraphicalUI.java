@@ -349,6 +349,7 @@ The controller method for making the game logic work.
         message = theGame.makeMove(userInput);
         if (theGame.playerDoesInventoryAction(userInput)) {
             Item toUse = gui.itemSelectDialog(userInput, thePlayer.getInventory());
+            message = thePlayer.wearItem((Wearable) toUse);
         }
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);

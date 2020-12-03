@@ -31,7 +31,7 @@ public class Player {
     */
     public Player(String newName) {
       inventory = new Inventory();
-      wearables = new Inventory(0);
+      wearables = new Inventory(12);
       name = newName;
       hp = 100;
       ap = 0;
@@ -84,6 +84,7 @@ public class Player {
      */
     public String wearItem(Wearable toWear) {
         wearables.add((Item) toWear);
+        inventory.remove(((Item) toWear).getId());
         if (toWear instanceof Clothing) {
             addAp(((Clothing) toWear).getArmourPoints());
         }
