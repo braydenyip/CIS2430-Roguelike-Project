@@ -22,9 +22,9 @@ public class Rogue {
     public static final char CONSUME = 'e';
     public static final char TOSS = 't';
     public static final char WEAR = 'y';
-    public static final char INV = 'i';
 
     private boolean itemPickedUp;
+    private boolean itemUsed;
     private String messageToPrint = new String();
     private String displayString = new String();
     private Player thePlayer;
@@ -130,6 +130,14 @@ public class Rogue {
      */
     public boolean isItemPickedUp() {
         return itemPickedUp;
+    }
+
+    /**
+     * Detects if an item was used on the last turn.
+     * @return True only if an item from the inventory was used last turn
+     */
+    public boolean isItemUsed() {
+       return itemUsed;
     }
 
     /**
@@ -382,6 +390,7 @@ public class Rogue {
     }
 
     private String makeInputDecision(char input) {
+      itemUsed = true;
       if (input == CONSUME) {
         return "You eat";
       } else if (input == TOSS) {
@@ -389,6 +398,7 @@ public class Rogue {
       } else if (input == WEAR) {
         return "You wear";
       } else {
+        itemUsed = false;
         setNewCoordinates(input);
         return "";
       }

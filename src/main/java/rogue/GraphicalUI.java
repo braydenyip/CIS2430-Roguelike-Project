@@ -233,7 +233,7 @@ Constructor.
 
     private int itemSelectDialog(char input) {
         JOptionPane.showMessageDialog(this,"Test");
-        if (input == Rogue.CONSUME) {
+        if (input == Rogue.WEAR) {
             return 1;
         }
         return 0;
@@ -332,7 +332,7 @@ The controller method for making the game logic work.
         }
         tui.draw("", theGame.getNextDisplay());
         gui.setDescriptive(message);
-        if (theGame.isItemPickedUp()) {
+        if (theGame.isItemPickedUp() || theGame.isItemUsed()) {
             gui.updateInventoryPanel();
         }
       } catch (InvalidMoveException badMove) {
