@@ -43,7 +43,9 @@ public class GraphicalUI extends JFrame {
     private JLabel playerNameLabel;
     private JLabel playerHpLabel;
     private JLabel playerWealthLabel;
+    private JLabel playerApLabel;
     private JLabel playerInvCapLabel;
+    private JLabel playerWearCapLabel;
 /**
 Constructor.
 **/
@@ -135,15 +137,27 @@ Constructor.
 
     private void setInfoPanel() {
         infoPanel = new JPanel(new FlowLayout());
-        playerNameLabel = new JLabel("-");
+        initializeStatsLabels();
+        addStatsLabels();
+        contentPane.add(infoPanel, BorderLayout.PAGE_START);
+    }
+
+    private void initializeStatsLabels() {
+        playerNameLabel = new JLabel("???");
         playerHpLabel = new JLabel("HP: " + 0);
+        playerApLabel = new JLabel("AP: " + 0);
         playerInvCapLabel = new JLabel("Items: " + 0 + "/" + 0);
         playerWealthLabel = new JLabel("Gold: " + 0);
+        playerWearCapLabel = new JLabel("Worn: " + 0 + "/" + 0);
+    }
+
+    private void addStatsLabels() {
         infoPanel.add(playerNameLabel);
         infoPanel.add(playerHpLabel);
+        infoPanel.add(playerApLabel);
         infoPanel.add(playerWealthLabel);
         infoPanel.add(playerInvCapLabel);
-        contentPane.add(infoPanel, BorderLayout.PAGE_START);
+        infoPanel.add(playerWearCapLabel);
     }
 
     private void setInventoryPanel() {
@@ -233,9 +247,14 @@ Constructor.
         thePlayer.setName(inputField);
         playerNameLabel.setText(thePlayer.getName());
         playerHpLabel.setText("HP: " + thePlayer.getHp());
+        playerApLabel.setText("AP: " + thePlayer.getAp());
+        playerWealthLabel.setText("Gold: " + 0);
         int numItems = thePlayer.getInventory().getNumberOfItems();
         int cap = thePlayer.getInventory().getCapacity();
         playerInvCapLabel.setText("Items: " + numItems + "/" + cap);
+        int numWearables = thePlayer.getWearables().getNumberOfItems();
+        int capWearables = thePlayer.getWearables().getCapacity();
+        playerWearCapLabel.setText("Wearables: " + numWearables + "/" + capWearables);
     }
 
     private void updateInventoryPanel() {

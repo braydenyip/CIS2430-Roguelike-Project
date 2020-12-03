@@ -34,6 +34,7 @@ public class Player {
       wearables = new Inventory(12);
       name = newName;
       hp = 100;
+      ap = 0;
     }
 
     /**
