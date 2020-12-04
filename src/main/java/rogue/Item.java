@@ -130,6 +130,10 @@ public class Item implements Serializable {
       return description;
     }
 
+    public String getBriefDescription() {
+        return "(" + id + ") " + name + ", a " + type;
+    }
+
     /**
     * Sets a description for the item.
     * @param newDescription A brief description of something about the item

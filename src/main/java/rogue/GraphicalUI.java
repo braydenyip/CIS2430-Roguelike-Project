@@ -1,18 +1,39 @@
 package rogue;
 
-import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 public class GraphicalUI extends JFrame implements Serializable {
 
 
     private static final long serialVersionUID = -7801391088502547399L;
     private SwingTerminal terminal;
-    private TerminalScreen screen;
     public static final int WIDTH = 1200;
     public static final int HEIGHT = 800;
 
@@ -72,21 +93,6 @@ Constructor.
         fileChooser = new JFileChooser(System.getProperty("user.dir"));
     }
 
-    /**
-     * Gets the game from the ui including save files.
-     * @return the game collected from the ui
-     */
-    public Rogue getTheGame() {
-        return theGame;
-    }
-
-    /**
-     * Gets the player from the ui including saved player.
-     * @return
-     */
-    public Player getThePlayer() {
-        return thePlayer;
-    }
 
     /**
      * Adds a menu bar to the window.
@@ -246,7 +252,9 @@ Constructor.
     private void load(File savefile) {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(savefile)); ) {
             theGame = (Rogue)in.readObject();
+            thePlayer = theGame.getPlayer();
             descriptiveText.setText("Game successfully loaded.");
+            updateInventoryPanel();
         } catch (Exception e) {
             descriptiveText.setText(e.getMessage());
         }
@@ -407,7 +415,7 @@ Constructor.
         } else {
             for (Item item : anInventory.getInventory().values()) {
                 JButton b1 = makeInvButton(item.toString());
-                b1.addActionListener(ev -> setDescriptive(item.getDescription()));
+                b1.addActionListener(ev -> setDescriptive(item.getBriefDescription()));
                 b1.setBackground(new Color(20, 17, 97));
                 b1.setForeground(new Color(255, 255, 255));
                 inventoryPanel.add(b1);
