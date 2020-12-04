@@ -95,10 +95,10 @@ Constructor.
      */
     private void setSaveGameItems(JMenu menu) {
         saveGame = new JMenuItem("Save");
-        saveGame.addActionListener(ev -> fileChooser.showSaveDialog(this));
+        saveGame.addActionListener(ev -> saveFileDialog());
         menu.add(saveGame);
         loadGame = new JMenuItem("Load Saved Game");
-        loadGame.addActionListener(ev -> fileChooser.showOpenDialog(this));
+        loadGame.addActionListener(ev -> loadSaveFileDialog());
         menu.add(loadGame);
     }
 
@@ -210,6 +210,15 @@ Constructor.
             descriptiveText.setText("Loading cancelled.");
         }
     }
+
+    private void loadSaveFileDialog() {
+        int res = fileChooser.showOpenDialog(this);
+    }
+
+    private void saveFileDialog() {
+        int res = fileChooser.showSaveDialog(this);
+    }
+
 
     private void getNewName() {
         inputField = JOptionPane.showInputDialog("What do you want to name your character?");

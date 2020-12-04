@@ -211,7 +211,7 @@
 			"id": 7,
 			"name": "Silver Boots",
 			"type": "Clothing",
-			"description": "Can move faster with this"
+			"description": "The boots put a spring in your step."
 		},
 		{
 			"id": 8,
@@ -259,7 +259,7 @@
 			"id": 15,
 			"name": "Golden Apple",
 			"type": "SmallFood",
-			"description": "A weighty, shiny apple. : You've thrown the apple away."
+			"description": "The apple makes you feel better than ever. : You've thrown the apple away."
 		}
 
 	]

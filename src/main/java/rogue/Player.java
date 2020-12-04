@@ -215,8 +215,8 @@ public class Player {
         if (toConsume instanceof Food) {
             addHp(((Food) toConsume).getHeal());
         }
-        Item removed = inventory.remove(((Item) toConsume).getId());
-        return removed.getDescription();
+        inventory.remove(((Item) toConsume).getId());
+        return (toConsume.consume());
     }
 
     /**

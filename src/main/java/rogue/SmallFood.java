@@ -11,6 +11,15 @@ public class SmallFood extends Food implements Tossable {
   }
 
   /**
+   * Generates the message to indicated that the item has been consumed.
+   * @return the message to be printed on consumption
+   */
+  @Override
+  public String consume() {
+    return (this.getDescription().split(":"))[0];
+  }
+
+  /**
   * Generates the message that indicates that the item has been thrown.
   * @return the message to be printed upon tossing the item.
   */

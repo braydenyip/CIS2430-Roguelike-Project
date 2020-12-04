@@ -5,6 +5,7 @@ import org.json.simple.parser.ParseException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.awt.Point;
 /**
 * The class that stores the game state and links other classes together.
 */
-public class Rogue {
+public class Rogue implements Serializable {
     public static final char UP = 'w';
     public static final char DOWN = 's';
     public static final char LEFT = 'a';
@@ -31,8 +32,7 @@ public class Rogue {
     private static ArrayList<Item> items = new ArrayList<Item>();
     private static ArrayList<Map<String, String>> itemLocations;
     private static HashMap<String, String> defaultSymbols = new HashMap<String, String>();
-    // make transient
-    private RogueParser parser;
+    private transient RogueParser parser;
 
     /**
     * One parameter constructor.
