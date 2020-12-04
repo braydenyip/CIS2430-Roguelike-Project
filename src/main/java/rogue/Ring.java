@@ -2,6 +2,8 @@ package rogue;
 
 public class Ring extends MagicalItem implements Wearable {
 
+  private static final long serialVersionUID = -1824400130188005741L;
+
   /**
   * The default constructor.
   */

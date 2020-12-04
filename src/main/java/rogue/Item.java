@@ -1,12 +1,15 @@
 package rogue;
 import java.awt.Point;
+
+import java.io.Serializable;
 import java.util.Random;
 /**
  * A basic Item class; basic functionality for both consumables and equipment.
  */
-public class Item  {
+public class Item implements Serializable {
 
 
+    private static final long serialVersionUID = -5304279533370759211L;
     private int id;
     private String name;
     private String type;

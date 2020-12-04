@@ -2,6 +2,8 @@ package rogue;
 
 public class SmallFood extends Food implements Tossable {
 
+  private static final long serialVersionUID = -3001565396779253307L;
+
   /**
   * The default constructor.
   */

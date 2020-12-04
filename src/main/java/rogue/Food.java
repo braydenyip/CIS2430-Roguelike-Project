@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Food extends Item implements Consumable {
 
+  private static final long serialVersionUID = 9018984331599714045L;
   private int heal; // how much this item heals you for
   private Random random = new Random();
   /**

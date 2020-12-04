@@ -1,9 +1,10 @@
 package rogue;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Door {
-
+public class Door implements Serializable {
+  private static final long serialVersionUID = -7965713781547683801L;
   private ArrayList<Room> connectedRooms;
   private int position;
   private String direction;

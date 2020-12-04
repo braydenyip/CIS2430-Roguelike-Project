@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Potion extends MagicalItem implements Consumable, Tossable {
 
+  private static final long serialVersionUID = -8696900337774610417L;
   private Random random = new Random();
   private int potency;
 

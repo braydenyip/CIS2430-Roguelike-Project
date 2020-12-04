@@ -10,6 +10,7 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 
 public class TextUI {
 

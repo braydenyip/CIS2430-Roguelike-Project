@@ -2,6 +2,7 @@ package rogue;
 
 public class MagicalItem extends Item {
 
+  private static final long serialVersionUID = 6897624017004343118L;
   private String effect;
 
   /**

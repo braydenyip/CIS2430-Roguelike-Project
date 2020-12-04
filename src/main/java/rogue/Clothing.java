@@ -1,9 +1,11 @@
 package rogue;
 
+import java.io.Serializable;
 import java.util.Random;
 
 public class Clothing extends Item implements Wearable {
 
+  private static final long serialVersionUID = 331564192655222852L;
   private int armourPoints;
   private Random random = new Random();
   /**

@@ -23,15 +23,15 @@ public class Rogue implements Serializable {
     public static final char CONSUME = 'e';
     public static final char TOSS = 't';
     public static final char WEAR = 'y';
+    private static final long serialVersionUID = -1100718440274653817L;
 
     private boolean itemPickedUp;
     private String messageToPrint = "";
-    private String displayString = "";
     private Player thePlayer;
-    private static ArrayList<Room> rooms = new ArrayList<Room>();
-    private static ArrayList<Item> items = new ArrayList<Item>();
-    private static ArrayList<Map<String, String>> itemLocations;
-    private static HashMap<String, String> defaultSymbols = new HashMap<String, String>();
+    private ArrayList<Room> rooms = new ArrayList<Room>();
+    private ArrayList<Item> items = new ArrayList<Item>();
+    private ArrayList<Map<String, String>> itemLocations;
+    private HashMap<String, String> defaultSymbols = new HashMap<String, String>();
     private transient RogueParser parser;
 
     /**
@@ -40,12 +40,14 @@ public class Rogue implements Serializable {
     */
     public Rogue(RogueParser theParser) {
       setParser(theParser);
+      thePlayer = new Player("Brayden");
     }
 
     /**
     * Creates the rooms and items for the game environment from JSON.
     */
     public void initializeGameState() {
+
       setSymbols();
       setItemLocations();
       createItems();
@@ -150,7 +152,7 @@ public class Rogue implements Serializable {
     * @param toAdd the item to add to the room
     * @return (boolean) True if the item is in the list of items, otherwise false
     */
-    public static boolean itemExists(Item toAdd) {
+    public boolean itemExists(Item toAdd) {
       if (items.contains(toAdd)) {
         return true;
       }
@@ -201,7 +203,7 @@ public class Rogue implements Serializable {
     private void attemptToAddItem(Room newRoom, Item anItem) {
       try {
         if (anItem.getCurrentRoomId() == newRoom.getId()) {
-          newRoom.addItem(anItem);
+          newRoom.addItem(anItem, this);
         }
       } catch (NoSuchItemException e) {
         for (Map<String, String> location : itemLocations) {

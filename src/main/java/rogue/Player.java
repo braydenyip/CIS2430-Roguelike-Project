@@ -1,13 +1,15 @@
 package rogue;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 /**
  * The player's character.
  */
-public class Player {
+public class Player implements Serializable {
 
+    private static final long serialVersionUID = 8135713671912088066L;
     private String name;
     private Point xyLocation;
     private Room currentRoom;
@@ -15,7 +17,6 @@ public class Player {
     private Inventory wearables;
 
     private int hp;
-    private static final int MAXHP = 200;
     private int ap;
 
     /**
@@ -199,8 +200,8 @@ public class Player {
       int newHp = hp + deltaHp;
       if (newHp <= 0) {
         hp = 0;
-      } else if (newHp >= MAXHP) {
-        hp = MAXHP;
+      } else if (newHp >= 200) {
+        hp = 200;
       } else {
         hp = newHp;
       }

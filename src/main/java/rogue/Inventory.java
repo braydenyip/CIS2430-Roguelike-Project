@@ -1,12 +1,14 @@
 package rogue;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 /**
 * Provides inventory functionality with two ways to access the inventory.
 */
-public class Inventory {
+public class Inventory implements Serializable {
 
+  private static final long serialVersionUID = 5878822862591993588L;
   private Map<Integer, Item> inventory;
   private int capacity;
   /**

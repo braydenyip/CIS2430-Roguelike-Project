@@ -1,4 +1,6 @@
 package rogue;
+import javax.sql.rowset.serial.SerialException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.awt.Point;
@@ -8,18 +10,21 @@ import java.util.Random;
  * A room within the dungeon - contains monsters, treasure,
  * doors out, etc.
  */
-public class Room {
-  private static Map<String, String> defaultSymbols = new HashMap<String, String>();
-  private Player thePlayer = null;
-  private int width;
-  private int height;
-  private int id;
-  private static int maxWidth = 0;
-  private static int maxHeight = 0;
-  private ArrayList<Item> roomItems = new ArrayList<Item>();
-  private ArrayList<Door> doors = new ArrayList<Door>(); // Stores Door objects
-  private Rogue rogue;
-  private Random random = new Random();
+
+public class Room implements Serializable {
+
+    private static final long serialVersionUID = 1091540366263852900L;
+    private Map<String, String> defaultSymbols = new HashMap<String, String>();
+    private Player thePlayer = null;
+    private int width;
+    private int height;
+    private int id;
+    private static int maxWidth = 0;
+    private static int maxHeight = 0;
+    private ArrayList<Item> roomItems = new ArrayList<Item>();
+    private ArrayList<Door> doors = new ArrayList<Door>(); // Stores Door objects
+    private Rogue rogue;
+    private Random random = new Random();
 /**
 * Constructs a room with a default ID of -1.
 */
@@ -152,10 +157,10 @@ public class Room {
   * @throws NoSuchItemException if the item is not in the room's list of items
   */
 
-  public void addItem(Item toAdd) throws ImpossiblePositionException, NoSuchItemException {
+  public void addItem(Item toAdd, Rogue rogue) throws ImpossiblePositionException, NoSuchItemException {
     int x = toAdd.getXCoordinate();
     int y = toAdd.getYCoordinate();
-    if (!(Rogue.itemExists(toAdd))) {
+    if (!(rogue.itemExists(toAdd))) {
       throw new NoSuchItemException("No such item exists for this room");
     } else if (positionIsInvalid(x, y)) { // wall exception
       throw new ImpossiblePositionException("Item is in or beyond a wall or door.");

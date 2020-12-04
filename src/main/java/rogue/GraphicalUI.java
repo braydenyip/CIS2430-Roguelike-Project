@@ -5,18 +5,16 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
+import java.io.*;
 
-public class GraphicalUI extends JFrame {
+public class GraphicalUI extends JFrame implements Serializable {
 
 
+    private static final long serialVersionUID = -7801391088502547399L;
     private SwingTerminal terminal;
     private TerminalScreen screen;
     public static final int WIDTH = 1200;
     public static final int HEIGHT = 800;
-
-    private Rogue theGame;
-    private Player thePlayer;
 
     private String inputField;
     private Container contentPane;
@@ -40,6 +38,12 @@ public class GraphicalUI extends JFrame {
     private JLabel playerApLabel;
     private JLabel playerInvCapLabel;
     private JLabel playerWearCapLabel;
+
+    Rogue theGame;
+    Player thePlayer;
+    RogueParser parser;
+
+
 /**
 Constructor.
 **/
@@ -51,24 +55,37 @@ Constructor.
         setWindowDefaults();
         setPanels();
         pack();
+        // Parse the json files
+        parser = new RogueParser("fileLocations.json");
+
+        // allocate memory for the game and set it up
+        theGame = new Rogue(parser);
+        thePlayer = theGame.getPlayer();
     }
 
-    /**
-     * Sets game variables.
-     * @param game the Rogue game
-     * @param player the Player class
-     */
-    public void setGame(Rogue game, Player player) {
-        theGame = game;
-        thePlayer = player;
-    }
 
     private void setWindowDefaults() {
         setTitle("Brayden's Rogue Game!");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         contentPane.setLayout(new BorderLayout());
-        fileChooser = new JFileChooser();
+        fileChooser = new JFileChooser(System.getProperty("user.dir"));
+    }
+
+    /**
+     * Gets the game from the ui including save files.
+     * @return the game collected from the ui
+     */
+    public Rogue getTheGame() {
+        return theGame;
+    }
+
+    /**
+     * Gets the player from the ui including saved player.
+     * @return
+     */
+    public Player getThePlayer() {
+        return thePlayer;
     }
 
     /**
@@ -139,8 +156,11 @@ Constructor.
 
     private void initializeStatsLabels() {
         playerNameLabel = new JLabel("???");
+        playerNameLabel.setFont(new Font("Helvetica", Font.ITALIC, 12));
         playerHpLabel = new JLabel("HP: " + 0);
+        playerHpLabel.setForeground(new Color(130, 20, 0));
         playerApLabel = new JLabel("AP: " + 0);
+        playerApLabel.setForeground(new Color(95, 175, 250));
         playerInvCapLabel = new JLabel("Items: " + 0 + "/" + 0);
         playerWealthLabel = new JLabel("Gold: " + 0);
         playerWearCapLabel = new JLabel("Worn: " + 0 + "/" + 0);
@@ -167,6 +187,7 @@ Constructor.
     private void setDescriptivePanel() {
         descriptivePanel = new JPanel();
         descriptiveText = new JLabel();
+        descriptiveText.setFont(new Font("Helvetica", Font.BOLD, 12));
         descriptivePanel.add(descriptiveText);
         contentPane.add(descriptivePanel, BorderLayout.PAGE_END);
     }
@@ -213,12 +234,47 @@ Constructor.
 
     private void loadSaveFileDialog() {
         int res = fileChooser.showOpenDialog(this);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            load(fileChooser.getSelectedFile());
+        } else if (res == JFileChooser.CANCEL_OPTION) {
+            descriptiveText.setText("Loading cancelled.");
+        } else {
+            descriptiveText.setText("Error loading the save file");
+        }
+    }
+
+    private void load(File savefile) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(savefile)); ) {
+            theGame = (Rogue)in.readObject();
+            descriptiveText.setText("Game successfully loaded.");
+        } catch (Exception e) {
+            descriptiveText.setText(e.getMessage());
+        }
     }
 
     private void saveFileDialog() {
         int res = fileChooser.showSaveDialog(this);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            descriptiveText.setText(save(fileChooser.getSelectedFile()));
+        } else if (res == JFileChooser.CANCEL_OPTION) {
+            descriptiveText.setText("Saving canceled.");
+        } else {
+            descriptiveText.setText("User interaction error.");
+        }
     }
 
+    private String save(File sv) {
+        try {
+            FileOutputStream outputStream = new FileOutputStream(sv);
+            ObjectOutputStream objOutStream = new ObjectOutputStream(outputStream);
+            objOutStream.writeObject(theGame);
+            objOutStream.close();
+            outputStream.close();
+            return "File saved successfully";
+        } catch (IOException ioe) {
+            return ioe.getMessage();
+        }
+    }
 
     private void getNewName() {
         inputField = JOptionPane.showInputDialog("What do you want to name your character?");
@@ -325,6 +381,7 @@ Constructor.
 
     private void providePlayerUpdates() {
         updateStats();
+
     }
 
     private void updateStats() {
@@ -344,17 +401,29 @@ Constructor.
     private void updateInventoryPanel() {
         inventoryPanel.removeAll();
         Inventory anInventory = thePlayer.getInventory();
+        Inventory theWearables = thePlayer.getWearables();
         if (anInventory.getNumberOfItems() < 1) {
             updateInventoryPanelBlank();
         } else {
             for (Item item : anInventory.getInventory().values()) {
                 JButton b1 = makeInvButton(item.toString());
                 b1.addActionListener(ev -> setDescriptive(item.getDescription()));
+                b1.setBackground(new Color(20, 17, 97));
+                b1.setForeground(new Color(255, 255, 255));
                 inventoryPanel.add(b1);
+            }
+            for (Item w : theWearables.getInventory().values()) {
+                JButton bw = makeInvButton(makeWearString(w));
+                bw.addActionListener(ev -> setDescriptive(w.getDescription()));
+                bw.setBackground(Color.GREEN);
+                inventoryPanel.add(bw);
             }
         }
     }
 
+    private String makeWearString(Item w) {
+        return w.toString() + " (worn)";
+    }
     private void updateInventoryPanelBlank() {
         inventoryPanel.add(makeInvButton("Your backpack is empty..."));
     }
@@ -373,27 +442,19 @@ The controller method for making the game logic work.
   public static void main(String[] args) {
     char userInput = 'h';
     String message;
-    String configurationFileLocation = "fileLocations.json";
-
-    // Parse the json files
-    RogueParser parser = new RogueParser(configurationFileLocation);
 
     //allocate memory for the GUI and Terminal UI
     GraphicalUI gui = new GraphicalUI();
     TextUI tui = new TextUI(gui.terminal);
 
-    // allocate memory for the game and set it up
-    Rogue theGame = new Rogue(parser);
-    Player thePlayer = new Player("Brayden");
-    theGame.setPlayer(thePlayer);
-    theGame.initializeGameState();
-    gui.setGame(theGame, thePlayer);
+    gui.theGame.initializeGameState();
+
     //set up the initial game display
     gui.setVisible(true);
 
-    if (theGame.verifyAllRooms()) {
-      message = "Welcome to my Rogue game";
-      tui.draw(message, theGame.getNextDisplay());
+    if (gui.theGame.verifyAllRooms()) {
+      message = "Click inside the window to start.";
+      tui.draw(message, gui.theGame.getNextDisplay());
     } else {
       message = "The rooms file could not be used.\n";
       tui.draw(message, "Press 'q' to quit\n");
@@ -404,21 +465,21 @@ The controller method for making the game logic work.
     gui.providePlayerUpdates();
     gui.updateInventoryPanel();
 
-    while (userInput != 'q' && !(thePlayer.playerIsDead())) {
+    while (userInput != 'q' && !(gui.thePlayer.playerIsDead())) {
       gui.providePlayerUpdates();
       //get input from the user
       userInput = tui.getInput();
       //ask the game if the user can move there
       try {
-        message = theGame.makeMove(userInput);
-        if (theGame.playerDoesInventoryAction(userInput)) {
-            Item toUse = gui.itemSelectDialog(userInput, thePlayer.getInventory());
-            message = theGame.decideHowToUse(toUse, userInput);
+        message = gui.theGame.makeMove(userInput);
+        if (gui.theGame.playerDoesInventoryAction(userInput)) {
+            Item toUse = gui.itemSelectDialog(userInput, gui.thePlayer.getInventory());
+            message = gui.theGame.decideHowToUse(toUse, userInput);
             gui.updateInventoryPanel();
         }
-        tui.draw("", theGame.getNextDisplay());
+        tui.draw("", gui.theGame.getNextDisplay());
         gui.setDescriptive(message);
-        if (theGame.isItemPickedUp()) {
+        if (gui.theGame.isItemPickedUp()) {
             gui.updateInventoryPanel();
         }
       } catch (InvalidMoveException badMove) {
@@ -426,7 +487,7 @@ The controller method for making the game logic work.
       }
     }
 
-    if (thePlayer.playerIsDead()) {
+    if (gui.thePlayer.playerIsDead()) {
         gui.gameOverDialog();
     }
 
