@@ -1,5 +1,7 @@
 **CIS2430 Final Assignment (A3) -- F20**
 
+**Author's Note**: I am aware this is old code and old documentation, before even my first internship, so this may not be my finest work. Proceed with caution!
+
 Brayden Yip
 ID# {REDACTED FOR PRIVACY}
 
